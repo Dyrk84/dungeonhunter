@@ -7,13 +7,13 @@ public class Champion {
     private final int playerMaxDamage;
     private int numOfDices;
 
-    public Champion(){
+    public Champion() {
         this.championHP = 20;
         this.playerMaxDamage = 6;
-        this.numOfDices = 3;
+        this.numOfDices = 1;
     }
 
-    public int getChampionHP(){
+    public int getChampionHP() {
         return championHP;
     }
 
@@ -29,5 +29,7 @@ public class Champion {
         return Dice.rollDice(playerMaxDamage, numOfDices);
     }
 
-
+    public int getNumOfDices() {
+        return numOfDices;
+    }
 }

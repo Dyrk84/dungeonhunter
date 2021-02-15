@@ -12,6 +12,7 @@ class Main {
 
     public static void actionMenu() {
         Fight fight = new Fight();
+        fight.start();
         while (fight.nextTurn()) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("\nChooose one of the following actions:");

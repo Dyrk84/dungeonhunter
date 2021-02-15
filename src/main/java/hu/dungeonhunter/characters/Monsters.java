@@ -31,4 +31,7 @@ public class Monsters {
         return Dice.rollDice(monsterMaxDamage, numOfDices);
     }
 
+    public int getNumOfDices() {
+        return numOfDices;
+    }
 }
