@@ -20,4 +20,24 @@ public class Fight {
 
     }
 
+    public void gameOver() {
+
+        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1)
+            System.out.println("You killed the monster! You win!");
+        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0)
+            System.out.println("The monster killed you! You lost!");
+        if (champion.getChampionHP() < 1 && monster.getMonsterHP() < 1)
+            System.out.println("you are both dead");
+        if (champion.getChampionHP() > 0 && monster.getMonsterHP() > 0)
+            System.out.println("miért nem csökken a hp?");
+    }
+
+    public boolean nextTurn() {
+        if (champion.getChampionHP() > 0 && monster.getMonsterHP() > 0)
+            return true;
+        else{
+            return false;
+        }
+    }
+
 }
