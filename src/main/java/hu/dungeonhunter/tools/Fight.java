@@ -7,11 +7,17 @@ public class Fight {
     Champion champion = new Champion();
     Monsters monster = new Monsters();
 
-    public void damagePlayer(){
-        champion.setPlayerHP(champion.getPlayerHP() - monster.monsterDamage());
+    public void championAttack(){
+        System.out.print("Champion attack: ");
+        monster.setMonsterHP(monster.getMonsterHP() - champion.championDamage());
+        System.out.println("Monster have now " + monster.getMonsterHP() + " hit points");
     }
 
-    public void damageMonster(){
-        monster.setMonsterHP(monster.getMonsterHP() - champion.playerDamage());
+    public void monsterAttack(){
+        System.out.print("Monster attack: ");
+        champion.setChampionHP(champion.getChampionHP() - monster.monsterDamage());
+        System.out.println("Champion have now " + champion.getChampionHP() + " hit points");
+
     }
+
 }

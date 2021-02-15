@@ -3,28 +3,30 @@ package hu.dungeonhunter.characters;
 import hu.dungeonhunter.tools.Dice;
 
 public class Champion {
-    private int playerHP;
+    private int championHP;
     private final int playerMaxDamage;
+    private int numOfDices;
 
     public Champion(){
-        this.playerHP = 20;
+        this.championHP = 20;
         this.playerMaxDamage = 6;
+        this.numOfDices = 3;
     }
 
-    public int getPlayerHP(){
-        return playerHP;
+    public int getChampionHP(){
+        return championHP;
     }
 
-    public void setPlayerHP(int playerHP) {
-        this.playerHP = playerHP;
+    public void setChampionHP(int playerHP) {
+        this.championHP = playerHP;
     }
 
-    public int getPlayerMaxDamage() {
+    public int getChampionMaxDamage() {
         return playerMaxDamage;
     }
 
-    public int playerDamage() {
-        return Dice.rollDice(playerMaxDamage, 1);
+    public int championDamage() {
+        return Dice.rollDice(playerMaxDamage, numOfDices);
     }
 
 

@@ -6,13 +6,16 @@ public class Dice {
     public static int rollDice(int numOfSides, int numOfDices) {
         Random random = new Random();
         int result = 0;
-        for (int j = 1; j < numOfDices+1; j++) {
-            int num = random.nextInt(numOfSides+1);
+        for (int j = 0; j < numOfDices; j++) {
+            int num = random.nextInt(numOfSides)+1;
+            System.out.print(num);
 
-            System.out.println("num: " + num + ", j: " + j);
+            if (j != numOfDices-1)
+                System.out.print(" + ");
+
             result += num;
         }
-        System.out.println(result);
+        System.out.println(" = " + result);
         return result;
     }
 }
