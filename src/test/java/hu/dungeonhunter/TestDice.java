@@ -29,25 +29,25 @@ public class TestDice {
 
     //next 4 test for ValidationInMainActionMenu
     @Test
-    public void testAddInputValidationInMainActionMenuWithHigherNumber() {
+    public void testAddInputValidationInMainActionMenuWithHigherNumberNegativTest() {
         int chosenNumber = 4;
         assertThat(chosenNumber).as("Input in Action Menu is not applicable").isEqualTo(1);
     }
 
     @Test
-    public void testAddInputValidationInMainActionMenuWithMinus() {
+    public void testAddInputValidationInMainActionMenuWithMinusNegativTest() {
         int chosenNumber = -4;
         assertThat(chosenNumber).as("Input in Action Menu is not applicable").isEqualTo(1);
     }
 
     @Test
-    public void testAddInputValidationInMainActionMenuWithString() {
+    public void testAddInputValidationInMainActionMenuWithStringNegativTest() {
         String chosenNumber = "wrong input";
         assertThat(chosenNumber).as("Input in Action Menu is not applicable").isEqualTo(1);
     }
 
     @Test
-    public void testAddInputValidationInMainActionMenuWithChar() {
+    public void testAddInputValidationInMainActionMenuWithCharNegativTest() {
         char chosenNumber = '!';
         assertThat(chosenNumber).as("Input in Action Menu is not applicable").isEqualTo(1);
     }
@@ -75,23 +75,21 @@ public class TestDice {
         } while (true);
     }
 
-    // nem tudom hogyan kell a következő 4 tesztben metódus végeredményére hivatkozni, de már nem akarom kitörölni
     @Test
     public void championVictoryPositiveTest() {
         Champion champion = new Champion();
         Monsters monster = new Monsters();
-        int championHP = 1;
-        int monsterHP = -1;
-        boolean result;
-        champion.setChampionHP(championHP);
-        monster.setMonsterHP(monsterHP);
+        champion.setChampionHP(1);
+        monster.setMonsterHP(-1);
         if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
             System.out.println("You killed the monster! You win!");
             champion.setChampionVictory(true);
         }
-        result = champion.isChampionVictory();
-        assertThat(result).as("championVictoryPositiveTest").isEqualTo(true);
+        assertThat(champion.isChampionVictory()).as("championVictoryPositiveTest").isTrue();
+        assertThat(monster.isMonsterVictory()).as("championVictoryPositiveTest").isFalse();
     }
+    //TODO a champion és monster hasonló nevű metódusait azonosra átírni
+    //TODO hp alapján megírni a tesztet, hogy aki meghalt, annak az ellenfele győzött (loseCheckTest())
 
     @Test
     public void championVictoryNegativeTest() {

@@ -14,7 +14,6 @@ public class Fight {
             monsterAttack();
         else {
             gameOver();
-            victory();
         }
     }
 
@@ -23,7 +22,6 @@ public class Fight {
         champion.setChampionHP(champion.getChampionHP() - monster.monsterDamage());
         System.out.println("Champion have now " + champion.getChampionHP() + " hit points");
         gameOver();
-        victory();
     }
 
     public void gameOver() {
@@ -37,9 +35,6 @@ public class Fight {
         }
         if (champion.getChampionHP() < 1 && monster.getMonsterHP() < 1)
             System.out.println("you are both dead");
-    }
-
-    public void victory() {
     }
 
     public boolean nextTurn() {
