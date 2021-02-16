@@ -10,6 +10,13 @@ public class Monsters {
         this.monsterHP = 20;
         this.monsterMaxDamage = 6;
         this.monsterNumOfDices = 1;
+        monsterStartValues();
+    }
+
+    void monsterStartValues(){
+        System.out.println("The monster have " + monsterHP + " HP and can do " +
+                monsterNumOfDices + "-" + monsterNumOfDices * monsterMaxDamage +
+                " damage.");
     }
 
     public int getMonsterHP() {

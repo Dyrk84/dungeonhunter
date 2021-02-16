@@ -38,13 +38,4 @@ public class Fight {
             return false;
         }
     }
-
-    public void start() {
-        System.out.println("Your champion have " + champion.getChampionHP() + " HP and can do " +
-                champion.getChampionNumOfDices() + "-" + champion.getChampionNumOfDices() * champion.getChampionMaxDamage() +
-                " damage.");
-        System.out.println("The monster have " + monster.getMonsterHP() + " HP and can do " +
-                monster.getMonsterNumOfDices() + "-" + monster.getMonsterNumOfDices() * monster.getMonsterMaxDamage() +
-                " damage.");
-    }
 }
