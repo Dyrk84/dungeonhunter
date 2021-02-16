@@ -9,5 +9,6 @@
         <module name="dungeonhunter" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="8" />
   </component>
 </project>
