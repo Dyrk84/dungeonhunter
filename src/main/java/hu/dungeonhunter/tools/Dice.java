@@ -1,7 +1,5 @@
 package hu.dungeonhunter.tools;
 
-import java.util.Random;
-
 public class Dice {
     public static int rollDice(int numOfSides, int numOfDices) {
         int result = 0;

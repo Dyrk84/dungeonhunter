@@ -1,18 +1,15 @@
 package hu.dungeonhunter.characters;
-
 import hu.dungeonhunter.tools.Dice;
 
 public class Monsters {
     private int monsterHP;
     private final int monsterMaxDamage;
-    private int numOfDices;
-
+    private int monsterNumOfDices;
 
     public Monsters() {
         this.monsterHP = 20;
         this.monsterMaxDamage = 6;
-        this.numOfDices = 1;
-
+        this.monsterNumOfDices = 1;
     }
 
     public int getMonsterHP() {
@@ -28,10 +25,10 @@ public class Monsters {
     }
 
     public int monsterDamage() {
-        return Dice.rollDice(monsterMaxDamage, numOfDices);
+        return Dice.rollDice(monsterMaxDamage, monsterNumOfDices);
     }
 
-    public int getNumOfDices() {
-        return numOfDices;
+    public int getMonsterNumOfDices() {
+        return monsterNumOfDices;
     }
 }

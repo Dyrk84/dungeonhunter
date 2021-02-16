@@ -1,5 +1,4 @@
 package hu.dungeonhunter.tools;
-
 import hu.dungeonhunter.characters.Champion;
 import hu.dungeonhunter.characters.Monsters;
 
@@ -11,17 +10,19 @@ public class Fight {
         System.out.print("Champion attack: ");
         monster.setMonsterHP(monster.getMonsterHP() - champion.championDamage());
         System.out.println("Monster have now " + monster.getMonsterHP() + " hit points");
+        if (monster.getMonsterHP() > 0)
+            monsterAttack();
+        else gameOver();
     }
 
     public void monsterAttack() {
         System.out.print("Monster attack: ");
         champion.setChampionHP(champion.getChampionHP() - monster.monsterDamage());
         System.out.println("Champion have now " + champion.getChampionHP() + " hit points");
-
+        gameOver();
     }
 
     public void gameOver() {
-
         if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1)
             System.out.println("You killed the monster! You win!");
         if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0)
@@ -40,11 +41,10 @@ public class Fight {
 
     public void start() {
         System.out.println("Your champion have " + champion.getChampionHP() + " HP and can do " +
-                champion.getNumOfDices() + "-" + champion.getNumOfDices() * champion.getChampionMaxDamage() +
+                champion.getChampionNumOfDices() + "-" + champion.getChampionNumOfDices() * champion.getChampionMaxDamage() +
                 " damage.");
         System.out.println("The monster have " + monster.getMonsterHP() + " HP and can do " +
-                monster.getNumOfDices() + "-" + monster.getNumOfDices() * monster.getMonsterMaxDamage() +
+                monster.getMonsterNumOfDices() + "-" + monster.getMonsterNumOfDices() * monster.getMonsterMaxDamage() +
                 " damage.");
     }
-
 }

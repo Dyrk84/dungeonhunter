@@ -1,16 +1,16 @@
 package hu.dungeonhunter.characters;
-
 import hu.dungeonhunter.tools.Dice;
 
 public class Champion {
+    static final int START_HP = 20;
     private int championHP;
-    private final int playerMaxDamage;
-    private int numOfDices;
+    private final int championMaxDamage;
+    private int championNumOfDices;
 
     public Champion() {
-        this.championHP = 20;
-        this.playerMaxDamage = 6;
-        this.numOfDices = 1;
+        this.championHP = START_HP;
+        this.championMaxDamage = 6;
+        this.championNumOfDices = 1;
     }
 
     public int getChampionHP() {
@@ -22,14 +22,14 @@ public class Champion {
     }
 
     public int getChampionMaxDamage() {
-        return playerMaxDamage;
+        return championMaxDamage;
     }
 
     public int championDamage() {
-        return Dice.rollDice(playerMaxDamage, numOfDices);
+        return Dice.rollDice(championMaxDamage, championNumOfDices);
     }
 
-    public int getNumOfDices() {
-        return numOfDices;
+    public int getChampionNumOfDices() {
+        return championNumOfDices;
     }
 }
