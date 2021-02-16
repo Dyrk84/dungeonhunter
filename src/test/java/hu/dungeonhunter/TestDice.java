@@ -56,7 +56,9 @@ public class TestDice {
     //This solution definitely not good, but i don't know how to finish testing.
     public void testAddInputValidationInMainActionMenuWithNewReturnerMethod() {
         int chosenNumber = chosenNumber();
-        if (chosenNumber != 1){System.out.println("Your choice is not appropriate!");}
+        if (chosenNumber != 1) {
+            System.out.println("Your choice is not appropriate!");
+        }
         assertThat(chosenNumber).as("Input in Action Menu is not applicable").isEqualTo(1);
     }
 
@@ -72,61 +74,73 @@ public class TestDice {
             }
         } while (true);
     }
-//// nem tudom hogyan kell a következő 4 tesztben metódus végeredményére hivatkozni, de már nem akarom kitörölni
-//    @Test
-//    public void championPositiveVictoryTest() {
-//        Champion champion = new Champion();
-//        Monsters monster = new Monsters();
-//        int championHP = 1;
-//        int monsterHP = -1;
-//        champion.setChampionHP(championHP);
-//        monster.setMonsterHP(monsterHP);
-//        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
-//            System.out.println("You killed the monster! You win!");
-//            assertThat().as("championPositiveVictoryTest").isEqualTo("You killed the monster! You win!");
-//        }
-//    }
-//
-//    @Test
-//    public void championNegativeVictoryTest() {
-//        Champion champion = new Champion();
-//        Monsters monster = new Monsters();
-//        int championHP = -1;
-//        int monsterHP = 1;
-//        champion.setChampionHP(championHP);
-//        monster.setMonsterHP(monsterHP);
-//        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
-//            System.out.println("You killed the monster! You win!");
-//            assertThat().as("championPositiveVictoryTest").isEqualTo("You killed the monster! You win!");
-//        }
-//    }
-//
-//    @Test
-//    public void monsterPositiveVictoryTest() {
-//        Champion champion = new Champion();
-//        Monsters monster = new Monsters();
-//        int championHP = 1;
-//        int monsterHP = -1;
-//        champion.setChampionHP(championHP);
-//        monster.setMonsterHP(monsterHP);
-//        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
-//            System.out.println("The monster killed you! You lost!");
-//            assertThat().as("monsterPositiveVictoryTest").isEqualTo("The monster killed you! You lost!");
-//        }
-//    }
-//
-//    @Test
-//    public void monsterNegativeVictoryTest() {
-//        Champion champion = new Champion();
-//        Monsters monster = new Monsters();
-//        int championHP = -1;
-//        int monsterHP = 1;
-//        champion.setChampionHP(championHP);
-//        monster.setMonsterHP(monsterHP);
-//        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0) {
-//            System.out.println("The monster killed you! You lost!");
-//            assertThat().as("monsterNegativeVictoryTest").isEqualTo("The monster killed you! You lost!");
-//        }
-//    }
 
+    // nem tudom hogyan kell a következő 4 tesztben metódus végeredményére hivatkozni, de már nem akarom kitörölni
+    @Test
+    public void championVictoryPositiveTest() {
+        Champion champion = new Champion();
+        Monsters monster = new Monsters();
+        int championHP = 1;
+        int monsterHP = -1;
+        boolean result;
+        champion.setChampionHP(championHP);
+        monster.setMonsterHP(monsterHP);
+        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
+            System.out.println("You killed the monster! You win!");
+            champion.setChampionVictory(true);
+        }
+        result = champion.isChampionVictory();
+        assertThat(result).as("championVictoryPositiveTest").isEqualTo(true);
+    }
+
+    @Test
+    public void championVictoryNegativeTest() {
+        Champion champion = new Champion();
+        Monsters monster = new Monsters();
+        int championHP = -1;
+        int monsterHP = 1;
+        boolean result;
+        champion.setChampionHP(championHP);
+        monster.setMonsterHP(monsterHP);
+        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
+            System.out.println("You killed the monster! You win!");
+            champion.setChampionVictory(true);
+        }
+        result = champion.isChampionVictory();
+        assertThat(result).as("championVictoryNegativeTest").isEqualTo(true);
+    }
+
+    @Test
+    public void monsterVictoryPositiveTest() {
+        Champion champion = new Champion();
+        Monsters monster = new Monsters();
+        int championHP = -1;
+        int monsterHP = 1;
+        boolean result;
+        champion.setChampionHP(championHP);
+        monster.setMonsterHP(monsterHP);
+        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0) {
+            System.out.println("The monster killed you! You lost!");
+            monster.setMonsterVictory(true);
+        }
+        result = monster.isMonsterVictory();
+        assertThat(result).as("monsterVictoryPositiveTest").isEqualTo(true);
+    }
+
+    @Test
+    public void monsterVictoryNegativeTest() {
+        Champion champion = new Champion();
+        Monsters monster = new Monsters();
+        int championHP = 1;
+        int monsterHP = -1;
+        boolean result;
+        champion.setChampionHP(championHP);
+        monster.setMonsterHP(monsterHP);
+        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0) {
+            System.out.println("The monster killed you! You lost!");
+            monster.setMonsterVictory(true);
+        }
+        result = monster.isMonsterVictory();
+        assertThat(result).as("monsterVictoryNegativeTest").isEqualTo(true);
+    }
 }

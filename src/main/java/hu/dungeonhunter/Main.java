@@ -16,11 +16,11 @@ class Main {
             int chosenNumber = chosenNumber();
             if (chosenNumber == 1) {
                 fight.championAttack();
-            }else yourChooseIsNotAppropriate();
+            } else yourChooseIsNotAppropriate();
         }
     }
 
-    static int chosenNumber(){
+    static int chosenNumber() {
         do {
             Scanner scanner = new Scanner(System.in);
             try {

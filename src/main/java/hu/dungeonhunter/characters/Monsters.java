@@ -5,15 +5,25 @@ public class Monsters {
     private int monsterHP;
     private final int monsterMaxDamage;
     private int monsterNumOfDices;
+    private boolean monsterVictory;
 
     public Monsters() {
         this.monsterHP = 20;
         this.monsterMaxDamage = 6;
         this.monsterNumOfDices = 1;
         monsterStartValues();
+        boolean monsterVictory = false;
     }
 
-    void monsterStartValues(){
+    public boolean isMonsterVictory() {
+        return monsterVictory;
+    }
+
+    public void setMonsterVictory(boolean monsterVictory) {
+        this.monsterVictory = monsterVictory;
+    }
+
+    void monsterStartValues() {
         System.out.println("The monster have " + monsterHP + " HP and can do " +
                 monsterNumOfDices + "-" + monsterNumOfDices * monsterMaxDamage +
                 " damage.");

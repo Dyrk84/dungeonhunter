@@ -12,7 +12,10 @@ public class Fight {
         System.out.println("Monster have now " + monster.getMonsterHP() + " hit points");
         if (monster.getMonsterHP() > 0)
             monsterAttack();
-        else gameOver();
+        else {
+            gameOver();
+            victory();
+        }
     }
 
     public void monsterAttack() {
@@ -20,15 +23,23 @@ public class Fight {
         champion.setChampionHP(champion.getChampionHP() - monster.monsterDamage());
         System.out.println("Champion have now " + champion.getChampionHP() + " hit points");
         gameOver();
+        victory();
     }
 
     public void gameOver() {
-        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1)
+        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
             System.out.println("You killed the monster! You win!");
-        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0)
+            champion.setChampionVictory(true);
+        }
+        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0) {
             System.out.println("The monster killed you! You lost!");
+            monster.setMonsterVictory(true);
+        }
         if (champion.getChampionHP() < 1 && monster.getMonsterHP() < 1)
             System.out.println("you are both dead");
+    }
+
+    public void victory() {
     }
 
     public boolean nextTurn() {
