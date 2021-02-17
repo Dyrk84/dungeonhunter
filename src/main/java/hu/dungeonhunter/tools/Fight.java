@@ -40,6 +40,7 @@ public class Fight{
         System.out.println("Champion have now " + champion.getHp() + " hit points");
         champion.enemyVictory();
         if (!champion.isLose())
+            System.out.println("monsterhunter");
             nextTurn();
     }
 
