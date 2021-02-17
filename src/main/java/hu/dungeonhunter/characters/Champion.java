@@ -1,30 +1,39 @@
 package hu.dungeonhunter.characters;
 import hu.dungeonhunter.tools.Dice;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Champion {
 
     static final int START_HP = 20;
+
+    @Setter
+    @Getter
     private int hp;
+
+    @Getter
     private final int maxDamage;
+
+    @Setter
+    @Getter
     private int numOfDices;
-    private boolean lose;
+
+    @Setter
+    @Getter
+    private boolean defeat;
 
     public Champion() {
         this.hp = START_HP;
         this.maxDamage = 6;
         this.numOfDices = 1;
         startValues();
-        this.lose = false;
-    }
-
-    public boolean isLose() {
-        return lose;
+        this.defeat = false;
     }
 
     public void enemyVictory(){
         if (hp <= 0){
             System.out.println("You are soooo dead! Game Over!");
-            lose = true;
+            defeat = true;
         }
     }
 
@@ -34,23 +43,8 @@ public class Champion {
                 " damage.");
     }
 
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int playerHP) {
-        this.hp = playerHP;
-    }
-
-    public int getMaxDamage() {
-        return maxDamage;
-    }
-
     public int championDamage() {
         return Dice.rollDice(maxDamage, numOfDices);
     }
 
-    public int getNumOfDices() {
-        return numOfDices;
-    }
 }

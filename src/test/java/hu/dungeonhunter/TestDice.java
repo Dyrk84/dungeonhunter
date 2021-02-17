@@ -6,7 +6,6 @@ import hu.dungeonhunter.tools.Dice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import hu.dungeonhunter.tools.Fight;
 import org.junit.Test;
 
 public class TestDice {
@@ -34,7 +33,7 @@ public class TestDice {
         Monsters monster = new Monsters();
         monster.setHp(0);
         monster.enemyVictory();
-        assertThat(monster.isLose()).as("championWinTest").isTrue();
+        assertThat(monster.isDefeat()).as("championWinTest").isTrue();
     }
 
     @Test
@@ -42,7 +41,7 @@ public class TestDice {
         Monsters monster = new Monsters();
         monster.setHp(0);
         monster.enemyVictory();
-        assertThat(monster.isLose()).as("championWinTest").isFalse();
+        assertThat(monster.isDefeat()).as("championWinTest").isFalse();
     }
 
     @Test
@@ -50,7 +49,7 @@ public class TestDice {
         Champion champion = new Champion();
         champion.setHp(0);
         champion.enemyVictory();
-        assertThat(champion.isLose()).as("monsterWinTest").isTrue();
+        assertThat(champion.isDefeat()).as("monsterWinTest").isTrue();
     }
 
     @Test
@@ -58,6 +57,6 @@ public class TestDice {
         Champion champion = new Champion();
         champion.setHp(0);
         champion.enemyVictory();
-        assertThat(champion.isLose()).as("monsterWinTestFail").isFalse();
+        assertThat(champion.isDefeat()).as("monsterWinTestFail").isFalse();
     }
 }

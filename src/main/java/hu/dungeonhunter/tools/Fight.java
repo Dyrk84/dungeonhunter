@@ -10,7 +10,7 @@ public class Fight{
     private int monsterCounter;
     private int killedMonsterCounter = 0;
 
-    public void afterMain(){
+    public Fight(){
         monsterCounter = Dice.rollDice(6,2);
         System.out.println(monsterCounter + " monsters is in the Dungeon!");
         start();
@@ -39,8 +39,7 @@ public class Fight{
         champion.setHp(champion.getHp() - monster.monsterDamage());
         System.out.println("Champion have now " + champion.getHp() + " hit points");
         champion.enemyVictory();
-        if (!champion.isLose())
-            System.out.println("monsterhunter");
+        if (!champion.isDefeat())
             nextTurn();
     }
 
@@ -49,7 +48,7 @@ public class Fight{
         monster.setHp(monster.getHp() - champion.championDamage());
         System.out.println("Monster have now " + monster.getHp() + " hit points");
         monster.enemyVictory();
-        if (!monster.isLose()){
+        if (!monster.isDefeat()){
             monsterAttack();
         }
         else{
