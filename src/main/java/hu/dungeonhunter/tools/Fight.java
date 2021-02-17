@@ -4,9 +4,35 @@ import hu.dungeonhunter.characters.Monsters;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Fight {
+public class Fight{
     Champion champion = new Champion();
-    Monsters monster = new Monsters();
+    Monsters monster = monsterCaller();
+    private int monsterCounter;
+    private int killedMonsterCounter = 0;
+
+    public void afterMain(){
+        monsterCounter = Dice.rollDice(6,2);
+        System.out.println(monsterCounter + " monsters is in the Dungeon!");
+        start();
+    }
+
+    public void start(){
+        if (monsterCounter != 0) {
+            System.out.println("Still left in the cave " + monsterCounter + " !");
+            monsterCaller();
+            actionMenu();
+        }
+        else
+        System.out.println("The Dungeon is clear! You killed " + killedMonsterCounter + "monster (not counting the " +
+                "many mothers and children), you win!");
+    }
+
+    public Monsters monsterCaller() {
+        if (monsterCounter != 0) {
+            System.out.println("A monster step out from darkness!");
+            monster = new Monsters();
+        }return monster;
+    }
 
     public void monsterAttack() {
         System.out.print("Monster attack: ");
@@ -22,8 +48,14 @@ public class Fight {
         monster.setHp(monster.getHp() - champion.championDamage());
         System.out.println("Monster have now " + monster.getHp() + " hit points");
         monster.enemyVictory();
-        if (!monster.isLose())
+        if (!monster.isLose()){
             monsterAttack();
+        }
+        else{
+            killedMonsterCounter++;
+            monsterCounter--;
+            start();
+        }
     }
 
     int chosenNumber() {
@@ -48,8 +80,9 @@ public class Fight {
     }
 
     public boolean nextTurn() {
-        if (champion.getHp() > 0 && monster.getHp() > 0)
+        if (champion.getHp() > 0 && monster.getHp() > 0) {
             return true;
+        }
         else {
             return false;
         }

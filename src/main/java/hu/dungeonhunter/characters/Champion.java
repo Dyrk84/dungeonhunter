@@ -1,5 +1,6 @@
 package hu.dungeonhunter.characters;
 import hu.dungeonhunter.tools.Dice;
+
 public class Champion {
 
     static final int START_HP = 20;

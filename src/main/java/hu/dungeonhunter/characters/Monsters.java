@@ -8,7 +8,7 @@ public class Monsters {
     private boolean lose;
 
     public Monsters() {
-        this.hp = 20;
+        this.hp = Dice.rollDice(4,3);
         this.maxDamage = 6;
         this.numOfDices = 1;
         startValues();
