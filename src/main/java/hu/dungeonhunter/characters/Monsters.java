@@ -2,50 +2,53 @@ package hu.dungeonhunter.characters;
 import hu.dungeonhunter.tools.Dice;
 
 public class Monsters {
-    private int monsterHP;
-    private final int monsterMaxDamage;
-    private int monsterNumOfDices;
-    private boolean monsterVictory;
+    private int hp;
+    private final int maxDamage;
+    private int numOfDices;
+    private boolean lose;
 
     public Monsters() {
-        this.monsterHP = 20;
-        this.monsterMaxDamage = 6;
-        this.monsterNumOfDices = 1;
-        monsterStartValues();
-        boolean monsterVictory = false;
+        this.hp = 20;
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        startValues();
+        this.lose = false;
     }
 
-    public boolean isMonsterVictory() {
-        return monsterVictory;
+    public boolean isLose() {
+        return lose;
     }
 
-    public void setMonsterVictory(boolean monsterVictory) {
-        this.monsterVictory = monsterVictory;
+    public void enemyVictory(){
+       if (hp <= 0){
+           System.out.println("You killed the monster!");
+           lose = true;
+       }
     }
 
-    void monsterStartValues() {
-        System.out.println("The monster have " + monsterHP + " HP and can do " +
-                monsterNumOfDices + "-" + monsterNumOfDices * monsterMaxDamage +
+    void startValues() {
+        System.out.println("The monster have " + hp + " HP and can do " +
+                numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
     }
 
-    public int getMonsterHP() {
-        return monsterHP;
+    public int getHp() {
+        return hp;
     }
 
-    public void setMonsterHP(int monsterHP) {
-        this.monsterHP = monsterHP;
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
-    public int getMonsterMaxDamage() {
-        return monsterMaxDamage;
+    public int getMaxDamage() {
+        return maxDamage;
     }
 
     public int monsterDamage() {
-        return Dice.rollDice(monsterMaxDamage, monsterNumOfDices);
+        return Dice.rollDice(maxDamage, numOfDices);
     }
 
-    public int getMonsterNumOfDices() {
-        return monsterNumOfDices;
+    public int getNumOfDices() {
+        return numOfDices;
     }
 }

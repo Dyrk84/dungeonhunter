@@ -3,50 +3,53 @@ import hu.dungeonhunter.tools.Dice;
 public class Champion {
 
     static final int START_HP = 20;
-    private int championHP;
-    private final int championMaxDamage;
-    private int championNumOfDices;
-    private boolean championVictory;
+    private int hp;
+    private final int maxDamage;
+    private int numOfDices;
+    private boolean lose;
 
     public Champion() {
-        this.championHP = START_HP;
-        this.championMaxDamage = 6;
-        this.championNumOfDices = 1;
-        championStartValues();
-        this.championVictory = false;
+        this.hp = START_HP;
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        startValues();
+        this.lose = false;
     }
 
-    public boolean isChampionVictory() {
-        return championVictory;
+    public boolean isLose() {
+        return lose;
     }
 
-    public void setChampionVictory(boolean championVictory) {
-        this.championVictory = championVictory;
+    public void enemyVictory(){
+        if (hp <= 0){
+            System.out.println("You are soooo dead! Game Over!");
+            lose = true;
+        }
     }
 
-    void championStartValues() {
-        System.out.println("Your champion have " + championHP + " HP and can do " +
-                championNumOfDices + "-" + championNumOfDices * championMaxDamage +
+    void startValues() {
+        System.out.println("Your champion have " + hp + " HP and can do " +
+                numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
     }
 
-    public int getChampionHP() {
-        return championHP;
+    public int getHp() {
+        return hp;
     }
 
-    public void setChampionHP(int playerHP) {
-        this.championHP = playerHP;
+    public void setHp(int playerHP) {
+        this.hp = playerHP;
     }
 
-    public int getChampionMaxDamage() {
-        return championMaxDamage;
+    public int getMaxDamage() {
+        return maxDamage;
     }
 
     public int championDamage() {
-        return Dice.rollDice(championMaxDamage, championNumOfDices);
+        return Dice.rollDice(maxDamage, numOfDices);
     }
 
-    public int getChampionNumOfDices() {
-        return championNumOfDices;
+    public int getNumOfDices() {
+        return numOfDices;
     }
 }
