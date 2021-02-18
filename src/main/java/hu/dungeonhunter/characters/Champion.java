@@ -12,7 +12,7 @@ public class Champion {
     private int hp;
 
     @Getter
-    private final int maxDamage;
+    private int maxDamage;
 
     @Setter
     @Getter
@@ -23,11 +23,11 @@ public class Champion {
     private boolean defeat;
 
     public Champion() {
-        this.hp = START_HP;
-        this.maxDamage = 6;
-        this.numOfDices = 1;
-        startValues();
-        this.defeat = false;
+        startValues(START_HP);
+    }
+
+    public Champion(int startHp) {
+        startValues(startHp);
     }
 
     public void enemyVictory(){
@@ -37,7 +37,10 @@ public class Champion {
         }
     }
 
-    private void startValues() {
+    private void startValues(int startHp) {
+        this.hp = startHp;
+        this.maxDamage = 6;
+        this.numOfDices = 1;
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");

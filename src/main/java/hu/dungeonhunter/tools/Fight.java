@@ -1,26 +1,39 @@
 package hu.dungeonhunter.tools;
 import hu.dungeonhunter.characters.Champion;
 import hu.dungeonhunter.characters.Monsters;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Fight{
-    Champion champion = new Champion();
-    Monsters monster = monsterCaller();
+public class Fight {
+
+    @Setter
+    private Champion champion = new Champion();
+
+    @Setter
+    private Monsters monster = monsterCaller();
+
+    @Setter
+    @Getter
     private int monsterCounter;
+
+    @Getter
     private int killedMonsterCounter = 0;
 
-    public Fight(){
-        monsterCounter = Dice.rollDice(6,2);
+    public Fight() {
+        setMonsterCounter(Dice.rollDice(6,2));
         System.out.println(monsterCounter + " monsters are in the Dungeon!");
         monsterIncomingOrWin();
     }
 
-    public void monsterIncomingOrWin(){
+    public Fight(int numOfMonsters) {
+        setMonsterCounter(numOfMonsters);
+        System.out.println(monsterCounter + " monsters are in the Dungeon!");
+    }
+
+    private void monsterIncomingOrWin(){
         if (monsterCounter != 0) {
             System.out.println("Still left in the cave " + monsterCounter + " !");
             monsterCaller();
-            actionMenu();
         }
         else
         System.out.println("The Dungeon is clear! You killed " + killedMonsterCounter + "monster (not counting the " +
@@ -40,8 +53,6 @@ public class Fight{
         champion.setHp(champion.getHp() - monster.monsterDamage());
         System.out.println("Champion have now " + champion.getHp() + " hit points");
         champion.enemyVictory();
-        if (!champion.isDefeat())
-            nextTurn();
     }
 
     public void championAttack() {
@@ -59,42 +70,12 @@ public class Fight{
         }
     }
 
-    int chosenNumber() {
-        do {
-            printMenu();
-            Scanner scanner = new Scanner(System.in);
-            try {
-                return scanner.nextInt();
-            } catch (InputMismatchException hibafogo) {
-                yourChooseIsNotAppropriate();
-            }
-        } while (true);
-    }
-
-    private void yourChooseIsNotAppropriate() {
-        System.out.println("Your choose is not appropriate!");
-    }
-
-    private void printMenu() {
-        System.out.println("\nChoose one of the following actions:");
-        System.out.println("1. Attack");
-    }
-
     public boolean nextTurn() {
         if (champion.getHp() > 0 && monster.getHp() > 0) {
             return true;
         }
         else {
             return false;
-        }
-    }
-
-    public void actionMenu() {
-        while (nextTurn()) {
-            int chosenNumber = chosenNumber();
-            if (chosenNumber == 1) {
-                championAttack();
-            } else yourChooseIsNotAppropriate();
         }
     }
 }

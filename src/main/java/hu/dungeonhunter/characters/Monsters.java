@@ -10,7 +10,7 @@ public class Monsters {
     private int hp;
 
     @Getter
-    private final int maxDamage;
+    private int maxDamage;
 
     @Setter
     @Getter
@@ -21,11 +21,18 @@ public class Monsters {
     private boolean defeat;
 
     public Monsters() {
-        this.hp = Dice.rollDice(4,3);
+        initMonster(Dice.rollDice(4,3));
+    }
+
+    public Monsters(int hp) {
+        initMonster(hp);
+    }
+
+    private void initMonster(int hp) {
+        this.hp = hp;
         this.maxDamage = 6;
         this.numOfDices = 1;
         startValues();
-        this.defeat = false;
     }
 
     public void enemyVictory(){

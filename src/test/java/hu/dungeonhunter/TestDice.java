@@ -3,10 +3,9 @@ package hu.dungeonhunter;
 import hu.dungeonhunter.characters.Champion;
 import hu.dungeonhunter.characters.Monsters;
 import hu.dungeonhunter.tools.Dice;
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.Test;
 
 public class TestDice {
 
@@ -49,47 +48,6 @@ public class TestDice {
         int monsterCounter;
         monsterCounter = Dice.rollDice(6, 2);
         assertThat(monsterCounter).as("Test Fight() monsterCounter is not between 2-12").isBetween(2, 12);
-    }
-
-    @Test
-    public void monsterCounterAndKilledMonsterCounterTest() {
-        int monsterCounter = 0;
-        int killedMonsterCounter = 0;
-        boolean defeat = true;
-        if (defeat) {
-            killedMonsterCounter++;
-            monsterCounter--;
-        }
-        assertThat(monsterCounter).as("monsterCounter test to decrease in value").isEqualTo(-1);
-        assertThat(killedMonsterCounter).as("killedMonsterCounter test to increase the value").isEqualTo(1);
-
-    }
-
-    @Test
-    public void FightChampionAttackMethodTest() {
-        int hp = 0;
-        boolean defeat;
-        int monsterCounter = 0;
-        int killedMonsterCounter = 0;
-        //System.out.print("Champion attack: ");
-        //monster.setHp(monster.getHp() - champion.championDamage());
-        //System.out.println("Monster have now " + monster.getHp() + " hit points");
-        //monster.enemyVictory();
-        if (hp <= 0){
-//            System.out.println("You killed the monster!");
-            defeat = true;
-        }
-//        if (!monster.isDefeat()){
-        if (defeat = false){
-            //monsterAttack();
-        }
-        else{
-            killedMonsterCounter++;
-            monsterCounter--;
-            //monsterIncomingOrWin();
-        }
-        assertThat(monsterCounter).as("monsterCounter test to decrease in value").isEqualTo(-1);
-        assertThat(killedMonsterCounter).as("killedMonsterCounter test to increase the value").isEqualTo(1);
     }
 
 }
