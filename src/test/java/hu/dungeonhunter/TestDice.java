@@ -37,14 +37,6 @@ public class TestDice {
     }
 
     @Test
-    public void championWinTestFail() {
-        Monsters monster = new Monsters();
-        monster.setHp(0);
-        monster.enemyVictory();
-        assertThat(monster.isDefeat()).as("championWinTest").isFalse();
-    }
-
-    @Test
     public void monsterWinTest() {
         Champion champion = new Champion();
         champion.setHp(0);
@@ -53,10 +45,51 @@ public class TestDice {
     }
 
     @Test
-    public void monsterWinTestFail() {
-        Champion champion = new Champion();
-        champion.setHp(0);
-        champion.enemyVictory();
-        assertThat(champion.isDefeat()).as("monsterWinTestFail").isFalse();
+    public void monsterCounterTestForTheCorrectValueAssignmentInFightMethod() {
+        int monsterCounter;
+        monsterCounter = Dice.rollDice(6, 2);
+        assertThat(monsterCounter).as("Test Fight() monsterCounter is not between 2-12").isBetween(2, 12);
     }
+
+    @Test
+    public void monsterCounterAndKilledMonsterCounterTest() {
+        int monsterCounter = 0;
+        int killedMonsterCounter = 0;
+        boolean defeat = true;
+        if (defeat) {
+            killedMonsterCounter++;
+            monsterCounter--;
+        }
+        assertThat(monsterCounter).as("monsterCounter test to decrease in value").isEqualTo(-1);
+        assertThat(killedMonsterCounter).as("killedMonsterCounter test to increase the value").isEqualTo(1);
+
+    }
+
+    @Test
+    public void FightChampionAttackMethodTest() {
+        int hp = 0;
+        boolean defeat;
+        int monsterCounter = 0;
+        int killedMonsterCounter = 0;
+        //System.out.print("Champion attack: ");
+        //monster.setHp(monster.getHp() - champion.championDamage());
+        //System.out.println("Monster have now " + monster.getHp() + " hit points");
+        //monster.enemyVictory();
+        if (hp <= 0){
+//            System.out.println("You killed the monster!");
+            defeat = true;
+        }
+//        if (!monster.isDefeat()){
+        if (defeat = false){
+            //monsterAttack();
+        }
+        else{
+            killedMonsterCounter++;
+            monsterCounter--;
+            //monsterIncomingOrWin();
+        }
+        assertThat(monsterCounter).as("monsterCounter test to decrease in value").isEqualTo(-1);
+        assertThat(killedMonsterCounter).as("killedMonsterCounter test to increase the value").isEqualTo(1);
+    }
+
 }

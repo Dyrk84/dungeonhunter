@@ -37,7 +37,7 @@ public class Champion {
         }
     }
 
-    void startValues() {
+    private void startValues() {
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");

@@ -35,7 +35,7 @@ public class Monsters {
        }
     }
 
-    void startValues() {
+    private void startValues() {
         System.out.println("The monster have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");

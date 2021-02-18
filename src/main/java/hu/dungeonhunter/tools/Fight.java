@@ -12,11 +12,11 @@ public class Fight{
 
     public Fight(){
         monsterCounter = Dice.rollDice(6,2);
-        System.out.println(monsterCounter + " monsters is in the Dungeon!");
-        start();
+        System.out.println(monsterCounter + " monsters are in the Dungeon!");
+        monsterIncomingOrWin();
     }
 
-    public void start(){
+    public void monsterIncomingOrWin(){
         if (monsterCounter != 0) {
             System.out.println("Still left in the cave " + monsterCounter + " !");
             monsterCaller();
@@ -29,9 +29,10 @@ public class Fight{
 
     public Monsters monsterCaller() {
         if (monsterCounter != 0) {
-            System.out.println("A monster step out from darkness!");
+            System.out.println("A monster steps out from darkness!");
             monster = new Monsters();
-        }return monster;
+        }
+        return monster;
     }
 
     public void monsterAttack() {
@@ -54,18 +55,18 @@ public class Fight{
         else{
             killedMonsterCounter++;
             monsterCounter--;
-            start();
+            monsterIncomingOrWin();
         }
     }
 
     int chosenNumber() {
         do {
+            printMenu();
             Scanner scanner = new Scanner(System.in);
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException hibafogo) {
                 yourChooseIsNotAppropriate();
-                printMenu();
             }
         } while (true);
     }
@@ -90,7 +91,6 @@ public class Fight{
 
     public void actionMenu() {
         while (nextTurn()) {
-            printMenu();
             int chosenNumber = chosenNumber();
             if (chosenNumber == 1) {
                 championAttack();
