@@ -20,6 +20,10 @@ public class Fight {
     @Getter
     private int killedMonsterCounter = 0;
 
+    @Setter
+    @Getter
+    private int healingPotionCounter = 0;
+
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
         System.out.println(monsterCounter + " monsters are in the Dungeon!");
@@ -30,6 +34,22 @@ public class Fight {
         setMonsterCounter(numOfMonsters);
         System.out.println(monsterCounter + " monsters are in the Dungeon!");
         monsterIncomingOrWin();
+    }
+
+    public void drinkAHealingPotion() {
+        if (healingPotionCounter == 0) {
+            System.out.println("You have no more healing potions!");
+        } else {
+            System.out.println("You drink a healing potion.");
+            int healingAmount = Dice.rollDice(4, 2);
+            champion.setHp(champion.getHp() + healingAmount);
+            System.out.println("You healed " + healingAmount + "hp.");
+            if (champion.getHp() > 40) {
+                System.out.println("Your Hp cannot be more than 40!");
+                champion.setHp(40);
+            }
+            healingPotionCounter--;
+        }
     }
 
     public void runningAway() {
@@ -79,6 +99,8 @@ public class Fight {
         } else {
             killedMonsterCounter++;
             monsterCounter--;
+            healingPotionCounter++;
+            System.out.println("You found a healing potion!");
             monsterIncomingOrWin();
         }
     }

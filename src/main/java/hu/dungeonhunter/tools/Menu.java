@@ -4,9 +4,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
+    Fight fight = new Fight();
 
     public void actionMenu() {
-        Fight fight = new Fight();
+
         while (fight.nextTurn()) {
             int chosenNumber = chosenNumber();
             switch (chosenNumber) {
@@ -15,6 +16,9 @@ public class Menu {
                     break;
                 case 2:
                     fight.runningAway();
+                    break;
+                case 3:
+                    fight.drinkAHealingPotion();
                     break;
                 default:
                     yourChooseIsNotAppropriate();
@@ -43,6 +47,7 @@ public class Menu {
         System.out.println("\nChoose one of the following actions:");
         System.out.println("1. Attack");
         System.out.println("2. Running away!");
+        System.out.println("3. Drink a healing potion! You have " + fight.getHealingPotionCounter() + " healing potion.");
     }
 
 }
