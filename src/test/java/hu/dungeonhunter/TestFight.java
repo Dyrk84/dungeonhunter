@@ -60,10 +60,6 @@ public class TestFight {
 
         assertThat(fight.getMonsterCounter()).as("monsterCounter test to decrease in value").isEqualTo(0);
         assertThat(fight.nextTurn()).as("There should be no next turn, because no more monster.").isFalse();
-
-
-
-
-
+        assertThat(highHpChampion.isDefeat()).as("Champion should have been  no defeated.").isFalse();
     }
 }

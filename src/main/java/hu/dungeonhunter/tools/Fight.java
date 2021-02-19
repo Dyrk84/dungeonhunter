@@ -33,7 +33,7 @@ public class Fight {
     }
 
     public void runningAway() {
-        System.out.println("The monster hits you a last one before you can run away: ");
+        System.out.println("The monster hits you a last time before you can run away: ");
         champion.setHp(champion.getHp() - monster.monsterDamage());
         System.out.println("Champion have now " + champion.getHp() + " hit points");
         champion.enemyVictory();

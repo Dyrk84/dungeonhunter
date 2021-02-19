@@ -5,7 +5,7 @@ import lombok.Setter;
 
 public class Champion {
 
-    static final int START_HP = 120;
+    static final int START_HP = 20;
 
     @Setter
     @Getter
