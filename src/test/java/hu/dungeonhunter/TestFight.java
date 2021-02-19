@@ -1,5 +1,6 @@
 package hu.dungeonhunter;
 
+import hu.dungeonhunter.characters.Champion;
 import hu.dungeonhunter.characters.Monsters;
 import hu.dungeonhunter.tools.Fight;
 import org.junit.Test;
@@ -25,5 +26,15 @@ public class TestFight {
         assertThat(lowHpMonster.isDefeat()).as("Monster should have been defeated.").isTrue();
     }
 
-//TODO: add champion defeat test
+    @Test
+    public void championDefeatTest() {
+        Fight fight = new Fight();
+        Champion lowHpChampion = new Champion(1);
+        fight.setChampion(lowHpChampion);
+
+        fight.monsterAttack();
+
+        assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
+        assertThat(lowHpChampion.isDefeat()).as("Champion should have been defeated.").isTrue();
+    }
 }
