@@ -37,7 +37,7 @@ public class Fight {
     }
 
     public void drinkAHealingPotion() {
-        if (healingPotionCounter == 0) {
+        if (healingPotionCounter <= 0) {
             System.out.println("You have no more healing potions!");
         } else {
             System.out.println("You drink a healing potion.");
