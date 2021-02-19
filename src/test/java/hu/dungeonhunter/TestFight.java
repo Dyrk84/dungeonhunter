@@ -137,4 +137,90 @@ public class TestFight {
         assertThat(fight.getHealingPotionCounter()).as("healingPotionCounter test to no change in value").isEqualTo(0);
         assertThat(champion.getHp()).as("there is no healing because there are no more drinks").isEqualTo(10);
     }
+
+//DH-13
+    @Test
+    public void monsterIncomingOrWinRandomNumberCheck(){
+        Fight fight = new Fight();
+        fight.setMonsterCounter(5);
+
+        assertThat(fight.getRandomEnemy()).as("randomEnemyInitializing").isBetween(1,5);
+    }
+
+    @Test
+    public void monsterCallerRandomEnemyGoblinKingTest(){
+        Fight fight = new Fight();
+        fight.setRandomEnemy(1);
+        Monsters monster = fight.monsterCaller();
+        fight.setMonster(monster);
+
+        assertThat(monster.getType()).as("monsterCallerRandomEnemyTest - GoblinKing").isEqualTo("goblin king");
+    }
+
+    @Test
+    public void monsterCallerRandomEnemyGoblinTest(){
+        Fight fight = new Fight();
+        fight.setRandomEnemy(2);
+        Monsters monster = fight.monsterCaller();
+        fight.setMonster(monster);
+
+        assertThat(monster.getType()).as("monsterCallerRandomEnemyTest - GoblinKing").isEqualTo("goblin");
+    }
+
+    @Test
+    public void goblinKingAttackChampionDieTest() {
+        Fight fight = new Fight();
+        Champion lowHpChampion = new Champion(1);
+        fight.setChampion(lowHpChampion);
+
+        fight.goblinKingDamage();
+
+        assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
+        assertThat(lowHpChampion.isDefeat()).as("Champion should have been defeated.").isTrue();
+    }
+
+    @Test
+    public void goblinKingAttackChampionSurviveTest() {
+        Fight fight = new Fight();
+        Champion highHpChampion = new Champion(10);
+        fight.setChampion(highHpChampion);
+
+        fight.goblinKingDamage();
+
+        assertThat(fight.nextTurn()).as("There should be next turn.").isTrue();
+        assertThat(highHpChampion.isDefeat()).as("Champion should have been not defeated.").isFalse();
+    }
+
+    @Test
+    public void runningFromGoblinKingTest(){
+        Fight fight = new Fight();
+        Monsters monster = new Monsters("goblin king");
+        fight.setMonster(monster);
+
+        fight.runningAway();
+
+        assertThat(fight.isRunningAwayFromGoblinKingTest()).as("You can not run from goblin king!").isTrue();
+    }
+
+    @Test
+    public void runningFromGoblinTest(){
+        Fight fight = new Fight();
+        Monsters monster = new Monsters("goblin");
+        fight.setMonster(monster);
+
+        fight.runningAway();
+
+        assertThat(fight.isRunningAwayFromGoblinKingTest()).as("You can run from goblin ").isFalse();
+    }
+
+    @Test
+    public void GoblinKingDeadWinTest(){
+        Fight fight = new Fight();
+        Monsters monster = new Monsters(0,"goblin king");
+        fight.setMonster(monster);
+
+        fight.championAttack();
+
+        assertThat(fight.isGoblinKingIsDeadTest()).as("Goblin King is Dead").isTrue();
+    }
 }

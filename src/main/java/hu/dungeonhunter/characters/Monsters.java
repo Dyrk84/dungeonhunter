@@ -1,5 +1,6 @@
 package hu.dungeonhunter.characters;
 import hu.dungeonhunter.tools.Dice;
+import hu.dungeonhunter.tools.Fight;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +21,13 @@ public class Monsters {
     @Getter
     private boolean defeat;
 
-    public Monsters() {
-        initMonster(Dice.rollDice(4,3));
-    }
+    @Setter
+    @Getter
+    private String type;
+
+//    public Monsters() {
+//        initMonster(Dice.rollDice(4,3));
+//    }
 
     public Monsters(int hp) {
         initMonster(hp);
@@ -32,6 +37,41 @@ public class Monsters {
         this.hp = hp;
         this.maxDamage = 6;
         this.numOfDices = 1;
+        // startValues();
+    }
+
+    public Monsters(String type){
+        if (type.equals("goblin king"))
+        goblinKing(type);
+        if (type.equals("goblin"))
+            goblin(type);
+    }
+
+    private void goblin(String type){
+        this.type = "goblin";
+        this.hp = Dice.rollDice(4,3);
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        startValues();
+    }
+
+    private void goblinKing(String type){
+        this.type = "goblin king";
+        this.hp = Dice.rollDice(6,3) + 6;
+        this.maxDamage = 6;
+        this.numOfDices = 2;
+        startValues();
+    }
+
+    public Monsters(int hp, String type){
+        goblinKingTest(hp,type);
+    }
+
+    private void goblinKingTest(int hp, String type){
+        this.hp = hp;
+        this.type = "goblin king";
+        this.maxDamage = 6;
+        this.numOfDices = 2;
         startValues();
     }
 
@@ -43,7 +83,7 @@ public class Monsters {
     }
 
     private void startValues() {
-        System.out.println("The monster have " + hp + " HP and can do " +
+        System.out.println("The " + type + " have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
     }

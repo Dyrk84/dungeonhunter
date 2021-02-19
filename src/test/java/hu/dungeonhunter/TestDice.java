@@ -29,8 +29,7 @@ public class TestDice {
 
     @Test
     public void championWinTest() {
-        Monsters monster = new Monsters();
-        monster.setHp(0);
+        Monsters monster = new Monsters(0);
         monster.enemyVictory();
         assertThat(monster.isDefeat()).as("championWinTest").isTrue();
     }
