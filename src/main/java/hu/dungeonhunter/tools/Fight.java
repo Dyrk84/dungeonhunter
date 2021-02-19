@@ -1,45 +1,80 @@
 package hu.dungeonhunter.tools;
 import hu.dungeonhunter.characters.Champion;
 import hu.dungeonhunter.characters.Monsters;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Fight {
-    Champion champion = new Champion();
-    Monsters monster = new Monsters();
 
-    public void championAttack() {
-        System.out.print("Champion attack: ");
-        monster.setMonsterHP(monster.getMonsterHP() - champion.championDamage());
-        System.out.println("Monster have now " + monster.getMonsterHP() + " hit points");
-        if (monster.getMonsterHP() > 0)
-            monsterAttack();
-        else {
-            gameOver();
+    @Setter
+    private Champion champion = new Champion();
+
+    @Setter
+    private Monsters monster = monsterCaller();
+
+    @Setter
+    @Getter
+    private int monsterCounter;
+
+    @Getter
+    private int killedMonsterCounter = 0;
+
+    public Fight() {
+        setMonsterCounter(Dice.rollDice(6,2));
+        System.out.println(monsterCounter + " monsters are in the Dungeon!");
+        monsterIncomingOrWin();
+    }
+
+    public Fight(int numOfMonsters) {  //for test
+        setMonsterCounter(numOfMonsters);
+        System.out.println(monsterCounter + " monsters are in the Dungeon!");
+        monsterIncomingOrWin();
+    }
+
+    private void monsterIncomingOrWin(){
+        if (monsterCounter != 0) {
+            System.out.println("Still left in the cave " + monsterCounter + " !");
+            monsterCaller();
         }
+        else
+        System.out.println("The Dungeon is clear! You killed " + killedMonsterCounter + "monster (not counting the " +
+                "many mothers and children), you win!");
+    }
+
+    public Monsters monsterCaller() {
+        if (monsterCounter != 0) {
+            System.out.println("A monster steps out from darkness!");
+            monster = new Monsters();
+        }
+        return monster;
     }
 
     public void monsterAttack() {
         System.out.print("Monster attack: ");
-        champion.setChampionHP(champion.getChampionHP() - monster.monsterDamage());
-        System.out.println("Champion have now " + champion.getChampionHP() + " hit points");
-        gameOver();
+        champion.setHp(champion.getHp() - monster.monsterDamage());
+        System.out.println("Champion have now " + champion.getHp() + " hit points");
+        champion.enemyVictory();
     }
 
-    public void gameOver() {
-        if (champion.getChampionHP() > 0 && monster.getMonsterHP() < 1) {
-            System.out.println("You killed the monster! You win!");
-            champion.setChampionVictory(true);
+    public void championAttack() {
+        System.out.print("Champion attack: ");
+        monster.setHp(monster.getHp() - champion.championDamage());
+        System.out.println("Monster have now " + monster.getHp() + " hit points");
+        monster.enemyVictory();
+        if (!monster.isDefeat()){
+            monsterAttack();
         }
-        if (champion.getChampionHP() < 1 && monster.getMonsterHP() > 0) {
-            System.out.println("The monster killed you! You lost!");
-            monster.setMonsterVictory(true);
+        else{
+            killedMonsterCounter++;
+            monsterCounter--;
+            monsterIncomingOrWin();
         }
-        if (champion.getChampionHP() < 1 && monster.getMonsterHP() < 1)
-            System.out.println("you are both dead");
     }
 
     public boolean nextTurn() {
-        if (champion.getChampionHP() > 0 && monster.getMonsterHP() > 0)
+        if (champion.getHp() > 0 && monster.getHp() > 0) {
             return true;
+        }
         else {
             return false;
         }
