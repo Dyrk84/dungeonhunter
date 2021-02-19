@@ -9,9 +9,16 @@ public class Menu {
         Fight fight = new Fight();
         while (fight.nextTurn()) {
             int chosenNumber = chosenNumber();
-            if (chosenNumber == 1) {
-                fight.championAttack();
-            } else yourChooseIsNotAppropriate();
+            switch (chosenNumber) {
+                case 1:
+                    fight.championAttack();
+                    break;
+                case 2:
+                    fight.runningAway();
+                    break;
+                default:
+                    yourChooseIsNotAppropriate();
+            }
         }
     }
 
@@ -35,6 +42,7 @@ public class Menu {
     private void printMenu() {
         System.out.println("\nChoose one of the following actions:");
         System.out.println("1. Attack");
+        System.out.println("2. Running away!");
     }
 
 }

@@ -1,4 +1,5 @@
 package hu.dungeonhunter.tools;
+
 import hu.dungeonhunter.characters.Champion;
 import hu.dungeonhunter.characters.Monsters;
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class Fight {
     private int killedMonsterCounter = 0;
 
     public Fight() {
-        setMonsterCounter(Dice.rollDice(6,2));
+        setMonsterCounter(Dice.rollDice(6, 2));
         System.out.println(monsterCounter + " monsters are in the Dungeon!");
         monsterIncomingOrWin();
     }
@@ -31,14 +32,26 @@ public class Fight {
         monsterIncomingOrWin();
     }
 
-    private void monsterIncomingOrWin(){
+    public void runningAway() {
+        System.out.println("The monster hits you a last time before you can run away: ");
+        champion.setHp(champion.getHp() - monster.monsterDamage());
+        System.out.println("Champion have now " + champion.getHp() + " hit points");
+        champion.enemyVictory();
+        if (!champion.isDefeat()) {
+            monsterCounter--;
+            System.out.println("Your escape was successful! You can go further in the cave.");
+            monsterIncomingOrWin();
+        }
+
+    }
+
+    private void monsterIncomingOrWin() {
         if (monsterCounter != 0) {
             System.out.println("Still left in the cave " + monsterCounter + " !");
             monsterCaller();
-        }
-        else
-        System.out.println("The Dungeon is clear! You killed " + killedMonsterCounter + "monster (not counting the " +
-                "many mothers and children), you win!");
+        } else
+            System.out.println("The Dungeon is clear! You killed " + killedMonsterCounter +
+                    " monster (not counting the many mothers and children), you win!");
     }
 
     public Monsters monsterCaller() {
@@ -61,10 +74,9 @@ public class Fight {
         monster.setHp(monster.getHp() - champion.championDamage());
         System.out.println("Monster have now " + monster.getHp() + " hit points");
         monster.enemyVictory();
-        if (!monster.isDefeat()){
+        if (!monster.isDefeat()) {
             monsterAttack();
-        }
-        else{
+        } else {
             killedMonsterCounter++;
             monsterCounter--;
             monsterIncomingOrWin();
@@ -72,10 +84,9 @@ public class Fight {
     }
 
     public boolean nextTurn() {
-        if (champion.getHp() > 0 && monster.getHp() > 0) {
+        if (champion.getHp() > 0 && monster.getHp() > 0 && monsterCounter > 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
