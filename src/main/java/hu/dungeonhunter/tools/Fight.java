@@ -28,6 +28,7 @@ public class Fight {
     public Fight(int numOfMonsters) {  //for test
         setMonsterCounter(numOfMonsters);
         System.out.println(monsterCounter + " monsters are in the Dungeon!");
+        monsterIncomingOrWin();
     }
 
     private void monsterIncomingOrWin(){

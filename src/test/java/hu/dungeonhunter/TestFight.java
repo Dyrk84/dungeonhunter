@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestFight {
 
     @Test
-    public void monsterCounterAndKilledMonsterCounterTest() {
+    public void monsterCounterAndKilledMonsterCounterTestAndVictory() {
         // test setup (Given)
         Fight fight = new Fight(1);
         Monsters lowHpMonster = new Monsters(1);
