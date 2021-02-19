@@ -81,7 +81,8 @@ public class TestFight {
     public void healingPotionHealAfterUseTest() {
         // test setup (Given)
         Fight fight = new Fight();
-        Champion champion = new Champion();
+        Champion champion = new Champion(10);
+        fight.setChampion(champion);
         fight.setHealingPotionCounter(1);
 
         // test action (When)
@@ -89,6 +90,35 @@ public class TestFight {
 
         // assertion (Then)
         assertThat(fight.getHealingPotionCounter()).as("healingPotionCounter test to decrease in value").isEqualTo(0);
-        assertThat(champion.getHp()).as("healingPotion heal 2-8hp on champion").isBetween(12, 20); //nem működik
+        assertThat(champion.getHp()).as("healingPotion heal 2-8hp on champion").isBetween(12, 20);
+    }
+
+    @Test
+    public void healingPotionCounterMaximumIfMonsterDieTest() {
+        // test setup (Given)
+        Fight fight = new Fight(1);
+        Monsters lowHpMonster = new Monsters(1);
+        fight.setMonster(lowHpMonster);
+        fight.setHealingPotionCounter(5);
+        // test action (When)
+        fight.championAttack();
+
+        // assertion (Then)
+        assertThat(fight.getHealingPotionCounter()).as("healingPotionCounter test to the max value").isEqualTo(5);
+    }
+
+    @Test
+    public void healingPotionMaxHealAfterUseTest() {
+        // test setup (Given)
+        Fight fight = new Fight();
+        Champion champion = new Champion(39);
+        fight.setChampion(champion);
+        fight.setHealingPotionCounter(1);
+
+        // test action (When)
+        fight.drinkAHealingPotion();
+
+        // assertion (Then)
+        assertThat(champion.getHp()).as("healingPotion heal 2-8hp on champion, but 40 is the max").isEqualTo(40);
     }
 }
