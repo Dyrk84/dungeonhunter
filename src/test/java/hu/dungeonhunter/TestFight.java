@@ -121,4 +121,20 @@ public class TestFight {
         // assertion (Then)
         assertThat(champion.getHp()).as("healingPotion heal 2-8hp on champion, but 40 is the max").isEqualTo(40);
     }
+
+    @Test
+    public void healingPotionActionIfNoMorePotionTest() {
+        // test setup (Given)
+        Fight fight = new Fight();
+        Champion champion = new Champion(10);
+        fight.setChampion(champion);
+        fight.setHealingPotionCounter(0);
+
+        // test action (When)
+        fight.drinkAHealingPotion();
+
+        // assertion (Then)
+        assertThat(fight.getHealingPotionCounter()).as("healingPotionCounter test to no change in value").isEqualTo(0);
+        assertThat(champion.getHp()).as("there is no healing because there are no more drinks").isEqualTo(10);
+    }
 }

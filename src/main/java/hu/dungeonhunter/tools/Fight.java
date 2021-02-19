@@ -99,11 +99,11 @@ public class Fight {
         } else {
             killedMonsterCounter++;
             monsterCounter--;
-            healingPotionCounter++;
             System.out.println("You found a healing potion!");
-            if (healingPotionCounter > 5){
+            if (healingPotionCounter < 5) {
+                healingPotionCounter++;
+            } else {
                 System.out.println("You can't have more than 5 healing potions!");
-                healingPotionCounter = 5;
             }
             monsterIncomingOrWin();
         }
