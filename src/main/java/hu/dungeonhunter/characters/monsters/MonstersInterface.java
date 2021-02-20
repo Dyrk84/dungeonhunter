@@ -7,7 +7,7 @@ public interface MonstersInterface {
     void getMonster(int hp);
     int getHp();
     void setHp(int hp);
-    boolean getDefeat();
     CharacterTypes getType();
     int getMonsterDamage();
+    boolean isDefeat();
 }

@@ -48,7 +48,7 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public boolean getDefeat(){
+    public boolean isDefeat(){
        if (hp <= 0){
            System.out.println("You killed the monster!");
            return true;

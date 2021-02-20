@@ -12,8 +12,9 @@ public class Fight {
     @Setter
     private Champion champion = new Champion();
 
-    private final MonsterFactory monsterFactory = new MonsterFactory();
+    private MonsterFactory monsterFactory = new MonsterFactory();
 
+    @Setter
     private MonstersInterface monster;
 
     @Setter
@@ -31,11 +32,10 @@ public class Fight {
     private boolean runningAwayFromGoblinKingTest;
 
     @Getter
-    boolean goblinKingIsDeadTest = true;
+    private boolean goblinKingIsDeadTest;
 
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
-        System.out.println(monsterCounter + " monsters are in the Dungeon!");
         monsterIncomingOrWin();
     }
 
@@ -71,7 +71,7 @@ public class Fight {
 
     private void monsterIncomingOrWin() {
         if (monsterCounter != 0) {
-            System.out.println("Still left in the cave " + monsterCounter + " !");
+            System.out.println(monsterCounter + " monsters are in the Dungeon!");
             System.out.print("Something is coming! ");
             randomEnemy = Dice.rollDice(monsterCounter, 1);
             monsterCaller();
@@ -85,7 +85,7 @@ public class Fight {
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
-            System.out.println("A goblin steps out from darkness!");
+            System.out.println("A goblin steps out from the darkness!");
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         }
         return monster;
@@ -105,7 +105,7 @@ public class Fight {
         if (monster.getType().equals(CharacterTypes.GOBLIN_KING) && monster.getHp() <= 0) {
             System.out.println("The goblin king is dead! You win!");
             goblinKingIsDeadTest = true; //toTest
-        } else if (!monster.getDefeat()) {
+        } else if (!monster.isDefeat()) {
             monsterAttack();
         } else {
             killedMonsterCounter++;

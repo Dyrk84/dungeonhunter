@@ -30,8 +30,8 @@ public class TestDice {
     @Test
     public void championWinTest() {
         Goblin monster = new Goblin(0);
-        monster.getDefeat();
-        assertThat(monster.getDefeat()).as("championWinTest").isTrue();
+        monster.isDefeat();
+        assertThat(monster.isDefeat()).as("championWinTest").isTrue();
     }
 
     @Test
