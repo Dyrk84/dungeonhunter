@@ -1,7 +1,9 @@
 package hu.dungeonhunter.tools;
 
-import hu.dungeonhunter.characters.Champion;
-import hu.dungeonhunter.characters.Monsters;
+import hu.dungeonhunter.characters.champion.Champion;
+import hu.dungeonhunter.characters.monsters.MonsterFactory;
+import hu.dungeonhunter.characters.monsters.MonstersInterface;
+import hu.dungeonhunter.model.CharacterTypes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +12,9 @@ public class Fight {
     @Setter
     private Champion champion = new Champion();
 
-    @Setter
-    private Monsters monster;
+    private final MonsterFactory monsterFactory = new MonsterFactory();
+
+    private MonstersInterface monster;
 
     @Setter
     @Getter
@@ -19,10 +22,6 @@ public class Fight {
 
     @Getter
     private int killedMonsterCounter = 0;
-
-    @Setter
-    @Getter
-    private int healingPotionCounter = 1;
 
     @Setter
     @Getter
@@ -53,29 +52,13 @@ public class Fight {
         champion.enemyVictory();
     }
 
-    public void drinkAHealingPotion() {
-        if (healingPotionCounter <= 0) {
-            System.out.println("You have no more healing potions!");
-        } else {
-            System.out.println("You drink a healing potion.");
-            int healingAmount = Dice.rollDice(4, 2);
-            champion.setHp(champion.getHp() + healingAmount);
-            System.out.println("You healed " + healingAmount + "hp.");
-            if (champion.getHp() > 40) {
-                System.out.println("Your Hp cannot be more than 40!");
-                champion.setHp(40);
-            }
-            healingPotionCounter--;
-        }
-    }
-
     public void runningAway() {
-        if (monster.getType().equals("goblin king")) {
-            System.out.println("You can't run away from the " + monster.getType() + " !");
+        if (monster.getType().equals(CharacterTypes.GOBLIN_KING)) {
+            System.out.println("You can't run away from the " + monster.getType().charType + " !");
             runningAwayFromGoblinKingTest = true; //to test
         } else {
             System.out.println("The monster hits you a last time before you can run away: ");
-            champion.setHp(champion.getHp() - monster.monsterDamage());
+            champion.setHp(champion.getHp() - monster.getMonsterDamage());
             System.out.println("Champion have now " + champion.getHp() + " hit points");
             champion.enemyVictory();
             if (!champion.isDefeat()) {
@@ -97,20 +80,20 @@ public class Fight {
                     " monster (not counting the many mothers and children), you win!");
     }
 
-    public Monsters monsterCaller() {
+    public MonstersInterface monsterCaller() {
         if (randomEnemy == 1) {
-            monster = new Monsters("goblin king");
+            monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
             System.out.println("A goblin steps out from darkness!");
-            monster = new Monsters("goblin");
+            monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         }
         return monster;
     }
 
     public void monsterAttack() {
         System.out.print("Monster attack: ");
-        champion.setHp(champion.getHp() - monster.monsterDamage());
+        champion.setHp(champion.getHp() - monster.getMonsterDamage());
         System.out.println("Champion have now " + champion.getHp() + " hit points");
         champion.enemyVictory();
     }
@@ -118,19 +101,18 @@ public class Fight {
     public void championAttack() {
         System.out.print("Champion attack: ");
         monster.setHp(monster.getHp() - champion.championDamage());
-        System.out.println("The " + monster.getType() + " have now " + monster.getHp() + " hit points");
-        monster.enemyVictory();
-        if (monster.getType().equals("goblin king") && monster.getHp() <= 0) {
+        System.out.println("The " + monster.getType().charType + " have now " + monster.getHp() + " hit points");
+        if (monster.getType().equals(CharacterTypes.GOBLIN_KING) && monster.getHp() <= 0) {
             System.out.println("The goblin king is dead! You win!");
             goblinKingIsDeadTest = true; //toTest
-        } else if (!monster.isDefeat()) {
+        } else if (!monster.getDefeat()) {
             monsterAttack();
         } else {
             killedMonsterCounter++;
             monsterCounter--;
             System.out.println("You found a healing potion!");
-            if (healingPotionCounter < 5) {
-                healingPotionCounter++;
+            if (champion.getHealingPotionCounter() < 5) {
+                champion.setHealingPotionCounter(champion.getHealingPotionCounter() + 1);
             } else {
                 System.out.println("You can't have more than 5 healing potions!");
             }
@@ -144,5 +126,9 @@ public class Fight {
         } else {
             return false;
         }
+    }
+
+    public Champion getChampion() {
+        return champion;
     }
 }
