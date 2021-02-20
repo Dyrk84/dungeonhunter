@@ -15,6 +15,7 @@ public class Fight {
     private MonsterFactory monsterFactory = new MonsterFactory();
 
     @Setter
+    @Getter
     private MonstersInterface monster;
 
     @Setter
