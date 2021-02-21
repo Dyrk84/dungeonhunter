@@ -234,13 +234,13 @@ public class TestFight {
     }
 
     @Test
-    public void GoblinKingDeadWinTest() {
+    public void GoblinKingIsDefeatedTest() {
         Fight fight = new Fight();
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 0);
         fight.setMonster(monster);
 
         fight.championAttack();
 
-        assertThat(fight.getMonster().getHp()).as("Goblin King is Dead").isLessThan(1);
+        assertThat(monster.isDefeat()).as("Goblin King is Dead").isTrue();
     }
 }
