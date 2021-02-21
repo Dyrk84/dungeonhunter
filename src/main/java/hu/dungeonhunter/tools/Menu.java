@@ -18,7 +18,7 @@ public class Menu {
                     fight.runningAway();
                     break;
                 case 3:
-                    fight.drinkAHealingPotion();
+                    fight.getChampion().drinkAHealingPotion();
                     break;
                 default:
                     yourChooseIsNotAppropriate();
@@ -47,7 +47,7 @@ public class Menu {
         System.out.println("\nChoose one of the following actions:");
         System.out.println("1. Attack");
         System.out.println("2. Running away!");
-        System.out.println("3. Drink a healing potion! You have " + fight.getHealingPotionCounter() + " healing potion.");
+        System.out.println("3. Drink a healing potion! You have " + fight.getChampion().getHealingPotionCounter() + " healing potion.");
     }
 
 }

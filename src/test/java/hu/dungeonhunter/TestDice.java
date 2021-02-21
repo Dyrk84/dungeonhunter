@@ -1,7 +1,7 @@
 package hu.dungeonhunter;
 
-import hu.dungeonhunter.characters.Champion;
-import hu.dungeonhunter.characters.Monsters;
+import hu.dungeonhunter.characters.champion.Champion;
+import hu.dungeonhunter.characters.monsters.Goblin;
 import hu.dungeonhunter.tools.Dice;
 import org.junit.Test;
 
@@ -29,9 +29,8 @@ public class TestDice {
 
     @Test
     public void championWinTest() {
-        Monsters monster = new Monsters();
-        monster.setHp(0);
-        monster.enemyVictory();
+        Goblin monster = new Goblin(0);
+        monster.isDefeat();
         assertThat(monster.isDefeat()).as("championWinTest").isTrue();
     }
 

@@ -1,4 +1,5 @@
-package hu.dungeonhunter.characters;
+package hu.dungeonhunter.characters.champion;
+import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,13 @@ public class Champion {
     @Setter
     @Getter
     private boolean defeat;
+
+    @Setter
+    @Getter
+    private int healingPotionCounter = 1;
+
+    @Getter
+    private final CharacterTypes type = CharacterTypes.CHAMPION;
 
     public Champion() {
         startValues(START_HP);
@@ -50,4 +58,19 @@ public class Champion {
         return Dice.rollDice(maxDamage, numOfDices);
     }
 
+    public void drinkAHealingPotion() {
+        if (getHealingPotionCounter() <= 0) {
+            System.out.println("You have no more healing potions!");
+        } else {
+            System.out.println("You drink a healing potion.");
+            int healingAmount = Dice.rollDice(4, 2);
+            setHp(getHp() + healingAmount);
+            System.out.println("You healed " + healingAmount + "hp. You have now " + getHp() + "hp.");
+            if (getHp() > 40) {
+                System.out.println("Your Hp cannot be more than 40!");
+                setHp(40);
+            }
+            setHealingPotionCounter(getHealingPotionCounter() - 1);
+        }
+    }
 }
