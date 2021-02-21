@@ -29,9 +29,6 @@ public class Fight {
     @Getter
     private int randomEnemy;
 
-    @Getter
-    private boolean goblinKingIsDeadTest;
-
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
         monsterIncomingOrWin();
@@ -95,7 +92,6 @@ public class Fight {
         System.out.println("The " + monster.getType().charType + " have now " + monster.getHp() + " hit points");
         if (monster.getType().equals(CharacterTypes.GOBLIN_KING) && monster.getHp() <= 0) {
             System.out.println("The goblin king is dead! You win!");
-            goblinKingIsDeadTest = true; //toTest
         } else if (!monster.isDefeat()) {
             monsterAttack();
         } else {
