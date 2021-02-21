@@ -1,19 +1,15 @@
 package hu.dungeonhunter;
-
 import hu.dungeonhunter.characters.champion.Champion;
 import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 import hu.dungeonhunter.tools.Fight;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.characters.monsters.MonstersInterface;
 import hu.dungeonhunter.characters.monsters.MonsterFactory;
-//import hu.dungeonhunter.characters.monsters.Goblin;
-//import hu.dungeonhunter.characters.monsters.GoblinKing;
 
 public class TestFight {
     MonsterFactory monsterFactory = new MonsterFactory();
+
     @Test
     public void monsterCounterAndKilledMonsterCounterTestAndVictory() {
         // test setup (Given)
@@ -44,8 +40,10 @@ public class TestFight {
     }
 
     @Test
-    public void runningAwayAndTheChampionWillDieTest() {
-        Fight fight = new Fight();
+    public void runningAwayAndTheChampionWillDieIfEnemyIsNotTheGoblinKingTest() {
+        Fight fight = new Fight(2);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        fight.setMonster(monster);
         Champion lowHpChampion = new Champion(1);
         fight.setChampion(lowHpChampion);
 
@@ -75,7 +73,7 @@ public class TestFight {
         // test setup (Given)
         Fight fight = new Fight(1);
         Champion champion = new Champion();
-        MonstersInterface lowHpGoblin = monsterFactory.getMonster(CharacterTypes.GOBLIN,1);
+        MonstersInterface lowHpGoblin = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
         fight.setChampion(champion);
         fight.setMonster(lowHpGoblin);
 
@@ -106,7 +104,7 @@ public class TestFight {
     public void healingPotionCounterMaximumIfMonsterDieTest() {
         // test setup (Given)
         Fight fight = new Fight(1);
-        MonstersInterface lowHpMonster = monsterFactory.getMonster(CharacterTypes.GOBLIN,1);
+        MonstersInterface lowHpMonster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
         fight.setMonster(lowHpMonster);
         Champion champion = new Champion();
         champion.setHealingPotionCounter(5);
@@ -136,10 +134,10 @@ public class TestFight {
     @Test
     public void healingPotionActionIfNoMorePotionTest() {
         // test setup (Given)
-       // Fight fight = new Fight();
+        // Fight fight = new Fight();
         Champion champion = new Champion(10);
         champion.setHealingPotionCounter(0);
-      //  fight.setChampion(champion);
+        //  fight.setChampion(champion);
 
         // test action (When)
         champion.drinkAHealingPotion();
@@ -149,33 +147,32 @@ public class TestFight {
         assertThat(champion.getHp()).as("there is no healing because there are no more drinks").isEqualTo(10);
     }
 
-//DH-13
+    //DH-13
     @Test
-    public void monsterIncomingOrWinRandomNumberCheck(){
-        Fight fight = new Fight();
-        fight.setMonsterCounter(5);
+    public void monsterIncomingOrWinRandomNumberCheck() {
+        Fight fight = new Fight(5);
 
-        assertThat(fight.getRandomEnemy()).as("randomEnemyInitializing").isBetween(1,5);
+        assertThat(fight.getRandomEnemy()).as("randomEnemyInitializing").isBetween(1, 5);
     }
 
     @Test
-    public void monsterCallerRandomEnemyGoblinKingTest(){
+    public void monsterCallerRandomEnemyGoblinKingTest() {
         Fight fight = new Fight();
-        MonstersInterface monster = fight.monsterCaller();
         fight.setRandomEnemy(1);
+        MonstersInterface monster = fight.monsterCaller();
         fight.setMonster(monster);
 
-        assertThat(monsterFactory.getMonster(CharacterTypes.GOBLIN_KING)).as("monsterCallerRandomEnemyTest - GoblinKing").isEqualTo("Goblin king");
+        assertThat(fight.getMonster().getType()).as("monsterCallerRandomEnemyTest - GoblinKing").isEqualTo(CharacterTypes.GOBLIN_KING);
     }
 
     @Test
-    public void monsterCallerRandomEnemyGoblinTest(){
+    public void monsterCallerRandomEnemyGoblinTest() {
         Fight fight = new Fight();
-        MonstersInterface monster = fight.monsterCaller();
         fight.setRandomEnemy(2);
+        MonstersInterface monster = fight.monsterCaller();
         fight.setMonster(monster);
 
-        assertThat(monster).as("monsterCallerRandomEnemyTest - Goblin").isEqualTo(monsterFactory.getMonster(CharacterTypes.GOBLIN));
+        assertThat(fight.getMonster().getType()).as("monsterCallerRandomEnemyTest - Goblin").isEqualTo(CharacterTypes.GOBLIN);
     }
 
     @Test
@@ -203,7 +200,7 @@ public class TestFight {
     }
 
     @Test
-    public void runningFromGoblinKingTest(){
+    public void runningFromGoblinKingTest() {
         Fight fight = new Fight();
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
         fight.setMonster(monster);
@@ -214,7 +211,7 @@ public class TestFight {
     }
 
     @Test
-    public void runningFromGoblinTest(){
+    public void runningFromGoblinTest() {
         Fight fight = new Fight();
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         fight.setMonster(monster);
@@ -225,9 +222,9 @@ public class TestFight {
     }
 
     @Test
-    public void GoblinKingDeadWinTest(){
+    public void GoblinKingDeadWinTest() {
         Fight fight = new Fight();
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING,0);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 0);
         fight.setMonster(monster);
 
         fight.championAttack();
