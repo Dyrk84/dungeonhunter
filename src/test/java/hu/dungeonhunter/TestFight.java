@@ -13,17 +13,17 @@ public class TestFight {
     @Test
     public void monsterCounterAndKilledMonsterCounterTestAndVictory() {
         // test setup (Given)
+        Fight fight = new Fight();
         MonstersInterface lowHpmonster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
-        Fight fight = new Fight(1);
         fight.setMonster(lowHpmonster);
-
+        int monsterCounterToTest = fight.getMonsterCounter();
+        int killedMonsterCounterToTest = fight.getKilledMonsterCounter();
         // test action (When)
         fight.championAttack();
 
         // assertion (Then)
-        assertThat(fight.getMonsterCounter()).as("monsterCounter test to decrease in value").isEqualTo(0);
-        assertThat(fight.getKilledMonsterCounter()).as("killedMonsterCounter test to increase the value").isEqualTo(1);
-        assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
+        assertThat(fight.getMonsterCounter()).as("monsterCounter test to decrease in value").isEqualTo(monsterCounterToTest - 1);
+        assertThat(fight.getKilledMonsterCounter()).as("killedMonsterCounter test to increase the value").isEqualTo(killedMonsterCounterToTest + 1);
         assertThat(lowHpmonster.isDefeat()).as("Monster should have been defeated.").isTrue();
     }
 
@@ -41,7 +41,7 @@ public class TestFight {
 
     @Test
     public void runningAwayAndTheChampionWillDieIfEnemyIsNotTheGoblinKingTest() {
-        Fight fight = new Fight(2);
+        Fight fight = new Fight();
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         fight.setMonster(monster);
         Champion lowHpChampion = new Champion(1);
@@ -55,23 +55,24 @@ public class TestFight {
 
     @Test
     public void runningAwaySuccessfulEscapeTest() {
-        Fight fight = new Fight(1);
-        Champion highHpChampion = new Champion(10);
+        Fight fight = new Fight();
+        Champion highHpChampion = new Champion(40);
         fight.setChampion(highHpChampion);
         MonstersInterface lowHpmonster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
         fight.setMonster(lowHpmonster);
+        fight.setMonsterCounter(1);
+        int monsterCounterToTest = fight.getMonsterCounter();
 
         fight.runningAway();
 
-        assertThat(fight.getMonsterCounter()).as("monsterCounter test to decrease in value").isEqualTo(0);
-        assertThat(fight.nextTurn()).as("There should be no next turn, because no more monster.").isFalse();
+        assertThat(fight.getMonsterCounter()).as("monsterCounter test to decrease in value").isEqualTo(monsterCounterToTest - 1);
         assertThat(highHpChampion.isDefeat()).as("Champion should have been not defeated.").isFalse();
     }
 
     @Test
     public void healingPotionCounterIfMonsterDieTest() {
         // test setup (Given)
-        Fight fight = new Fight(1);
+        Fight fight = new Fight();
         Champion champion = new Champion();
         MonstersInterface lowHpGoblin = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
         fight.setChampion(champion);
@@ -103,7 +104,7 @@ public class TestFight {
     @Test
     public void healingPotionCounterMaximumIfMonsterDieTest() {
         // test setup (Given)
-        Fight fight = new Fight(1);
+        Fight fight = new Fight();
         MonstersInterface lowHpMonster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
         fight.setMonster(lowHpMonster);
         Champion champion = new Champion();
@@ -150,9 +151,11 @@ public class TestFight {
     //DH-13
     @Test
     public void monsterIncomingOrWinRandomNumberCheck() {
-        Fight fight = new Fight(5);
+        Fight fight = new Fight();
 
-        assertThat(fight.getRandomEnemy()).as("randomEnemyInitializing").isBetween(1, 5);
+        fight.monsterIncomingOrWin();
+
+        assertThat(fight.getRandomEnemy()).as("randomEnemyInitializing").isBetween(1,12);
     }
 
     @Test
@@ -200,14 +203,19 @@ public class TestFight {
     }
 
     @Test
-    public void runningFromGoblinKingTest() {
+    public void YouCanNotRunFromGoblinKingTest() {
         Fight fight = new Fight();
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
         fight.setMonster(monster);
+        fight.setMonsterCounter(3);
+        Champion champion = new Champion();
+        champion.setHp(10);
+        fight.setChampion(champion);
 
         fight.runningAway();
 
-        assertThat(fight.isRunningAwayFromGoblinKingTest()).as("You can not run from goblin king!").isTrue();
+        assertThat(fight.getMonsterCounter()).as("You can not run from goblin king!").isEqualTo(3);
+        assertThat(champion.getHp()).as("You can not run from goblin king!").isEqualTo(10);
     }
 
     @Test
@@ -215,10 +223,15 @@ public class TestFight {
         Fight fight = new Fight();
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         fight.setMonster(monster);
+        fight.setMonsterCounter(3);
+        Champion champion = new Champion();
+        champion.setHp(10);
+        fight.setChampion(champion);
 
         fight.runningAway();
 
-        assertThat(fight.isRunningAwayFromGoblinKingTest()).as("You can run from goblin ").isFalse();
+        assertThat(fight.getMonsterCounter()).as("You can not run from goblin king!").isEqualTo(2);
+        assertThat(champion.getHp()).as("You can not run from goblin king!").isLessThan(10);
     }
 
     @Test

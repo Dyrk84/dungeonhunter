@@ -30,19 +30,10 @@ public class Fight {
     private int randomEnemy;
 
     @Getter
-    private boolean runningAwayFromGoblinKingTest;
-
-    @Getter
     private boolean goblinKingIsDeadTest;
 
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
-        monsterIncomingOrWin();
-    }
-
-    public Fight(int numOfMonsters) {  //for test
-        setMonsterCounter(numOfMonsters);
-        System.out.println("Fight() running to tests");
         monsterIncomingOrWin();
     }
 
@@ -56,7 +47,6 @@ public class Fight {
     public void runningAway() {
         if (monster.getType().equals(CharacterTypes.GOBLIN_KING)) {
             System.out.println("You can't run away from the " + monster.getType().charType + " !");
-            runningAwayFromGoblinKingTest = true; //to test
         } else {
             System.out.println("The monster hits you a last time before you can run away: ");
             champion.setHp(champion.getHp() - monster.getMonsterDamage());
@@ -70,7 +60,7 @@ public class Fight {
         }
     }
 
-    private void monsterIncomingOrWin() {
+    public void monsterIncomingOrWin() {
         if (monsterCounter != 0) {
             System.out.println(monsterCounter + " monsters are in the Dungeon!");
             System.out.print("Something is coming! ");
