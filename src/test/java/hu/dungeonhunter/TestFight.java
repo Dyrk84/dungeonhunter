@@ -135,7 +135,6 @@ public class TestFight {
     @Test
     public void healingPotionActionIfNoMorePotionTest() {
         // test setup (Given)
-        // Fight fight = new Fight();
         Champion champion = new Champion(10);
         champion.setHealingPotionCounter(0);
         //  fight.setChampion(champion);
@@ -242,6 +241,6 @@ public class TestFight {
 
         fight.championAttack();
 
-        assertThat(fight.isGoblinKingIsDeadTest()).as("Goblin King is Dead").isTrue();
+        assertThat(fight.getMonster().getHp()).as("Goblin King is Dead").isLessThan(1);
     }
 }
