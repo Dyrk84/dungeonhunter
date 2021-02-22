@@ -19,6 +19,10 @@ public class GoblinKing implements MonstersInterface {
 
     @Setter
     @Getter
+    private int initiative;
+
+    @Setter
+    @Getter
     private CharacterTypes type;
 
     public GoblinKing(int hp) {
@@ -35,6 +39,7 @@ public class GoblinKing implements MonstersInterface {
         this.hp = hp;
         this.maxDamage = 6;
         this.numOfDices = 2;
+        this.initiative = 7;
         startValues();
     }
 
@@ -44,13 +49,16 @@ public class GoblinKing implements MonstersInterface {
         this.hp = Dice.rollDice(6,3) + 6;
         this.maxDamage = 6;
         this.numOfDices = 2;
+        this.initiative = 7;
         startValues();
     }
 
     @Override
     public boolean isDefeat(){
+        MonsterFactory monsterFactory = new MonsterFactory();
+
         if (hp <= 0){
-            System.out.println("You killed the monster!");
+            System.out.println("The goblin king is dead!");
             return true;
         }
         return false;
@@ -65,5 +73,15 @@ public class GoblinKing implements MonstersInterface {
     @Override
     public int getMonsterDamage() {
         return Dice.rollDice(maxDamage, numOfDices);
+    }
+
+    @Override
+    public int getMonsterInitiative(){
+        return getInitiative();
+    }
+
+    @Override
+    public void setMonsterInitiative(int initiative){
+        this.initiative = initiative;
     }
 }

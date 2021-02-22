@@ -19,6 +19,10 @@ public class Goblin implements MonstersInterface {
 
     @Setter
     @Getter
+    private int initiative;
+
+    @Setter
+    @Getter
     private CharacterTypes type;
 
     public Goblin(int hp) {
@@ -35,6 +39,7 @@ public class Goblin implements MonstersInterface {
         this.hp = hp;
         this.maxDamage = 6;
         this.numOfDices = 1;
+        this.initiative = 5;
          startValues();
     }
 
@@ -44,6 +49,7 @@ public class Goblin implements MonstersInterface {
         this.hp = Dice.rollDice(4,3);
         this.maxDamage = 6;
         this.numOfDices = 1;
+        this.initiative = 5;
         startValues();
     }
 
@@ -65,5 +71,15 @@ public class Goblin implements MonstersInterface {
     @Override
     public int getMonsterDamage() {
         return Dice.rollDice(maxDamage, numOfDices);
+    }
+
+    @Override
+    public int getMonsterInitiative(){
+        return getInitiative();
+    }
+
+    @Override
+    public void setMonsterInitiative(int initiative){
+        this.initiative = initiative;
     }
 }

@@ -27,6 +27,10 @@ public class Champion {
     @Getter
     private int healingPotionCounter = 1;
 
+    @Setter
+    @Getter
+    private int initiative;
+
     @Getter
     private final CharacterTypes type = CharacterTypes.CHAMPION;
 
@@ -49,9 +53,16 @@ public class Champion {
         this.hp = startHp;
         this.maxDamage = 6;
         this.numOfDices = 1;
+        this.initiative = 10;
+        championDebut();
+    }
+
+    public void championDebut() {
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
+        for (int i = 0; i < 70; i++) System.out.print("*");
+        System.out.println("*");
     }
 
     public int championDamage() {

@@ -2,7 +2,7 @@ package hu.dungeonhunter.tools;
 
 public class Dice {
     public static int rollDice(int numOfSides, int numOfDices) {
-        System.out.println("Rolling with " + numOfDices + "d" + numOfSides + " dice...");
+        System.out.print("Rolling with " + numOfDices + "d" + numOfSides + " dice...: ");
         int result = 0;
         if (numOfDices <= 0 || numOfSides <= 0)
             throw new RuntimeException("invalid dice input");

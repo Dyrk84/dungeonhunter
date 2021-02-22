@@ -1,8 +1,14 @@
 package hu.dungeonhunter.characters.monsters;
 
 import hu.dungeonhunter.model.CharacterTypes;
+import lombok.Getter;
+import lombok.Setter;
 
 public class MonsterFactory {
+
+    @Setter
+    @Getter
+    int killedMonsterCounter = 0;
 
     public MonstersInterface getMonster(CharacterTypes type) {
         MonstersInterface monster;
@@ -22,3 +28,4 @@ public class MonsterFactory {
         }
     }
 }
+//TODO áthozni MonsterFactory-ba a monsterCaller() -t, és a monsterCountert, illetve a killedMonsterCountert
