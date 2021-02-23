@@ -11,4 +11,8 @@ public interface MonstersInterface {
     CharacterTypes getType();
     int getMonsterDamage();
     boolean isDefeat();
+    int getInitiative();
+    void setInitiative(int Initiative);
+    int getFinalMonsterInitiation();
+    void monsterAttackInitiationCalculation();
 }

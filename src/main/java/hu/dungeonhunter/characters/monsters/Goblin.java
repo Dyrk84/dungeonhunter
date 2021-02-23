@@ -19,7 +19,14 @@ public class Goblin implements MonstersInterface {
 
     @Setter
     @Getter
-    private CharacterTypes type;
+    private int initiative;
+
+    @Getter
+    @Setter
+    int finalMonsterInitiation;
+
+    @Getter
+    private final CharacterTypes type = CharacterTypes.GOBLIN;
 
     public Goblin(int hp) {
         getMonster(hp);
@@ -31,19 +38,13 @@ public class Goblin implements MonstersInterface {
 
     @Override
     public void getMonster(int hp) {
-        this.type = CharacterTypes.GOBLIN;
         this.hp = hp;
-        this.maxDamage = 6;
-        this.numOfDices = 1;
          startValues();
     }
 
     @Override
     public void getMonster() {
-        this.type = CharacterTypes.GOBLIN;
         this.hp = Dice.rollDice(4,3);
-        this.maxDamage = 6;
-        this.numOfDices = 1;
         startValues();
     }
 
@@ -57,6 +58,9 @@ public class Goblin implements MonstersInterface {
     }
 
     private void startValues() {
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        this.initiative = 5;
         System.out.println("The " + type.charType + " have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
@@ -65,5 +69,14 @@ public class Goblin implements MonstersInterface {
     @Override
     public int getMonsterDamage() {
         return Dice.rollDice(maxDamage, numOfDices);
+    }
+
+    @Override
+    public void monsterAttackInitiationCalculation() {
+        System.out.print("Goblin initiation: " + getInitiative() + " + ");
+        int monsterInitRoll = Dice.rollDice(10, 1);
+        System.out.println("Final Goblin initiation: " + (getInitiative() + monsterInitRoll));
+        finalMonsterInitiation = getInitiative() + monsterInitRoll;
+
     }
 }

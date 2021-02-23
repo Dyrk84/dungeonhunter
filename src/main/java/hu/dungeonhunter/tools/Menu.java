@@ -12,7 +12,7 @@ public class Menu {
             int chosenNumber = chosenNumber();
             switch (chosenNumber) {
                 case 1:
-                    fight.championAttack();
+                    fight.attackInitiating();
                     break;
                 case 2:
                     fight.runningAway();
@@ -42,12 +42,13 @@ public class Menu {
         System.out.println("Your choose is not appropriate!");
     }
 
-
     private void printMenu() {
-        System.out.println("\nChoose one of the following actions:");
+        TextSeparator.format("Akcio menu");
+        System.out.println("Choose one of the following actions:");
         System.out.println("1. Attack");
         System.out.println("2. Running away!");
         System.out.println("3. Drink a healing potion! You have " + fight.getChampion().getHealingPotionCounter() + " healing potion.");
+        TextSeparator.format("");
+        System.out.print("Type your action number: ");
     }
-
 }

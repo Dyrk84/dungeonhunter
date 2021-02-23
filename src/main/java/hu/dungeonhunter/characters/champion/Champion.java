@@ -1,6 +1,7 @@
 package hu.dungeonhunter.characters.champion;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
+import hu.dungeonhunter.tools.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,14 @@ public class Champion {
     @Getter
     private int healingPotionCounter = 1;
 
+    @Setter
+    @Getter
+    private int initiative;
+
+    @Getter
+    @Setter
+    int finalChampionInitiation;
+
     @Getter
     private final CharacterTypes type = CharacterTypes.CHAMPION;
 
@@ -49,9 +58,15 @@ public class Champion {
         this.hp = startHp;
         this.maxDamage = 6;
         this.numOfDices = 1;
+        this.initiative = 10;
+        championDebut();
+    }
+
+    public void championDebut() {
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
+        TextSeparator championDebutText = new TextSeparator ();
     }
 
     public int championDamage() {
@@ -72,5 +87,12 @@ public class Champion {
             }
             setHealingPotionCounter(getHealingPotionCounter() - 1);
         }
+    }
+
+    public void championAttackInitiationCalculation() {
+        System.out.print("Champion initiation: " + getInitiative() + " + ");
+        int champInitRoll = Dice.rollDice(10, 1);
+        System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
+        finalChampionInitiation = getInitiative() + champInitRoll;
     }
 }

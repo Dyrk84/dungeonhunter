@@ -19,7 +19,14 @@ public class GoblinKing implements MonstersInterface {
 
     @Setter
     @Getter
-    private CharacterTypes type;
+    private int initiative;
+
+    @Getter
+    @Setter
+    int finalMonsterInitiation;
+
+    @Getter
+    private final CharacterTypes type = CharacterTypes.GOBLIN_KING;
 
     public GoblinKing(int hp) {
         getMonster(hp);
@@ -31,32 +38,29 @@ public class GoblinKing implements MonstersInterface {
 
     @Override
     public void getMonster(int hp) {
-        this.type = CharacterTypes.GOBLIN_KING;
         this.hp = hp;
-        this.maxDamage = 6;
-        this.numOfDices = 2;
         startValues();
     }
 
     @Override
     public void getMonster() {
-        this.type = CharacterTypes.GOBLIN_KING;
-        this.hp = Dice.rollDice(6,3) + 6;
-        this.maxDamage = 6;
-        this.numOfDices = 2;
+        this.hp = Dice.rollDice(6, 3) + 6;
         startValues();
     }
 
     @Override
-    public boolean isDefeat(){
-        if (hp <= 0){
-            System.out.println("You killed the monster!");
+    public boolean isDefeat() {
+        if (hp <= 0) {
+            System.out.println("The goblin king is dead!");
             return true;
         }
         return false;
     }
 
     private void startValues() {
+        this.maxDamage = 6;
+        this.numOfDices = 2;
+        this.initiative = 7;
         System.out.println("The " + type.charType + " have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
@@ -65,5 +69,13 @@ public class GoblinKing implements MonstersInterface {
     @Override
     public int getMonsterDamage() {
         return Dice.rollDice(maxDamage, numOfDices);
+    }
+
+    @Override
+    public void monsterAttackInitiationCalculation() {
+        System.out.print("Goblin king initiation: " + getInitiative() + " + ");
+        int monsterInitRoll = Dice.rollDice(10, 1);
+        System.out.println("Final Goblin king initiation: " + (getInitiative() + monsterInitRoll));
+        finalMonsterInitiation = getInitiative() + monsterInitRoll;
     }
 }
