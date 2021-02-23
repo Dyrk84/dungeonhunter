@@ -33,8 +33,7 @@ public class Fight {
     }
 
     public void goblinKingDamage() {
-        for (int i = 0; i < 70; i++) System.out.print("*");
-        System.out.println("*");
+        TextSeparator goblinKingOnTheBoard = new TextSeparator();
         System.out.println("The goblin king steps out from the darkness and throws you with a big rock!");
         champion.setHp(champion.getHp() - Dice.rollDice(6, 1));
         System.out.println("You have " + champion.getHp() + " hp");
@@ -72,16 +71,14 @@ public class Fight {
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
-            System.out.println("A goblin steps out from the darkness!");
+            TextSeparator monsterCallerText = new TextSeparator(" A goblin steps out from the darkness! ");
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-            for (int i = 0; i < 70; i++) System.out.print("*");
-            System.out.println("*");
         }
         return monster;
     }
 
     public void attackInitiating() {
-        attackInitiationCalculationPrint();
+        TextSeparator attackInitiatingText = new TextSeparator (" Initiation Calculation: ");
         champion.championAttackInitiationCalculation();
         monster.monsterAttackInitiationCalculation();
         if (monster.getFinalMonsterInitiation() > champion.getFinalChampionInitiation()) {
@@ -124,25 +121,12 @@ public class Fight {
 
     private void championIsTheFirstAttackerPrint() {
         System.out.println("Champion is the first attacker! ");
-        for (int i = 0; i < 26; i++) System.out.print("*");
-        System.out.print(" Damage Calculate: ");
-        for (int i = 0; i < 25; i++) System.out.print("*");
-        System.out.println("*");
+        TextSeparator damageText = new TextSeparator (" Damage calculation: ");
     }
 
     private void monsterIsTheFirstAttackerPrint() {
         System.out.println(monster.getType().charType + " is the first attacker!");
-        for (int i = 0; i < 26; i++) System.out.print("*");
-        System.out.print(" Damage Calculate: ");
-        for (int i = 0; i < 25; i++) System.out.print("*");
-        System.out.println("*");
-    }
-
-    private void attackInitiationCalculationPrint() {
-        for (int i = 0; i < 19; i++) System.out.print("*");
-        System.out.print(" Attack initiation calculation: ");
-        for (int i = 0; i < 19; i++) System.out.print("*");
-        System.out.println("*");
+        TextSeparator damageText = new TextSeparator (" Damage calculation: ");
     }
 
     public void monsterAttack() {

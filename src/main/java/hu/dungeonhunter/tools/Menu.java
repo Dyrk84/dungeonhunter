@@ -42,16 +42,13 @@ public class Menu {
         System.out.println("Your choose is not appropriate!");
     }
 
-
     private void printMenu() {
-        for (int i = 0; i < 70; i++) System.out.print("*");
-        System.out.println("*");
+        TextSeparator akcioMenu = new TextSeparator(" Akcio menu ");
         System.out.println("Choose one of the following actions:");
         System.out.println("1. Attack");
         System.out.println("2. Running away!");
         System.out.println("3. Drink a healing potion! You have " + fight.getChampion().getHealingPotionCounter() + " healing potion.");
-        for (int i = 0; i < 70; i++) System.out.print("*");
-        System.out.println("*");
+        TextSeparator empty = new TextSeparator();
         System.out.print("Type your action number: ");
     }
 }

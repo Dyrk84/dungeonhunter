@@ -1,6 +1,7 @@
 package hu.dungeonhunter.characters.champion;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
+import hu.dungeonhunter.tools.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,7 +56,7 @@ public class Champion {
 
     private void startValues(int startHp) {
         this.hp = startHp;
-        this.maxDamage = 60;
+        this.maxDamage = 6;
         this.numOfDices = 1;
         this.initiative = 10;
         championDebut();
@@ -65,8 +66,7 @@ public class Champion {
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
-        for (int i = 0; i < 70; i++) System.out.print("*");
-        System.out.println("*");
+        TextSeparator championDebutText = new TextSeparator ();
     }
 
     public int championDamage() {
