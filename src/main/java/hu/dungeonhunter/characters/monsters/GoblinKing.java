@@ -21,9 +21,12 @@ public class GoblinKing implements MonstersInterface {
     @Getter
     private int initiative;
 
-    @Setter
     @Getter
-    private CharacterTypes type;
+    @Setter
+    int finalMonsterInitiation;
+
+    @Getter
+    private final CharacterTypes type = CharacterTypes.GOBLIN_KING;
 
     public GoblinKing(int hp) {
         getMonster(hp);
@@ -35,29 +38,19 @@ public class GoblinKing implements MonstersInterface {
 
     @Override
     public void getMonster(int hp) {
-        this.type = CharacterTypes.GOBLIN_KING;
         this.hp = hp;
-        this.maxDamage = 6;
-        this.numOfDices = 2;
-        this.initiative = 7;
         startValues();
     }
 
     @Override
     public void getMonster() {
-        this.type = CharacterTypes.GOBLIN_KING;
-        this.hp = Dice.rollDice(6,3) + 6;
-        this.maxDamage = 6;
-        this.numOfDices = 2;
-        this.initiative = 7;
+        this.hp = Dice.rollDice(6, 3) + 6;
         startValues();
     }
 
     @Override
-    public boolean isDefeat(){
-        MonsterFactory monsterFactory = new MonsterFactory();
-
-        if (hp <= 0){
+    public boolean isDefeat() {
+        if (hp <= 0) {
             System.out.println("The goblin king is dead!");
             return true;
         }
@@ -65,6 +58,9 @@ public class GoblinKing implements MonstersInterface {
     }
 
     private void startValues() {
+        this.maxDamage = 6;
+        this.numOfDices = 2;
+        this.initiative = 7;
         System.out.println("The " + type.charType + " have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
@@ -76,12 +72,10 @@ public class GoblinKing implements MonstersInterface {
     }
 
     @Override
-    public int getMonsterInitiative(){
-        return getInitiative();
-    }
-
-    @Override
-    public void setMonsterInitiative(int initiative){
-        this.initiative = initiative;
+    public void monsterAttackInitiationCalculation() {
+        System.out.print("Goblin king initiation: " + getInitiative() + " + ");
+        int monsterInitRoll = Dice.rollDice(10, 1);
+        System.out.println("Final Goblin king initiation: " + (getInitiative() + monsterInitRoll));
+        finalMonsterInitiation = getInitiative() + monsterInitRoll;
     }
 }

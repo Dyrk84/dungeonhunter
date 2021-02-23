@@ -28,4 +28,3 @@ public class MonsterFactory {
         }
     }
 }
-//TODO áthozni MonsterFactory-ba a monsterCaller() -t, és a monsterCountert, illetve a killedMonsterCountert

@@ -54,5 +54,4 @@ public class Menu {
         System.out.println("*");
         System.out.print("Type your action number: ");
     }
-
 }

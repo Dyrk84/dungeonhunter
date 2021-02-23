@@ -32,6 +32,10 @@ public class Champion {
     private int initiative;
 
     @Getter
+    @Setter
+    int finalChampionInitiation;
+
+    @Getter
     private final CharacterTypes type = CharacterTypes.CHAMPION;
 
     public Champion() {
@@ -51,7 +55,7 @@ public class Champion {
 
     private void startValues(int startHp) {
         this.hp = startHp;
-        this.maxDamage = 6;
+        this.maxDamage = 60;
         this.numOfDices = 1;
         this.initiative = 10;
         championDebut();
@@ -83,5 +87,12 @@ public class Champion {
             }
             setHealingPotionCounter(getHealingPotionCounter() - 1);
         }
+    }
+
+    public void championAttackInitiationCalculation() {
+        System.out.print("Champion initiation: " + getInitiative() + " + ");
+        int champInitRoll = Dice.rollDice(10, 1);
+        System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
+        finalChampionInitiation = getInitiative() + champInitRoll;
     }
 }
