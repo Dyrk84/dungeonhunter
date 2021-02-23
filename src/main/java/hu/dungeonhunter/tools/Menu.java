@@ -43,12 +43,12 @@ public class Menu {
     }
 
     private void printMenu() {
-        TextSeparator akcioMenu = new TextSeparator("Akcio menu");
+        TextSeparator.format("Akcio menu");
         System.out.println("Choose one of the following actions:");
         System.out.println("1. Attack");
         System.out.println("2. Running away!");
         System.out.println("3. Drink a healing potion! You have " + fight.getChampion().getHealingPotionCounter() + " healing potion.");
-        TextSeparator empty = new TextSeparator();
+        TextSeparator.format("");
         System.out.print("Type your action number: ");
     }
 }

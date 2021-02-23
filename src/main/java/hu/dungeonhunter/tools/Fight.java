@@ -33,7 +33,7 @@ public class Fight {
     }
 
     public void goblinKingDamage() {
-        TextSeparator goblinKingOnTheBoard = new TextSeparator();
+        TextSeparator.format("");
         System.out.println("The goblin king steps out from the darkness and throws you with a big rock!");
         champion.setHp(champion.getHp() - Dice.rollDice(6, 1));
         System.out.println("You have " + champion.getHp() + " hp");
@@ -71,14 +71,14 @@ public class Fight {
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
-            TextSeparator monsterCallerText = new TextSeparator("A goblin steps out from the darkness!");
+            TextSeparator.format("A goblin steps out from the darkness!");
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         }
         return monster;
     }
 
     public void attackInitiating() {
-        TextSeparator attackInitiatingText = new TextSeparator ("Initiation Calculation:");
+        TextSeparator.format("Initiation Calculation:");
         champion.championAttackInitiationCalculation();
         monster.monsterAttackInitiationCalculation();
         if (monster.getFinalMonsterInitiation() > champion.getFinalChampionInitiation()) {
@@ -121,12 +121,12 @@ public class Fight {
 
     private void championIsTheFirstAttackerPrint() {
         System.out.println("Champion is the first attacker! ");
-        TextSeparator damageText = new TextSeparator ("Damage calculation:");
+        TextSeparator.format ("Damage calculation:");
     }
 
     private void monsterIsTheFirstAttackerPrint() {
         System.out.println(monster.getType().charType + " is the first attacker!");
-        TextSeparator damageText = new TextSeparator ("Damage calculation:");
+        TextSeparator.format("Damage calculation:");
     }
 
     public void monsterAttack() {

@@ -1,24 +1,8 @@
 package hu.dungeonhunter.tools;
-import lombok.Getter;
-import lombok.Setter;
 
 public class TextSeparator {
 
-    @Setter
-    public String text;
-
-    public TextSeparator() {
-        this.text = "";
-        codeOfTheTextSeparator();
-    }
-
-
-    public TextSeparator(String text) {
-        this.text = " " + text + " ";
-        codeOfTheTextSeparator();
-    }
-
-    private void codeOfTheTextSeparator() {
+    public static void format(String text) {
         int textLength = text.length() + 2;
         int starsNumber;
         int lineLength = 80;

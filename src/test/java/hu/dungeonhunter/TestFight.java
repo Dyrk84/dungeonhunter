@@ -2,6 +2,7 @@ package hu.dungeonhunter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import hu.dungeonhunter.characters.champion.Champion;
 import hu.dungeonhunter.tools.Fight;
@@ -10,7 +11,10 @@ import hu.dungeonhunter.characters.monsters.MonstersInterface;
 import hu.dungeonhunter.characters.monsters.MonsterFactory;
 
 public class TestFight {
-    MonsterFactory monsterFactory = new MonsterFactory();
+
+    private MonsterFactory monsterFactory = new MonsterFactory();
+    private SoftAssertions softly = new SoftAssertions(); // akkor van értelme amikor több assert van egy metódusban,
+    // az összes hibásat kiadja, nem csak az elsőt.
 
     @Test
     public void championAttackTest() {
@@ -23,11 +27,12 @@ public class TestFight {
         fight.championAttack();
 
         // assertion (Then)
-        assertThat(lowHpmonster.isDefeat()).as("Monster should have been defeated.").isTrue();
+        softly.assertThat(lowHpmonster.isDefeat()).as("Monster should have been defeated.").isTrue();
+        softly.assertAll(); //ezzel gyűjtö be a hibás asserteket, ha ez nincs, akkor nem dobja fel a hibákat!!!
     }
 
     @Test
-    public void monserAttackTest() {
+    public void monsterAttackTest() {
         Fight fight = new Fight();
         Champion lowHpChampion = new Champion(1);
         fight.setChampion(lowHpChampion);
@@ -378,13 +383,14 @@ public class TestFight {
 
         fight.attackInitiating();
 
-        assertThat(champion.getHp()).as("High hp goblin will take a champ damage, but don't die and hit back to" +
+        softly.assertThat(champion.getHp()).as("High hp goblin will take a champ damage, but don't die and hit back to" +
                 " the low hp champion, who will die.").isLessThan(1);
-        assertThat(goblin.isDefeat()).as("High hp goblin will take a champ damage, but don't die!").isFalse();
-        assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).as("The killedMonsterCounter will not change")
+        softly.assertThat(goblin.isDefeat()).as("High hp goblin will take a champ damage, but don't die!").isFalse();
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).as("The killedMonsterCounter will not change")
                 .isEqualTo(killedMonsterCounterAfterTesting);
-        assertThat(fight.getMonsterCounter()).as("The monsterCounter value will not change").isEqualTo(monsterCounterAfterTesting);
-        assertThat(champion.getHealingPotionCounter()).as("healingPotionCounter value will not change").isEqualTo(2);
+        softly.assertThat(fight.getMonsterCounter()).as("The monsterCounter value will not change").isEqualTo(monsterCounterAfterTesting);
+        softly.assertThat(champion.getHealingPotionCounter()).as("healingPotionCounter value will not change").isEqualTo(2);
+        softly.assertAll();
     }
 
     @Test
@@ -410,5 +416,4 @@ public class TestFight {
         assertThat(fight.getMonsterCounter()).as("The monsterCounter value will decrease by one").isEqualTo(monsterCounterAfterTesting);
         assertThat(champion.getHealingPotionCounter()).as("healingPotionCounter test to increasing").isEqualTo(3);
     }
-    //TODO egyező kezdeményezőértékre írni egy tesztet
 }
