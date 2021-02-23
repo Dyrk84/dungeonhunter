@@ -43,7 +43,7 @@ public class Menu {
     }
 
     private void printMenu() {
-        TextSeparator akcioMenu = new TextSeparator(" Akcio menu ");
+        TextSeparator akcioMenu = new TextSeparator("Akcio menu");
         System.out.println("Choose one of the following actions:");
         System.out.println("1. Attack");
         System.out.println("2. Running away!");

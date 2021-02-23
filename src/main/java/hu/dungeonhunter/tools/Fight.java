@@ -71,14 +71,14 @@ public class Fight {
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
-            TextSeparator monsterCallerText = new TextSeparator(" A goblin steps out from the darkness! ");
+            TextSeparator monsterCallerText = new TextSeparator("A goblin steps out from the darkness!");
             monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         }
         return monster;
     }
 
     public void attackInitiating() {
-        TextSeparator attackInitiatingText = new TextSeparator (" Initiation Calculation: ");
+        TextSeparator attackInitiatingText = new TextSeparator ("Initiation Calculation:");
         champion.championAttackInitiationCalculation();
         monster.monsterAttackInitiationCalculation();
         if (monster.getFinalMonsterInitiation() > champion.getFinalChampionInitiation()) {
@@ -121,12 +121,12 @@ public class Fight {
 
     private void championIsTheFirstAttackerPrint() {
         System.out.println("Champion is the first attacker! ");
-        TextSeparator damageText = new TextSeparator (" Damage calculation: ");
+        TextSeparator damageText = new TextSeparator ("Damage calculation:");
     }
 
     private void monsterIsTheFirstAttackerPrint() {
         System.out.println(monster.getType().charType + " is the first attacker!");
-        TextSeparator damageText = new TextSeparator (" Damage calculation: ");
+        TextSeparator damageText = new TextSeparator ("Damage calculation:");
     }
 
     public void monsterAttack() {

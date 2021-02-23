@@ -14,7 +14,7 @@ public class TextSeparator {
 
 
     public TextSeparator(String text) {
-        this.text = text;
+        this.text = " " + text + " ";
         codeOfTheTextSeparator();
     }
 
