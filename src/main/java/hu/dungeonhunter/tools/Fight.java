@@ -33,8 +33,7 @@ public class Fight {
     }
 
     public void goblinKingDamage() {
-        TextSeparator.format("");
-        System.out.println("The goblin king steps out from the darkness and throws you with a big rock!");
+        TextSeparator.format("The goblin king steps out from the darkness and throws you with a big rock!");
         champion.setHp(champion.getHp() - Dice.rollDice(6, 1));
         System.out.println("You have " + champion.getHp() + " hp");
         champion.enemyVictory();
@@ -77,21 +76,21 @@ public class Fight {
         return monster;
     }
 
-    public void attackInitiating() {
+    public void battle() {
         TextSeparator.format("Initiation Calculation:");
         champion.championAttackInitiationCalculation();
-        monster.monsterAttackInitiationCalculation();
-        if (monster.getFinalMonsterInitiation() > champion.getFinalChampionInitiation()) {
-            monsterIsTheFirstAttackerPrint();
-            monsterAttack();
-            championAttack();
-        } else if (monster.getFinalMonsterInitiation() < champion.getFinalChampionInitiation()) {
-            championIsTheFirstAttackerPrint();
-            championAttack();
-            monsterAttack();
+        monster.attackInitiationCalculation();
+        if (monster.getFinalInitiation() > champion.getFinalChampionInitiation()) {
+            TextSeparator.format(monster.getType().charType + " attacks faster!");
+            monsterAccuracy();
+            championAccuracy();
+        } else if (monster.getFinalInitiation() < champion.getFinalChampionInitiation()) {
+            TextSeparator.format("Champion attacks faster!");
+            championAccuracy();
+            monsterAccuracy();
         } else {
             System.out.println("The values are same! New initiation calculation!");
-            attackInitiating();
+            battle();
         }
         if (monster.getHp() < 1) monsterDefeated();
     }
@@ -111,38 +110,46 @@ public class Fight {
             } else {
                 System.out.println("You can't have more than 5 healing potions!");
             }
-            for (int i = 0; i < 70; i++) System.out.print("*");
-            System.out.println("*");
             monsterIncomingOrWin();
         } else {
             textOfWin();
         }
     }
 
-    private void championIsTheFirstAttackerPrint() {
-        System.out.println("Champion is the first attacker! ");
-        TextSeparator.format ("Damage calculation:");
+    public void monsterAccuracy() {
+        if (monster.getHp() > 0) {
+            monster.accuracyCalculation();
+            System.out.println("Champion's defense: " + champion.getDefense());
+            if (monster.getFinalAccuracy() > champion.getDefense()){
+                monsterAttack();
+            } else TextSeparator.format(monster.getType().charType + "'s hit miss!");
+        }
     }
 
-    private void monsterIsTheFirstAttackerPrint() {
-        System.out.println(monster.getType().charType + " is the first attacker!");
-        TextSeparator.format("Damage calculation:");
+    public void championAccuracy() {
+        if (champion.getHp() > 0) {
+            champion.accuracyCalculation();
+            System.out.println(monster.getType().charType + "'s defense: " + monster.getDefense());
+            if (champion.getFinalAccuracy() > monster.getDefense()) {
+                championAttack();
+            } else TextSeparator.format("Champion's hit miss!");
+        }
     }
 
     public void monsterAttack() {
         if (monster.getHp() > 0) {
-            System.out.print(monster.getType().charType + " attack: ");
+            System.out.print("The " +monster.getType().charType + " hit you: ");
             champion.setHp(champion.getHp() - monster.getMonsterDamage());
-            System.out.println("Champion have now " + champion.getHp() + " hit points");
+            TextSeparator.format("Champion have now " + champion.getHp() + " hit points");
             champion.enemyVictory();
         }
     }
 
     public void championAttack() {
         if (champion.getHp() > 0) {
-            System.out.print("Champion attack: ");
+            System.out.print("The Champion hit the " + monster.getType().charType + "! ");
             monster.setHp(monster.getHp() - champion.championDamage());
-            System.out.println("The " + monster.getType().charType + " have now " + monster.getHp() + " hit points");
+            TextSeparator.format("The " + monster.getType().charType + " have now " + monster.getHp() + " hit points");
         }
     }
 

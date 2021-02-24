@@ -6,6 +6,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class GoblinKing implements MonstersInterface {
+
+    @Setter
+    @Getter
+    private int finalAccuracy;
+
+    @Setter
+    @Getter
+    private int accuracy;
+
+    @Setter
+    @Getter
+    private int defense;
+
     @Setter
     @Getter
     private int hp;
@@ -23,7 +36,7 @@ public class GoblinKing implements MonstersInterface {
 
     @Getter
     @Setter
-    int finalMonsterInitiation;
+    int finalInitiation;
 
     @Getter
     private final CharacterTypes type = CharacterTypes.GOBLIN_KING;
@@ -58,6 +71,8 @@ public class GoblinKing implements MonstersInterface {
     }
 
     private void startValues() {
+        this.accuracy = 15;
+        this.defense = 70;
         this.maxDamage = 6;
         this.numOfDices = 2;
         this.initiative = 7;
@@ -72,10 +87,17 @@ public class GoblinKing implements MonstersInterface {
     }
 
     @Override
-    public void monsterAttackInitiationCalculation() {
+    public void attackInitiationCalculation() {
         System.out.print("Goblin king initiation: " + getInitiative() + " + ");
         int monsterInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Goblin king initiation: " + (getInitiative() + monsterInitRoll));
-        finalMonsterInitiation = getInitiative() + monsterInitRoll;
+        finalInitiation = getInitiative() + monsterInitRoll;
+    }
+
+    public void accuracyCalculation() {
+        System.out.print("Goblin king accuracy calculation: " + getAccuracy() + " + ");
+        int AccuracyRoll = Dice.rollDice(100, 1);
+        System.out.print("Final Goblin king accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
+        finalAccuracy = getAccuracy() + AccuracyRoll;
     }
 }

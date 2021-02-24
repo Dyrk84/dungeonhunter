@@ -11,6 +11,18 @@ public class Champion {
 
     @Setter
     @Getter
+    private int finalAccuracy;
+
+    @Setter
+    @Getter
+    private int accuracy;
+
+    @Setter
+    @Getter
+    private int defense;
+
+    @Setter
+    @Getter
     private int hp;
 
     @Getter
@@ -56,6 +68,8 @@ public class Champion {
 
     private void startValues(int startHp) {
         this.hp = startHp;
+        this.accuracy = 20;
+        this.defense = 80;
         this.maxDamage = 6;
         this.numOfDices = 1;
         this.initiative = 10;
@@ -66,7 +80,7 @@ public class Champion {
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
-        TextSeparator championDebutText = new TextSeparator ();
+        TextSeparator.format("");
     }
 
     public int championDamage() {
@@ -90,9 +104,16 @@ public class Champion {
     }
 
     public void championAttackInitiationCalculation() {
-        System.out.print("Champion initiation: " + getInitiative() + " + ");
+        System.out.print("Champion initiation calculation: " + getInitiative() + " + ");
         int champInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
         finalChampionInitiation = getInitiative() + champInitRoll;
+    }
+
+    public void accuracyCalculation(){
+        System.out.print("Champion accuracy calculation: " + getAccuracy() + " + ");
+        int AccuracyRoll = Dice.rollDice(100,1);
+        System.out.print("Final Champion accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
+        finalAccuracy = getAccuracy() + AccuracyRoll;
     }
 }

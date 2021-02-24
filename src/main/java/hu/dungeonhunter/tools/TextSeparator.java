@@ -3,9 +3,11 @@ package hu.dungeonhunter.tools;
 public class TextSeparator {
 
     public static void format(String text) {
+        if (text.length() != 0)
+            text = " " + text + " ";
         int textLength = text.length() + 2;
         int starsNumber;
-        int lineLength = 80;
+        int lineLength = 100;
         int lineFirstHalf = ((lineLength - textLength) / 2) + (textLength % 2);
         int lineLastHalf = ((lineLength - textLength) / 2);
 

@@ -237,9 +237,9 @@ public class TestFight {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         fight.setMonster(monster);
 
-        fight.getMonster().monsterAttackInitiationCalculation();
+        fight.getMonster().attackInitiationCalculation();
 
-        assertThat(fight.getMonster().getFinalMonsterInitiation()).as("This volume will between Goblin initiative + 1d10")
+        assertThat(fight.getMonster().getFinalInitiation()).as("This volume will between Goblin initiative + 1d10")
                 .isBetween(fight.getMonster().getInitiative() + 1,
                         fight.getMonster().getInitiative() + 10);
     }
@@ -250,9 +250,9 @@ public class TestFight {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
         fight.setMonster(monster);
 
-        fight.getMonster().monsterAttackInitiationCalculation();
+        fight.getMonster().attackInitiationCalculation();
 
-        assertThat(fight.getMonster().getFinalMonsterInitiation()).as("This volume will between Goblin king initiative + 1d10")
+        assertThat(fight.getMonster().getFinalInitiation()).as("This volume will between Goblin king initiative + 1d10")
                 .isBetween(fight.getMonster().getInitiative() + 1,
                         fight.getMonster().getInitiative() + 10);
     }
@@ -280,7 +280,7 @@ public class TestFight {
         goblin.setHp(1);
         fight.setMonster(goblin);
 
-        fight.attackInitiating();
+        fight.battle();
 
         assertThat(goblin.isDefeat()).as("Low hp goblin should have been defeated, without attack").isTrue();
     }
@@ -296,7 +296,7 @@ public class TestFight {
         goblin.setHp(1);
         fight.setMonster(goblin);
 
-        fight.attackInitiating();
+        fight.battle();
 
         assertThat(goblin.isDefeat()).as("Low hp champion should have been defeated, without attack").isFalse();
     }
@@ -315,7 +315,7 @@ public class TestFight {
         int monsterCounterAfterTesting = fight.getMonsterCounter() - 1;
         champion.setHealingPotionCounter(2);
 
-        fight.attackInitiating();
+        fight.battle();
 
         assertThat(goblin.isDefeat()).as("Low hp goblin should have been defeated, without attack").isTrue();
         assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).as("The killedMonsterCounter value will increase by one")
@@ -336,7 +336,7 @@ public class TestFight {
         fight.setMonster(goblin);
         champion.setHealingPotionCounter(5);
 
-        fight.attackInitiating();
+        fight.battle();
 
         assertThat(champion.getHealingPotionCounter()).as("healingPotionCounter test to the max counter").isEqualTo(5);
     }
@@ -355,7 +355,7 @@ public class TestFight {
         int monsterCounterAfterTesting = fight.getMonsterCounter();
         champion.setHealingPotionCounter(2);
 
-        fight.attackInitiating();
+        fight.battle();
 
         assertThat(champion.getHp()).as("High hp goblin will take a champ damage, but don't die and hit back to" +
                 " the low hp champion, who will die.").isLessThan(1);
@@ -381,7 +381,7 @@ public class TestFight {
         int monsterCounterAfterTesting = fight.getMonsterCounter();
         champion.setHealingPotionCounter(2);
 
-        fight.attackInitiating();
+        fight.battle();
 
         softly.assertThat(champion.getHp()).as("High hp goblin will take a champ damage, but don't die and hit back to" +
                 " the low hp champion, who will die.").isLessThan(1);
@@ -408,7 +408,7 @@ public class TestFight {
         int monsterCounterAfterTesting = fight.getMonsterCounter() - 1;
         champion.setHealingPotionCounter(2);
 
-        fight.attackInitiating();
+        fight.battle();
 
         assertThat(goblin.isDefeat()).as("Low hp goblin should have been defeated, without attack").isTrue();
         assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).as("The killedMonsterCounter value will increase by one")

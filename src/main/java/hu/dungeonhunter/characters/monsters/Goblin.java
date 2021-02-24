@@ -1,10 +1,23 @@
 package hu.dungeonhunter.characters.monsters;
+
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import lombok.Getter;
 import lombok.Setter;
 
 public class Goblin implements MonstersInterface {
+
+    @Setter
+    @Getter
+    private int finalAccuracy;
+
+    @Setter
+    @Getter
+    private int accuracy;
+
+    @Setter
+    @Getter
+    private int defense;
 
     @Setter
     @Getter
@@ -23,7 +36,7 @@ public class Goblin implements MonstersInterface {
 
     @Getter
     @Setter
-    int finalMonsterInitiation;
+    int finalInitiation;
 
     @Getter
     private final CharacterTypes type = CharacterTypes.GOBLIN;
@@ -39,25 +52,27 @@ public class Goblin implements MonstersInterface {
     @Override
     public void getMonster(int hp) {
         this.hp = hp;
-         startValues();
-    }
-
-    @Override
-    public void getMonster() {
-        this.hp = Dice.rollDice(4,3);
         startValues();
     }
 
     @Override
-    public boolean isDefeat(){
-       if (hp <= 0){
-           System.out.println("You killed the monster!");
-           return true;
-       }
-       return false;
+    public void getMonster() {
+        this.hp = Dice.rollDice(4, 3);
+        startValues();
+    }
+
+    @Override
+    public boolean isDefeat() {
+        if (hp <= 0) {
+            System.out.println("You killed the monster!");
+            return true;
+        }
+        return false;
     }
 
     private void startValues() {
+        this.accuracy = 10;
+        this.defense = 50;
         this.maxDamage = 6;
         this.numOfDices = 1;
         this.initiative = 5;
@@ -72,11 +87,17 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public void monsterAttackInitiationCalculation() {
+    public void attackInitiationCalculation() {
         System.out.print("Goblin initiation: " + getInitiative() + " + ");
         int monsterInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Goblin initiation: " + (getInitiative() + monsterInitRoll));
-        finalMonsterInitiation = getInitiative() + monsterInitRoll;
+        finalInitiation = getInitiative() + monsterInitRoll;
+    }
 
+    public void accuracyCalculation() {
+        System.out.print("Goblin accuracy calculation: " + getAccuracy() + " + ");
+        int AccuracyRoll = Dice.rollDice(100, 1);
+        System.out.print("Final Goblin accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
+        finalAccuracy = getAccuracy() + AccuracyRoll;
     }
 }

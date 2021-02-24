@@ -12,7 +12,7 @@ public class Menu {
             int chosenNumber = chosenNumber();
             switch (chosenNumber) {
                 case 1:
-                    fight.attackInitiating();
+                    fight.battle();
                     break;
                 case 2:
                     fight.runningAway();

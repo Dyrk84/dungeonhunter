@@ -13,6 +13,10 @@ public interface MonstersInterface {
     boolean isDefeat();
     int getInitiative();
     void setInitiative(int Initiative);
-    int getFinalMonsterInitiation();
-    void monsterAttackInitiationCalculation();
+    int getFinalInitiation();
+    void attackInitiationCalculation();
+    int getAccuracy();
+    int getDefense();
+    int getFinalAccuracy();
+    void accuracyCalculation();
 }
