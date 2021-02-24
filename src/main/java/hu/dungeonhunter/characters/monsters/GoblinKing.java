@@ -13,6 +13,10 @@ public class GoblinKing implements MonstersInterface {
 
     @Setter
     @Getter
+    private int initiative;
+
+    @Setter
+    @Getter
     private int accuracy;
 
     @Setter
@@ -30,16 +34,16 @@ public class GoblinKing implements MonstersInterface {
     @Getter
     private int numOfDices;
 
-    @Setter
-    @Getter
-    private int initiative;
-
     @Getter
     @Setter
     int finalInitiation;
 
     @Getter
     private final CharacterTypes type = CharacterTypes.GOBLIN_KING;
+
+    public GoblinKing(int hp, int initiative, int accuracy, int defense){
+        getMonster(hp, initiative, accuracy, defense);
+    }
 
     public GoblinKing(int hp) {
         getMonster(hp);
@@ -53,6 +57,19 @@ public class GoblinKing implements MonstersInterface {
     public void getMonster(int hp) {
         this.hp = hp;
         startValues();
+    }
+
+    @Override
+    public void getMonster(int hp, int initiative, int accuracy, int defense) {
+        this.hp = hp;
+        this.initiative = initiative;
+        this.accuracy = accuracy;
+        this.defense = defense;
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        System.out.println("The " + type.charType + " have " + hp + " HP and can do " +
+                numOfDices + "-" + numOfDices * maxDamage +
+                " damage.");
     }
 
     @Override
@@ -71,11 +88,11 @@ public class GoblinKing implements MonstersInterface {
     }
 
     private void startValues() {
+        this.initiative = 7;
         this.accuracy = 15;
         this.defense = 70;
         this.maxDamage = 6;
         this.numOfDices = 2;
-        this.initiative = 7;
         System.out.println("The " + type.charType + " have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");

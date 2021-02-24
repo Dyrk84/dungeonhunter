@@ -1,4 +1,5 @@
 package hu.dungeonhunter.characters.champion;
+
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import hu.dungeonhunter.tools.TextSeparator;
@@ -59,20 +60,30 @@ public class Champion {
         startValues(startHp);
     }
 
-    public void enemyVictory(){
-        if (hp <= 0){
+    public Champion(int startHP, int initiative, int accuracy, int defense) {
+        startValues(startHP, initiative, accuracy, defense);
+    }
+
+    public void enemyVictory() {
+        if (hp <= 0) {
             System.out.println("You are soooo dead! Game Over!");
             defeat = true;
         }
     }
 
+    private void startValues(int startHP, int initiative, int accuracy, int defense){
+        maxDamage = 6;
+        numOfDices = 1;
+        championDebut();
+    }
+
     private void startValues(int startHp) {
         this.hp = startHp;
+        this.initiative = 10;
         this.accuracy = 20;
         this.defense = 80;
         this.maxDamage = 6;
         this.numOfDices = 1;
-        this.initiative = 10;
         championDebut();
     }
 
@@ -110,9 +121,9 @@ public class Champion {
         finalChampionInitiation = getInitiative() + champInitRoll;
     }
 
-    public void accuracyCalculation(){
+    public void accuracyCalculation() {
         System.out.print("Champion accuracy calculation: " + getAccuracy() + " + ");
-        int AccuracyRoll = Dice.rollDice(100,1);
+        int AccuracyRoll = Dice.rollDice(100, 1);
         System.out.print("Final Champion accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
         finalAccuracy = getAccuracy() + AccuracyRoll;
     }

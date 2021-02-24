@@ -416,4 +416,19 @@ public class TestFight {
         assertThat(fight.getMonsterCounter()).as("The monsterCounter value will decrease by one").isEqualTo(monsterCounterAfterTesting);
         assertThat(champion.getHealingPotionCounter()).as("healingPotionCounter test to increasing").isEqualTo(3);
     }
+    //TODO újraírni a teszteket
+
+    Fight fight;
+    MonstersInterface monster;
+    Champion champion;
+    @Test
+    public void goblinKingDamageTest(){
+       new Champion(1);
+       monsterFactory.getMonster(CharacterTypes.GOBLIN,1,1,1,1);
+       fight.goblinKingDamage();
+
+
+    }
+
+
 }
