@@ -27,6 +27,7 @@ public class Goblin implements MonstersInterface {
     @Getter
     private int hp;
 
+    @Setter
     @Getter
     private int maxDamage;
 
@@ -49,8 +50,8 @@ public class Goblin implements MonstersInterface {
         getMonster();
     }
 
-    public Goblin(int hp, int initiative, int accuracy, int defense){
-        getMonster(hp, initiative, accuracy, defense);
+    public Goblin(int hp, int initiative, int accuracy, int defense, int numOfDices, int maxDamage){
+        getMonster(hp, initiative, accuracy, defense, numOfDices, maxDamage);
     }
 
     @Override
@@ -60,16 +61,13 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public void getMonster(int hp, int initiative, int accuracy, int defense) {
+    public void getMonster(int hp, int initiative, int accuracy, int defense, int numOfDices, int maxDamage) {
         this.hp = hp;
         this.initiative = initiative;
         this.accuracy = accuracy;
         this.defense = defense;
-        this.maxDamage = 6;
-        this.numOfDices = 1;
-        System.out.println("The " + type.charType + " have " + hp + " HP and can do " +
-                numOfDices + "-" + numOfDices * maxDamage +
-                " damage.");
+        this.maxDamage = maxDamage;
+        this.numOfDices = numOfDices;
     }
 
     @Override

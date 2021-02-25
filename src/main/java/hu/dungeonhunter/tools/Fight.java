@@ -29,7 +29,7 @@ public class Fight {
 
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
-        monsterIncomingOrWin();
+        monsterIncoming();
     }
 
     public void goblinKingDamage() {
@@ -50,19 +50,16 @@ public class Fight {
             if (!champion.isDefeat()) {
                 monsterCounter--;
                 System.out.println("Your escape was successful! You can go further in the cave.");
-                monsterIncomingOrWin();
+                monsterIncoming();
             }
         }
     }
 
-    public void monsterIncomingOrWin() {
-        if (monsterCounter != 0) {
+    public void monsterIncoming() {
             System.out.println(monsterCounter + " monsters are in the Dungeon!");
             System.out.print("Something is coming! ");
             randomEnemy = Dice.rollDice(monsterCounter, 1);
             monsterCaller();
-        } else
-            textOfWin();
     }
 
     public MonstersInterface monsterCaller() {
@@ -78,13 +75,13 @@ public class Fight {
 
     public void battle() {
         TextSeparator.format("Initiation Calculation:");
-        champion.championAttackInitiationCalculation();
+        champion.attackInitiationCalculation();
         monster.attackInitiationCalculation();
-        if (monster.getFinalInitiation() > champion.getFinalChampionInitiation()) {
+        if (monster.getFinalInitiation() > champion.getFinalInitiation()) {
             TextSeparator.format(monster.getType().charType + " attacks faster!");
             monsterAccuracy();
             championAccuracy();
-        } else if (monster.getFinalInitiation() < champion.getFinalChampionInitiation()) {
+        } else if (monster.getFinalInitiation() < champion.getFinalInitiation()) {
             TextSeparator.format("Champion attacks faster!");
             championAccuracy();
             monsterAccuracy();
@@ -110,7 +107,7 @@ public class Fight {
             } else {
                 System.out.println("You can't have more than 5 healing potions!");
             }
-            monsterIncomingOrWin();
+            monsterIncoming();
         } else {
             textOfWin();
         }
@@ -162,5 +159,5 @@ public class Fight {
 
     public Champion getChampion() {
         return champion;
-    }
+    } //TODO kérdés Gergőnek: ez miért így van, miért nem @getter -el?
 }

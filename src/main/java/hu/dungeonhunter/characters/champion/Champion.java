@@ -26,6 +26,7 @@ public class Champion {
     @Getter
     private int hp;
 
+    @Setter
     @Getter
     private int maxDamage;
 
@@ -47,7 +48,7 @@ public class Champion {
 
     @Getter
     @Setter
-    int finalChampionInitiation;
+    int finalInitiation;
 
     @Getter
     private final CharacterTypes type = CharacterTypes.CHAMPION;
@@ -60,8 +61,8 @@ public class Champion {
         startValues(startHp);
     }
 
-    public Champion(int startHP, int initiative, int accuracy, int defense) {
-        startValues(startHP, initiative, accuracy, defense);
+    public Champion(int startHP, int initiative, int accuracy, int defense, int numOfDices, int maxDamage) {
+        startValues(startHP, initiative, accuracy, defense, numOfDices, maxDamage);
     }
 
     public void enemyVictory() {
@@ -71,9 +72,13 @@ public class Champion {
         }
     }
 
-    private void startValues(int startHP, int initiative, int accuracy, int defense){
-        maxDamage = 6;
-        numOfDices = 1;
+    private void startValues(int startHP, int initiative, int accuracy, int defense, int numOfDices, int maxDamage){
+        this.hp = startHP;
+        this.initiative= initiative;
+        this.accuracy = accuracy;
+        this.defense = defense;
+        this.numOfDices = numOfDices;
+        this.maxDamage = maxDamage;
         championDebut();
     }
 
@@ -114,11 +119,11 @@ public class Champion {
         }
     }
 
-    public void championAttackInitiationCalculation() {
+    public void attackInitiationCalculation() {
         System.out.print("Champion initiation calculation: " + getInitiative() + " + ");
         int champInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
-        finalChampionInitiation = getInitiative() + champInitRoll;
+        finalInitiation = getInitiative() + champInitRoll;
     }
 
     public void accuracyCalculation() {

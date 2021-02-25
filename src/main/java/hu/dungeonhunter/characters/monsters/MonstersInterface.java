@@ -6,6 +6,7 @@ import jdk.nashorn.internal.objects.annotations.Setter;
 public interface MonstersInterface {
     void getMonster();
     void getMonster(int hp);
+    void getMonster(int hp, int initiative, int accuracy, int defense, int numOfDices, int maxDamage);
     int getHp();
     void setHp(int hp);
     CharacterTypes getType();
@@ -13,6 +14,7 @@ public interface MonstersInterface {
     boolean isDefeat();
     int getInitiative();
     void setInitiative(int initiative);
+    void setFinalInitiation(int finalInitiation);
     int getFinalInitiation();
     void attackInitiationCalculation();
     int getAccuracy();
@@ -21,4 +23,8 @@ public interface MonstersInterface {
     void setDefense(int defense);
     int getFinalAccuracy();
     void accuracyCalculation();
+    int getNumOfDices();
+    void setNumOfDices(int numOfDices);
+    int getMaxDamage();
+    void setMaxDamage(int maxDamage);
 }
