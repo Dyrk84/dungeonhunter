@@ -36,7 +36,6 @@ public class Goblin implements MonstersInterface {
     private int numOfDices;
 
     @Getter
-    @Setter
     int finalInitiation;
 
     @Getter

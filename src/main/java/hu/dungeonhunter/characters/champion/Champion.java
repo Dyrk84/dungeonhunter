@@ -47,7 +47,6 @@ public class Champion {
     private int initiative;
 
     @Getter
-    @Setter
     int finalInitiation;
 
     @Getter
