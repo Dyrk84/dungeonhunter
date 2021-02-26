@@ -1,13 +1,24 @@
 package hu.dungeonhunter.characters.champion;
+
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
-import hu.dungeonhunter.tools.TextSeparator;
+import hu.dungeonhunter.utils.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
+
+import static hu.dungeonhunter.utils.Colors.*;
 
 public class Champion {
 
     static final int START_HP = 20;
+
+    @Setter
+    @Getter
+    private int accuracy;
+
+    @Setter
+    @Getter
+    private int defense;
 
     @Setter
     @Getter
@@ -16,7 +27,6 @@ public class Champion {
     @Getter
     private int maxDamage;
 
-    @Setter
     @Getter
     private int numOfDices;
 
@@ -33,40 +43,30 @@ public class Champion {
     private int initiative;
 
     @Getter
-    @Setter
-    int finalChampionInitiation;
-
-    @Getter
-    private final CharacterTypes type = CharacterTypes.CHAMPION;
+    private static final CharacterTypes type = CharacterTypes.CHAMPION;
 
     public Champion() {
-        startValues(START_HP);
+        this.hp = START_HP;
+        this.initiative = 10;
+        this.accuracy = 20;
+        this.defense = 80;
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        championDebut();
     }
 
-    public Champion(int startHp) {
-        startValues(startHp);
-    }
-
-    public void enemyVictory(){
-        if (hp <= 0){
+    public void enemyVictory() {
+        if (hp <= 0) {
             System.out.println("You are soooo dead! Game Over!");
             defeat = true;
         }
-    }
-
-    private void startValues(int startHp) {
-        this.hp = startHp;
-        this.maxDamage = 6;
-        this.numOfDices = 1;
-        this.initiative = 10;
-        championDebut();
     }
 
     public void championDebut() {
         System.out.println("Your champion have " + hp + " HP and can do " +
                 numOfDices + "-" + numOfDices * maxDamage +
                 " damage.");
-        TextSeparator championDebutText = new TextSeparator ();
+        TextSeparator.format("");
     }
 
     public int championDamage() {
@@ -80,7 +80,8 @@ public class Champion {
             System.out.println("You drink a healing potion.");
             int healingAmount = Dice.rollDice(4, 2);
             setHp(getHp() + healingAmount);
-            System.out.println("You healed " + healingAmount + "hp. You have now " + getHp() + "hp.");
+            System.out.println("You healed " + healingAmount + "hp. You have now "
+                    + ANSI_RED + getHp() + ANSI_RESET + "hp.");
             if (getHp() > 40) {
                 System.out.println("Your Hp cannot be more than 40!");
                 setHp(40);
@@ -89,10 +90,17 @@ public class Champion {
         }
     }
 
-    public void championAttackInitiationCalculation() {
+    public int initiationCalculation() {
         System.out.print("Champion initiation: " + getInitiative() + " + ");
         int champInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
-        finalChampionInitiation = getInitiative() + champInitRoll;
+        return getInitiative() + champInitRoll;
+    }
+
+    public int accuracyCalculation() {
+        System.out.print("Champion accuracy: " + getAccuracy() + " + ");
+        int AccuracyRoll = Dice.rollDice(100, 1);
+        System.out.println("Final Champion accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
+        return getAccuracy() + AccuracyRoll;
     }
 }

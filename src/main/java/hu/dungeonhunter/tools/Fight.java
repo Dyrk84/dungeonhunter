@@ -4,6 +4,9 @@ import hu.dungeonhunter.characters.champion.Champion;
 import hu.dungeonhunter.characters.monsters.MonsterFactory;
 import hu.dungeonhunter.characters.monsters.MonstersInterface;
 import hu.dungeonhunter.model.CharacterTypes;
+import jdk.jfr.events.ExceptionThrownEvent;
+import hu.dungeonhunter.utils.Colors;
+import hu.dungeonhunter.utils.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,14 +30,25 @@ public class Fight {
     @Getter
     private int randomEnemy;
 
+    @Setter
+    @Getter
+    int championFinalInitiation;
+
+    @Setter
+    @Getter
+    int monsterFinalInitiation;
+
+    @Setter
+    @Getter
+    int loopcounter;
+
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
-        monsterIncomingOrWin();
+        monsterIncoming();
     }
 
     public void goblinKingDamage() {
-        TextSeparator.format("");
-        System.out.println("The goblin king steps out from the darkness and throws you with a big rock!");
+        TextSeparator.format("The goblin king steps out from the darkness and throws you with a big rock!");
         champion.setHp(champion.getHp() - Dice.rollDice(6, 1));
         System.out.println("You have " + champion.getHp() + " hp");
         champion.enemyVictory();
@@ -46,24 +60,22 @@ public class Fight {
         } else {
             System.out.println("The monster hits you a last time before you can run away: ");
             champion.setHp(champion.getHp() - monster.getMonsterDamage());
-            System.out.println("Champion have now " + champion.getHp() + " hit points");
+            System.out.println("Champion have now " + Colors.ANSI_RED + champion.getHp()
+                    + Colors.ANSI_RESET + " hit points");
             champion.enemyVictory();
             if (!champion.isDefeat()) {
                 monsterCounter--;
                 System.out.println("Your escape was successful! You can go further in the cave.");
-                monsterIncomingOrWin();
+                monsterIncoming();
             }
         }
     }
 
-    public void monsterIncomingOrWin() {
-        if (monsterCounter != 0) {
+    public void monsterIncoming() {
             System.out.println(monsterCounter + " monsters are in the Dungeon!");
             System.out.print("Something is coming! ");
             randomEnemy = Dice.rollDice(monsterCounter, 1);
             monsterCaller();
-        } else
-            textOfWin();
     }
 
     public MonstersInterface monsterCaller() {
@@ -77,21 +89,31 @@ public class Fight {
         return monster;
     }
 
-    public void attackInitiating() {
+    public void initiationCalculation() {
+        if (loopcounter == 100) {
+            throw new RuntimeException("Too much same final initiation");
+        }
         TextSeparator.format("Initiation Calculation:");
-        champion.championAttackInitiationCalculation();
-        monster.monsterAttackInitiationCalculation();
-        if (monster.getFinalMonsterInitiation() > champion.getFinalChampionInitiation()) {
-            monsterIsTheFirstAttackerPrint();
-            monsterAttack();
-            championAttack();
-        } else if (monster.getFinalMonsterInitiation() < champion.getFinalChampionInitiation()) {
-            championIsTheFirstAttackerPrint();
-            championAttack();
-            monsterAttack();
+        championFinalInitiation = champion.initiationCalculation();
+        monsterFinalInitiation = monster.initiationCalculation();
+        battle();
+    }
+
+    public void battle() {
+        if (monsterFinalInitiation > championFinalInitiation) {
+            loopcounter = 0;
+            TextSeparator.format(monster.getType().charType + " attacks faster!");
+            monsterAccuracy();
+            championAccuracy();
+        } else if (monsterFinalInitiation < championFinalInitiation) {
+            loopcounter = 0;
+            TextSeparator.format("Champion attacks faster!");
+            championAccuracy();
+            monsterAccuracy();
         } else {
             System.out.println("The values are same! New initiation calculation!");
-            attackInitiating();
+            loopcounter++;
+            initiationCalculation();
         }
         if (monster.getHp() < 1) monsterDefeated();
     }
@@ -102,7 +124,7 @@ public class Fight {
     }
 
     public void monsterDefeated() {
-        if (!monster.getType().equals(CharacterTypes.GOBLIN_KING) && monster.getHp() <= 0) {
+        if (!monster.getType().equals(CharacterTypes.GOBLIN_KING)) {
             monsterFactory.setKilledMonsterCounter(monsterFactory.getKilledMonsterCounter() + 1);
             monsterCounter--;
             System.out.println("You found a healing potion!");
@@ -111,38 +133,46 @@ public class Fight {
             } else {
                 System.out.println("You can't have more than 5 healing potions!");
             }
-            for (int i = 0; i < 70; i++) System.out.print("*");
-            System.out.println("*");
-            monsterIncomingOrWin();
+            monsterIncoming();
         } else {
             textOfWin();
         }
     }
 
-    private void championIsTheFirstAttackerPrint() {
-        System.out.println("Champion is the first attacker! ");
-        TextSeparator.format ("Damage calculation:");
+    public void monsterAccuracy() {
+        if (monster.getHp() > 0) {
+            System.out.println("Champion's defense: " + champion.getDefense());
+            if (monster.accuracyCalculation() > champion.getDefense()){
+                monsterAttack();
+            } else TextSeparator.format(monster.getType().charType + "'s hit miss!");
+        }
     }
 
-    private void monsterIsTheFirstAttackerPrint() {
-        System.out.println(monster.getType().charType + " is the first attacker!");
-        TextSeparator.format("Damage calculation:");
+    public void championAccuracy() {
+        if (champion.getHp() > 0) {
+            System.out.println(monster.getType().charType + "'s defense: " + monster.getDefense());
+            if (champion.accuracyCalculation() > monster.getDefense()) {
+                championAttack();
+            } else TextSeparator.format("Champion's hit miss!");
+        }
     }
 
     public void monsterAttack() {
         if (monster.getHp() > 0) {
-            System.out.print(monster.getType().charType + " attack: ");
+            System.out.print("The " +monster.getType().charType + " hit you: ");
             champion.setHp(champion.getHp() - monster.getMonsterDamage());
-            System.out.println("Champion have now " + champion.getHp() + " hit points");
+            TextSeparator.format("Champion have now " + Colors.ANSI_RED + champion.getHp() + Colors.ANSI_RESET
+                    + " hit points");
             champion.enemyVictory();
         }
     }
 
     public void championAttack() {
         if (champion.getHp() > 0) {
-            System.out.print("Champion attack: ");
+            System.out.print("The Champion hit the " + monster.getType().charType + "! ");
             monster.setHp(monster.getHp() - champion.championDamage());
-            System.out.println("The " + monster.getType().charType + " have now " + monster.getHp() + " hit points");
+            TextSeparator.format("The " + monster.getType().charType + " have now "
+                    + Colors.ANSI_RED + monster.getHp() + Colors.ANSI_RESET + " hit points");
         }
     }
 
@@ -155,5 +185,5 @@ public class Fight {
 
     public Champion getChampion() {
         return champion;
-    }
+    } //TODO kérdés Gergőnek: ez miért így van, miért nem @getter -el?
 }

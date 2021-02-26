@@ -1,5 +1,7 @@
 package hu.dungeonhunter.tools;
 
+import hu.dungeonhunter.utils.TextSeparator;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,7 +14,7 @@ public class Menu {
             int chosenNumber = chosenNumber();
             switch (chosenNumber) {
                 case 1:
-                    fight.attackInitiating();
+                    fight.initiationCalculation();
                     break;
                 case 2:
                     fight.runningAway();

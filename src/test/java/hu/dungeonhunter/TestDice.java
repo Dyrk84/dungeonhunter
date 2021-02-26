@@ -2,12 +2,19 @@ package hu.dungeonhunter;
 
 import hu.dungeonhunter.characters.champion.Champion;
 import hu.dungeonhunter.characters.monsters.Goblin;
+import hu.dungeonhunter.characters.monsters.MonsterFactory;
+import hu.dungeonhunter.characters.monsters.MonstersInterface;
+import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
+import hu.dungeonhunter.tools.Fight;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestDice {
+
+    private MonsterFactory monsterFactory = new MonsterFactory();
+    private Fight fight = new Fight();
 
     @Test
     public void testRollDice() {
@@ -29,7 +36,10 @@ public class TestDice {
 
     @Test
     public void championWinTest() {
-        Goblin monster = new Goblin(0);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(0);
+        fight.setMonster(monster);
+
         monster.isDefeat();
         assertThat(monster.isDefeat()).as("championWinTest").isTrue();
     }
