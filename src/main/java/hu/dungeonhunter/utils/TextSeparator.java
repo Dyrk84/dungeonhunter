@@ -1,4 +1,4 @@
-package hu.dungeonhunter.tools;
+package hu.dungeonhunter.utils;
 
 public class TextSeparator {
 

@@ -2,9 +2,11 @@ package hu.dungeonhunter.characters.champion;
 
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
-import hu.dungeonhunter.tools.TextSeparator;
+import hu.dungeonhunter.utils.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
+
+import static hu.dungeonhunter.utils.Colors.*;
 
 public class Champion {
 
@@ -78,7 +80,8 @@ public class Champion {
             System.out.println("You drink a healing potion.");
             int healingAmount = Dice.rollDice(4, 2);
             setHp(getHp() + healingAmount);
-            System.out.println("You healed " + healingAmount + "hp. You have now " + getHp() + "hp.");
+            System.out.println("You healed " + healingAmount + "hp. You have now "
+                    + ANSI_RED + getHp() + ANSI_RESET + "hp.");
             if (getHp() > 40) {
                 System.out.println("Your Hp cannot be more than 40!");
                 setHp(40);

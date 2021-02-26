@@ -1,4 +1,5 @@
 package hu.dungeonhunter;
+
 import hu.dungeonhunter.tools.Menu;
 
 class Main {

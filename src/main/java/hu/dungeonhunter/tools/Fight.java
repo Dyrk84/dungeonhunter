@@ -4,6 +4,8 @@ import hu.dungeonhunter.characters.champion.Champion;
 import hu.dungeonhunter.characters.monsters.MonsterFactory;
 import hu.dungeonhunter.characters.monsters.MonstersInterface;
 import hu.dungeonhunter.model.CharacterTypes;
+import hu.dungeonhunter.utils.Colors;
+import hu.dungeonhunter.utils.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,7 +47,8 @@ public class Fight {
         } else {
             System.out.println("The monster hits you a last time before you can run away: ");
             champion.setHp(champion.getHp() - monster.getMonsterDamage());
-            System.out.println("Champion have now " + champion.getHp() + " hit points");
+            System.out.println("Champion have now " + Colors.ANSI_RED + champion.getHp()
+                    + Colors.ANSI_RESET + " hit points");
             champion.enemyVictory();
             if (!champion.isDefeat()) {
                 monsterCounter--;
@@ -135,7 +138,8 @@ public class Fight {
         if (monster.getHp() > 0) {
             System.out.print("The " +monster.getType().charType + " hit you: ");
             champion.setHp(champion.getHp() - monster.getMonsterDamage());
-            TextSeparator.format("Champion have now " + champion.getHp() + " hit points");
+            TextSeparator.format("Champion have now " + Colors.ANSI_RED + champion.getHp() + Colors.ANSI_RESET
+                    + " hit points");
             champion.enemyVictory();
         }
     }
@@ -144,7 +148,8 @@ public class Fight {
         if (champion.getHp() > 0) {
             System.out.print("The Champion hit the " + monster.getType().charType + "! ");
             monster.setHp(monster.getHp() - champion.championDamage());
-            TextSeparator.format("The " + monster.getType().charType + " have now " + monster.getHp() + " hit points");
+            TextSeparator.format("The " + monster.getType().charType + " have now "
+                    + Colors.ANSI_RED + monster.getHp() + Colors.ANSI_RESET + " hit points");
         }
     }
 

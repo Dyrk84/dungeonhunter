@@ -1,5 +1,7 @@
 package hu.dungeonhunter.tools;
 
+import hu.dungeonhunter.utils.Colors;
+
 public class Dice {
     public static int rollDice(int numOfSides, int numOfDices) {
         System.out.print("Rolling with " + numOfDices + "d" + numOfSides + " dice...: ");
@@ -9,7 +11,7 @@ public class Dice {
 
         for (int j = 0; j < numOfDices; j++) {
             int num = (int) (Math.random() * (numOfSides)) + 1;
-            System.out.print(num);
+            System.out.print(Colors.ANSI_YELLOW + num);
 
             if (j != numOfDices - 1)
                 System.out.print(" + ");
@@ -18,7 +20,7 @@ public class Dice {
         }
         if (numOfDices > 1)
             System.out.print(" = " + result);
-        System.out.println();
+        System.out.println(Colors.ANSI_RESET);
         return result;
     }
 }

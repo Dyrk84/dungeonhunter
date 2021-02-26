@@ -1,5 +1,7 @@
 package hu.dungeonhunter.tools;
 
+import hu.dungeonhunter.utils.TextSeparator;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
