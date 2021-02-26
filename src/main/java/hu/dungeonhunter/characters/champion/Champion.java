@@ -26,11 +26,9 @@ public class Champion {
     @Getter
     private int hp;
 
-    @Setter
     @Getter
     private int maxDamage;
 
-    @Setter
     @Getter
     private int numOfDices;
 
@@ -47,18 +45,16 @@ public class Champion {
     private int initiative;
 
     @Getter
-    private final CharacterTypes type = CharacterTypes.CHAMPION;
+    private static final CharacterTypes type = CharacterTypes.CHAMPION;
 
     public Champion() {
-        startValues(START_HP);
-    }
-
-    public Champion(int startHp) {
-        startValues(startHp);
-    }
-
-    public Champion(int startHP, int initiative, int accuracy, int defense, int numOfDices, int maxDamage) {
-        startValues(startHP, initiative, accuracy, defense, numOfDices, maxDamage);
+        this.hp = START_HP;
+        this.initiative = 10;
+        this.accuracy = 20;
+        this.defense = 80;
+        this.maxDamage = 6;
+        this.numOfDices = 1;
+        championDebut();
     }
 
     public void enemyVictory() {
@@ -66,26 +62,6 @@ public class Champion {
             System.out.println("You are soooo dead! Game Over!");
             defeat = true;
         }
-    }
-
-    private void startValues(int startHP, int initiative, int accuracy, int defense, int numOfDices, int maxDamage){
-        this.hp = startHP;
-        this.initiative= initiative;
-        this.accuracy = accuracy;
-        this.defense = defense;
-        this.numOfDices = numOfDices;
-        this.maxDamage = maxDamage;
-        championDebut();
-    }
-
-    private void startValues(int startHp) {
-        this.hp = startHp;
-        this.initiative = 10;
-        this.accuracy = 20;
-        this.defense = 80;
-        this.maxDamage = 6;
-        this.numOfDices = 1;
-        championDebut();
     }
 
     public void championDebut() {

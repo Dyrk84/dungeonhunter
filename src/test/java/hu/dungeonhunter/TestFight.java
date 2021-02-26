@@ -36,7 +36,8 @@ public class TestFight {
     }
 
     private void defeatedChampion() {
-        Champion champion = new Champion(0);
+        Champion champion = new Champion();
+        champion.setHp(0);
         fight.setChampion(champion);
     }
 
@@ -51,7 +52,8 @@ public class TestFight {
     }
 
     private void lowHpChampion() {
-        Champion champion = new Champion(1);
+        Champion champion = new Champion();
+        champion.setHp(1);
         fight.setChampion(champion);
     }
 
@@ -61,7 +63,8 @@ public class TestFight {
     }
 
     private void highHpChampion() {
-        Champion lowHpChampion = new Champion(1000);
+        Champion lowHpChampion = new Champion();
+        champion.setHp(1000);
         fight.setChampion(lowHpChampion);
     }
     //segítő assertek
@@ -180,7 +183,10 @@ public class TestFight {
     public void battleMonsterWithHighInitiationAndChampWithHighDefenseAndAccuracyTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1000, 1, 1, 1, 1);
         fight.setMonster(monster);
-        Champion champion = new Champion(7, 1, 1000, 1000, 1, 1);
+        Champion champion = new Champion();
+        champion.setHp(1 + fight.getMonster().getMaxDamage());
+        champion.setAccuracy(1000);
+        champion.setDefense(1000);
         fight.setChampion(champion);
 
         fight.battle();
@@ -198,7 +204,10 @@ public class TestFight {
     public void battleMonsterWithHighInitiationAndHighDefenseAndChampWithHighDefenseTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1000, 1, 1000, 1, 1);
         fight.setMonster(monster);
-        Champion champion = new Champion(1, 1, 1, 1000, 1, 1);
+
+        Champion champion = new Champion();
+        champion.setHp(1);
+        champion.setDefense(1000);
         fight.setChampion(champion);
 
         fight.battle();
@@ -214,9 +223,13 @@ public class TestFight {
 
     @Test
     public void battleChampionWithHighInitiationAndHighAccuracyTest() {
-        Champion champion = new Champion(7, 1000, 1000, 1, 1, 1);
-        fight.setChampion(champion);
         lowHpGoblin();
+
+        Champion champion = new Champion();
+        champion.setHp(1 + fight.getMonster().getMaxDamage());
+        champion.setInitiative(1000);
+        champion.setAccuracy(1000);
+        fight.setChampion(champion);
 
         fight.battle();
 
@@ -230,8 +243,11 @@ public class TestFight {
 
     @Test
     public void battleChampionWithHighInitiationAndMonsterWithHighDefenseTest() {
-        Champion champion = new Champion(1, 1000, 1, 1, 1, 1);
+        Champion champion = new Champion();
+        champion.setHp(1);
+        champion.setInitiative(1000);
         fight.setChampion(champion);
+
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 1000, 1000, 1, 1);
         fight.setMonster(monster);
 
@@ -248,8 +264,12 @@ public class TestFight {
 
     @Test
     public void battleChampionWithHighInitiationAndHighDefenseAndMonsterWithHighDefenseTest() {
-        Champion champion = new Champion(1, 1000, 1, 1000, 1, 1);
+        Champion champion = new Champion();
+        champion.setHp(1);
+        champion.setInitiative(1000);
+        champion.setDefense(1000);
         fight.setChampion(champion);
+
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 1, 1000, 1, 1);
         fight.setMonster(monster);
 
@@ -323,7 +343,9 @@ public class TestFight {
     @Test
     public void monsterAccuracyAliveMonsterAndChampWithHighDefenseTest() {
         lowHpGoblin();
-        Champion champion = new Champion(1, 1, 1, 1000, 1, 1);
+        Champion champion = new Champion();
+        champion.setHp(1);
+        champion.setDefense(1000);
         fight.setChampion(champion);
 
         fight.monsterAccuracy();
@@ -343,8 +365,11 @@ public class TestFight {
 
     @Test
     public void championAccuracyAliveChampionWithHighAccuracyTest() {
-        Champion champion = new Champion(1, 1, 1000, 1, 1, 1);
+        Champion champion = new Champion();
+        champion.setHp(1);
+        champion.setAccuracy(1000);
         fight.setChampion(champion);
+
         lowHpGoblin();
 
         fight.championAccuracy();
@@ -422,7 +447,8 @@ public class TestFight {
 
     @Test
     public void attackInitiationCalculationChampionTest(){
-        Champion champion = new Champion(1, 10, 1, 1, 1, 1);
+        Champion champion = new Champion();
+        champion.setInitiative(10);
         fight.setChampion(champion);
 
         int championInitiation = champion.attackInitiationCalculation();
@@ -452,7 +478,8 @@ public class TestFight {
 
     @Test
     public void accuracyCalculationChampionTest(){
-        Champion champion = new Champion(1, 1, 10, 1, 1, 1);
+        Champion champion = new Champion();
+        champion.setAccuracy(10);
         fight.setChampion(champion);
 
         champion.accuracyCalculation();

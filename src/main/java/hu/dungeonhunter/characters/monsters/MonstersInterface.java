@@ -14,6 +14,7 @@ public interface MonstersInterface {
     boolean isDefeat();
     int getInitiative();
     int attackInitiationCalculation();
+    int getMaxDamage();
     int getAccuracy();
     int getDefense();
     int getFinalAccuracy();
