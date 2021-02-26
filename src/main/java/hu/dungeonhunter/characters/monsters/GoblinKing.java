@@ -80,7 +80,7 @@ public class GoblinKing implements MonstersInterface {
     public int accuracyCalculation() {
         System.out.print("Goblin king accuracy calculation: " + getAccuracy() + " + ");
         int AccuracyRoll = Dice.rollDice(100, 1);
-        System.out.print("Final Goblin king accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
+        System.out.println("Final Goblin king accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
         return getAccuracy() + AccuracyRoll;
     }
 }

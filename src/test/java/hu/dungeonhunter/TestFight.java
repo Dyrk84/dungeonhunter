@@ -2,6 +2,7 @@ package hu.dungeonhunter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import hu.dungeonhunter.characters.champion.Champion;
@@ -199,7 +200,7 @@ public class TestFight {
         fight.setMonsterFinalInitiation(1000);
         fight.setChampionFinalInitiation(1000);
 
-        fight.battle();
+        Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> fight.battle());
 
         ifAssertThatIsChampionDefeated();
         assertThat(fight.getLoopcounter()).isEqualTo(100);
