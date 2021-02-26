@@ -20,9 +20,9 @@ public class TestFight {
     private Champion champion = new Champion();
 
     //segítő változók
-    int toTestMonsterCounter = fight.getMonsterCounter();
-    int toTestKilledMonsterCounter = monsterFactory.getKilledMonsterCounter();
-    int toTestHealingPotionCounter = champion.getHealingPotionCounter();
+    int startingMonsterCounter = fight.getMonsterCounter();
+    int startingKilledMonsterCounter = monsterFactory.getKilledMonsterCounter();
+    int startingHealingPotionCounter = champion.getHealingPotionCounter();
 
     //segítő meghívások
     private void defeatedGoblin() {
@@ -121,7 +121,7 @@ public class TestFight {
         fight.runningAway();
 
         ifAssertThatIsChampionStillAlive();
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter - 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
         softly.assertAll();
     }
 
@@ -134,7 +134,7 @@ public class TestFight {
         fight.runningAway();
 
         ifAssertThatIsChampionDefeated();
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
         softly.assertAll();
     }
 
@@ -179,9 +179,9 @@ public class TestFight {
 
         ifAssertThatIsChampionDefeated();
         ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
         softly.assertThat(fight.nextTurn()).isFalse();
         softly.assertAll();
     }
@@ -201,9 +201,9 @@ public class TestFight {
         fight.battle();
 
         ifAssertThatIsChampionStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter + 1);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter - 1);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter + 1);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
         ifAssertThatIsMonsterStillAlive(); //this is the new monster
         softly.assertThat(fight.nextTurn()).isTrue();
         softly.assertAll();
@@ -225,9 +225,9 @@ public class TestFight {
 
         ifAssertThatIsChampionStillAlive();
         ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
         softly.assertThat(fight.nextTurn()).isTrue();
         softly.assertAll();
     }
@@ -245,9 +245,9 @@ public class TestFight {
         fight.battle();
 
         ifAssertThatIsChampionStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter + 1);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter - 1);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter + 1);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
         ifAssertThatIsChampionStillAlive(); //this is the new goblin
         softly.assertAll();
     }
@@ -268,9 +268,9 @@ public class TestFight {
 
         ifAssertThatIsChampionDefeated();
         ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
         softly.assertThat(fight.nextTurn()).isFalse();
         softly.assertAll();
     }
@@ -291,9 +291,9 @@ public class TestFight {
 
         ifAssertThatIsChampionStillAlive();
         ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
         softly.assertThat(fight.nextTurn()).isTrue();
         softly.assertAll();
     }
@@ -304,9 +304,9 @@ public class TestFight {
 
         fight.monsterDefeated();
 
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter + 1);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter - 1);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter + 1);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
         ifAssertThatIsChampionStillAlive(); //this is the new goblin
         softly.assertThat(fight.nextTurn()).isTrue();
         softly.assertAll();
@@ -320,8 +320,8 @@ public class TestFight {
 
         fight.monsterDefeated();
 
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter + 1);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter - 1);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
         softly.assertThat(champion.getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
         ifAssertThatIsChampionStillAlive(); //this is the new goblin
         softly.assertThat(fight.nextTurn()).isTrue();
@@ -334,9 +334,9 @@ public class TestFight {
 
         fight.monsterDefeated();
 
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(toTestKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(toTestMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
         ifAssertThatIsMonsterDefeated(); //dont call new monster
         softly.assertThat(fight.nextTurn()).isFalse();
         softly.assertAll();
