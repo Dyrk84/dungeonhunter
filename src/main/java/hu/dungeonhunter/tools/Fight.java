@@ -4,6 +4,7 @@ import hu.dungeonhunter.characters.champion.Champion;
 import hu.dungeonhunter.characters.monsters.MonsterFactory;
 import hu.dungeonhunter.characters.monsters.MonstersInterface;
 import hu.dungeonhunter.model.CharacterTypes;
+import jdk.jfr.events.ExceptionThrownEvent;
 import hu.dungeonhunter.utils.Colors;
 import hu.dungeonhunter.utils.TextSeparator;
 import lombok.Getter;
@@ -28,6 +29,18 @@ public class Fight {
     @Setter
     @Getter
     private int randomEnemy;
+
+    @Setter
+    @Getter
+    int championFinalInitiation;
+
+    @Setter
+    @Getter
+    int monsterFinalInitiation;
+
+    @Setter
+    @Getter
+    int loopcounter;
 
     public Fight() {
         setMonsterCounter(Dice.rollDice(6, 2));
@@ -76,21 +89,31 @@ public class Fight {
         return monster;
     }
 
-    public void battle() {
+    public void initiationCalculation() {
+        if (loopcounter == 100) {
+            throw new RuntimeException("Too much same final initiation");
+        }
         TextSeparator.format("Initiation Calculation:");
-        int championFinalInitiation = champion.initiationCalculation();
-        int monsterFinalInitiation = monster.initiationCalculation();
+        championFinalInitiation = champion.initiationCalculation();
+        monsterFinalInitiation = monster.initiationCalculation();
+        battle();
+    }
+
+    public void battle() {
         if (monsterFinalInitiation > championFinalInitiation) {
+            loopcounter = 0;
             TextSeparator.format(monster.getType().charType + " attacks faster!");
             monsterAccuracy();
             championAccuracy();
         } else if (monsterFinalInitiation < championFinalInitiation) {
+            loopcounter = 0;
             TextSeparator.format("Champion attacks faster!");
             championAccuracy();
             monsterAccuracy();
         } else {
             System.out.println("The values are same! New initiation calculation!");
-            battle();
+            loopcounter++;
+            initiationCalculation();
         }
         if (monster.getHp() < 1) monsterDefeated();
     }
@@ -101,7 +124,7 @@ public class Fight {
     }
 
     public void monsterDefeated() {
-        if (!monster.getType().equals(CharacterTypes.GOBLIN_KING) && monster.getHp() <= 0) {
+        if (!monster.getType().equals(CharacterTypes.GOBLIN_KING)) {
             monsterFactory.setKilledMonsterCounter(monsterFactory.getKilledMonsterCounter() + 1);
             monsterCounter--;
             System.out.println("You found a healing potion!");

@@ -168,11 +168,49 @@ public class TestFight {
     }
 
     @Test
+    public void initiationCalculationWithSameFinalInitiationTest(){
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(1);
+        monster.setAccuracy(1000);
+        monster.setInitiation(1000);
+        fight.setMonster(monster);
+        champion.setHp(1);
+        fight.setChampion(champion);
+        fight.setLoopcounter(99);
+        fight.setMonsterFinalInitiation(1000);
+        fight.setChampionFinalInitiation(1000);
+
+        fight.battle();
+
+        ifAssertThatIsChampionDefeated();
+        assertThat(fight.getLoopcounter()).isEqualTo(100);
+    }
+
+    @Test
+    public void initiationCalculationWithSameFinalInitiationWithInfinityLoopExceptionTest() throws RuntimeException {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(1);
+        monster.setAccuracy(1000);
+        monster.setInitiation(1000);
+        fight.setMonster(monster);
+        champion.setHp(1);
+        fight.setChampion(champion);
+        fight.setLoopcounter(99);
+        fight.setMonsterFinalInitiation(1000);
+        fight.setChampionFinalInitiation(1000);
+
+        fight.battle();
+
+        ifAssertThatIsChampionDefeated();
+        assertThat(fight.getLoopcounter()).isEqualTo(100);
+    }
+
+    @Test
     public void battleMonsterWithHighInitiationAndHighAccuracyTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setInitiative(1000);
         monster.setAccuracy(1000);
         fight.setMonster(monster);
+        fight.setMonsterFinalInitiation(1000);
         lowHpChampion();
 
         fight.battle();
@@ -190,8 +228,8 @@ public class TestFight {
     public void battleMonsterWithLowHpHighInitiationAndChampWithHighDefenseAndAccuracyTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         monster.setHp(1);
-        monster.setInitiative(1000);
         fight.setMonster(monster);
+        fight.setMonsterFinalInitiation(1000);
         Champion champion = new Champion();
         champion.setHp(1 + fight.getMonster().getMaxDamage());
         champion.setAccuracy(1000);
@@ -212,10 +250,9 @@ public class TestFight {
     @Test
     public void battleMonsterWithHighInitiationAndHighDefenseAndChampWithHighDefenseTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setInitiative(1000);
         monster.setDefense(1000);
         fight.setMonster(monster);
-
+        fight.setMonsterFinalInitiation(1000);
         Champion champion = new Champion();
         champion.setHp(1);
         champion.setDefense(1000);
@@ -235,12 +272,11 @@ public class TestFight {
     @Test
     public void battleChampionWithHighInitiationAndHighAccuracyTest() {
         lowHpGoblin();
-
         Champion champion = new Champion();
         champion.setHp(1 + fight.getMonster().getMaxDamage());
-        champion.setInitiative(1000);
         champion.setAccuracy(1000);
         fight.setChampion(champion);
+        fight.setChampionFinalInitiation(1000);
 
         fight.battle();
 
@@ -256,9 +292,8 @@ public class TestFight {
     public void battleChampionWithHighInitiationAndMonsterWithHighAccuracyAndDefenseTest() {
         Champion champion = new Champion();
         champion.setHp(1);
-        champion.setInitiative(1000);
         fight.setChampion(champion);
-
+        fight.setChampionFinalInitiation(1000);
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         monster.setAccuracy(1000);
         monster.setDefense(1000);
@@ -279,10 +314,9 @@ public class TestFight {
     public void battleChampionWithHighInitiationAndHighDefenseAndMonsterWithHighDefenseTest() {
         Champion champion = new Champion();
         champion.setHp(1);
-        champion.setInitiative(1000);
         champion.setDefense(1000);
         fight.setChampion(champion);
-
+        fight.setChampionFinalInitiation(1000);
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         monster.setDefense(1000);
         fight.setMonster(monster);
@@ -475,7 +509,7 @@ public class TestFight {
     @Test
     public void attackInitiationCalculationGoblinTest(){
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setInitiative(10);
+        monster.setInitiation(10);
         fight.setMonster(monster);
 
         int monsterInitiation = monster.initiationCalculation();
@@ -486,7 +520,7 @@ public class TestFight {
     @Test
     public void attackInitiationCalculationGoblinKingTest(){
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setInitiative(10);
+        monster.setInitiation(10);
         fight.setMonster(monster);
 
         int monsterInitiation = monster.initiationCalculation();

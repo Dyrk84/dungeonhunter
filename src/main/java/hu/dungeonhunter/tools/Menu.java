@@ -14,7 +14,7 @@ public class Menu {
             int chosenNumber = chosenNumber();
             switch (chosenNumber) {
                 case 1:
-                    fight.battle();
+                    fight.initiationCalculation();
                     break;
                 case 2:
                     fight.runningAway();

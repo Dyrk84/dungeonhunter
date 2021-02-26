@@ -9,7 +9,7 @@ public class GoblinKing implements MonstersInterface {
 
     @Setter
     @Getter
-    private int initiative;
+    private int initiation;
 
     @Setter
     @Getter
@@ -45,7 +45,7 @@ public class GoblinKing implements MonstersInterface {
     }
 
     private void startValues() {
-        this.initiative = 7;
+        this.initiation = 7;
         this.accuracy = 15;
         this.defense = 70;
         this.maxDamage = 6;
@@ -71,10 +71,10 @@ public class GoblinKing implements MonstersInterface {
 
     @Override
     public int initiationCalculation() {
-        System.out.print("Goblin king initiation: " + getInitiative() + " + ");
+        System.out.print("Goblin king initiation: " + getInitiation() + " + ");
         int monsterInitRoll = Dice.rollDice(10, 1);
-        System.out.println("Final Goblin king initiation: " + (getInitiative() + monsterInitRoll));
-        return getInitiative() + monsterInitRoll;
+        System.out.println("Final Goblin king initiation: " + (getInitiation() + monsterInitRoll));
+        return getInitiation() + monsterInitRoll;
     }
 
     public int accuracyCalculation() {
