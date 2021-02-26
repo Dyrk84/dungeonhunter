@@ -176,14 +176,14 @@ public class TestFight {
         fight.setMonster(monster);
         champion.setHp(1);
         fight.setChampion(champion);
-        fight.setLoopcounter(99);
+        fight.setLoopcounter(1);
         fight.setMonsterFinalInitiation(1000);
         fight.setChampionFinalInitiation(1000);
 
         fight.battle();
 
         ifAssertThatIsChampionDefeated();
-        assertThat(fight.getLoopcounter()).isEqualTo(100);
+        assertThat(fight.getLoopcounter()).isEqualTo(0); //+1 for same finalInitiation and setting to 0 for not equal finalInitiation
     }
 
     @Test
