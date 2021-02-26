@@ -19,20 +19,4 @@ public class MonsterFactory {
         }
         return monster;
     }
-
-    public MonstersInterface getMonster(CharacterTypes type, int hp) {
-        if (type == CharacterTypes.GOBLIN) {
-            return new Goblin(hp);
-        } else {
-            return new GoblinKing(hp);
-        }
-    }
-
-    public MonstersInterface getMonster(CharacterTypes type, int hp, int initiative, int accuracy, int defense, int numOfDices, int maxDamage) {
-        if (type == CharacterTypes.GOBLIN) {
-            return new Goblin(hp, initiative, accuracy, defense, numOfDices, maxDamage);
-        } else {
-            return new GoblinKing(hp, initiative, accuracy, defense, numOfDices, maxDamage);
-        }
-    }
 }

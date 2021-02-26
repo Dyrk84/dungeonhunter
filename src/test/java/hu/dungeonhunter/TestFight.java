@@ -26,12 +26,14 @@ public class TestFight {
 
     //segítő meghívások
     private void defeatedGoblin() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 0);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(0);
         fight.setMonster(monster);
     }
 
     private void defeatedGoblinKing() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 0);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
+        monster.setHp(0);
         fight.setMonster(monster);
     }
 
@@ -42,13 +44,15 @@ public class TestFight {
     }
 
     private void lowHpGoblin() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(1);
         fight.setMonster(monster);
     }
 
     private void lowHpGoblinKing() {
-        MonstersInterface lowHpGoblinKing = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 1);
-        fight.setMonster(lowHpGoblinKing);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING);
+        monster.setHp(1);
+        fight.setMonster(monster);
     }
 
     private void lowHpChampion() {
@@ -58,8 +62,9 @@ public class TestFight {
     }
 
     private void highHpGoblin() {
-        MonstersInterface lowHpGoblin = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1000);
-        fight.setMonster(lowHpGoblin);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(1000);
+        fight.setMonster(monster);
     }
 
     private void highHpChampion() {
@@ -164,7 +169,9 @@ public class TestFight {
 
     @Test
     public void battleMonsterWithHighInitiationAndHighAccuracyTest() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1000, 1000, 1, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setInitiative(1000);
+        monster.setAccuracy(1000);
         fight.setMonster(monster);
         lowHpChampion();
 
@@ -180,8 +187,10 @@ public class TestFight {
     }
 
     @Test
-    public void battleMonsterWithHighInitiationAndChampWithHighDefenseAndAccuracyTest() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1000, 1, 1, 1, 1);
+    public void battleMonsterWithLowHpHighInitiationAndChampWithHighDefenseAndAccuracyTest() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(1);
+        monster.setInitiative(1000);
         fight.setMonster(monster);
         Champion champion = new Champion();
         champion.setHp(1 + fight.getMonster().getMaxDamage());
@@ -202,7 +211,9 @@ public class TestFight {
 
     @Test
     public void battleMonsterWithHighInitiationAndHighDefenseAndChampWithHighDefenseTest() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1000, 1, 1000, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setInitiative(1000);
+        monster.setDefense(1000);
         fight.setMonster(monster);
 
         Champion champion = new Champion();
@@ -242,13 +253,15 @@ public class TestFight {
     }
 
     @Test
-    public void battleChampionWithHighInitiationAndMonsterWithHighDefenseTest() {
+    public void battleChampionWithHighInitiationAndMonsterWithHighAccuracyAndDefenseTest() {
         Champion champion = new Champion();
         champion.setHp(1);
         champion.setInitiative(1000);
         fight.setChampion(champion);
 
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 1000, 1000, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setAccuracy(1000);
+        monster.setDefense(1000);
         fight.setMonster(monster);
 
         fight.battle();
@@ -270,7 +283,8 @@ public class TestFight {
         champion.setDefense(1000);
         fight.setChampion(champion);
 
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 1, 1000, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setDefense(1000);
         fight.setMonster(monster);
 
         fight.battle();
@@ -330,7 +344,8 @@ public class TestFight {
 
     @Test
     public void monsterAccuracyAliveMonsterWithHighAccuracyTest() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 1000, 1, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setAccuracy(1000);
         fight.setMonster(monster);
         lowHpChampion();
 
@@ -381,7 +396,8 @@ public class TestFight {
     @Test
     public void championAccuracyAliveChampionAndMonsterWithHighDefenseTest() {
         lowHpChampion();
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 1, 1000, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setDefense(1000);
         fight.setMonster(monster);
 
         fight.championAccuracy();
@@ -451,27 +467,29 @@ public class TestFight {
         champion.setInitiative(10);
         fight.setChampion(champion);
 
-        int championInitiation = champion.attackInitiationCalculation();
+        int championInitiation = champion.initiationCalculation();
 
         assertThat(championInitiation).isBetween(11,20);
     }
 
     @Test
     public void attackInitiationCalculationGoblinTest(){
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 10, 1, 1, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setInitiative(10);
         fight.setMonster(monster);
 
-        int monsterInitiation = monster.attackInitiationCalculation();
+        int monsterInitiation = monster.initiationCalculation();
 
         assertThat(monsterInitiation).isBetween(11,20);
     }
 
     @Test
     public void attackInitiationCalculationGoblinKingTest(){
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 1, 10, 1, 1, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setInitiative(10);
         fight.setMonster(monster);
 
-        int monsterInitiation = monster.attackInitiationCalculation();
+        int monsterInitiation = monster.initiationCalculation();
 
         assertThat(monsterInitiation).isBetween(11,20);
     }
@@ -482,29 +500,31 @@ public class TestFight {
         champion.setAccuracy(10);
         fight.setChampion(champion);
 
-        champion.accuracyCalculation();
+        int championAccuracy = champion.accuracyCalculation();
 
-        assertThat(champion.getFinalAccuracy()).isBetween(11,110);
+        assertThat(championAccuracy).isBetween(11,110);
 
     }
 
     @Test
     public void accuracyCalculationGoblinTest(){
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 1, 10, 1, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setAccuracy(10);
         fight.setMonster(monster);
 
-        monster.accuracyCalculation();
+        int monsterAccuracy = monster.accuracyCalculation();
 
-        assertThat(monster.getFinalAccuracy()).isBetween(11,110);
+        assertThat(monsterAccuracy).isBetween(11,110);
     }
 
     @Test
     public void accuracyCalculationGoblinKingTest(){
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 1, 1, 10, 1, 1, 1);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setAccuracy(10);
         fight.setMonster(monster);
 
-        monster.accuracyCalculation();
+        int monsterAccuracy = monster.accuracyCalculation();
 
-        assertThat(monster.getFinalAccuracy()).isBetween(11,110);
+        assertThat(monsterAccuracy).isBetween(11,110);
     }
 }

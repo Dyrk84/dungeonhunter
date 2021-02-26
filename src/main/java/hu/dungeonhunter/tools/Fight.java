@@ -75,8 +75,8 @@ public class Fight {
 
     public void battle() {
         TextSeparator.format("Initiation Calculation:");
-        int championFinalInitiation = champion.attackInitiationCalculation();
-        int monsterFinalInitiation = monster.attackInitiationCalculation();
+        int championFinalInitiation = champion.initiationCalculation();
+        int monsterFinalInitiation = monster.initiationCalculation();
         if (monsterFinalInitiation > championFinalInitiation) {
             TextSeparator.format(monster.getType().charType + " attacks faster!");
             monsterAccuracy();
@@ -115,9 +115,8 @@ public class Fight {
 
     public void monsterAccuracy() {
         if (monster.getHp() > 0) {
-            monster.accuracyCalculation();
             System.out.println("Champion's defense: " + champion.getDefense());
-            if (monster.getFinalAccuracy() > champion.getDefense()){
+            if (monster.accuracyCalculation() > champion.getDefense()){
                 monsterAttack();
             } else TextSeparator.format(monster.getType().charType + "'s hit miss!");
         }
@@ -125,9 +124,8 @@ public class Fight {
 
     public void championAccuracy() {
         if (champion.getHp() > 0) {
-            champion.accuracyCalculation();
             System.out.println(monster.getType().charType + "'s defense: " + monster.getDefense());
-            if (champion.getFinalAccuracy() > monster.getDefense()) {
+            if (champion.accuracyCalculation() > monster.getDefense()) {
                 championAttack();
             } else TextSeparator.format("Champion's hit miss!");
         }

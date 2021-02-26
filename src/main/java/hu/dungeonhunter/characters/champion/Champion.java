@@ -12,10 +12,6 @@ public class Champion {
 
     @Setter
     @Getter
-    private int finalAccuracy;
-
-    @Setter
-    @Getter
     private int accuracy;
 
     @Setter
@@ -91,17 +87,17 @@ public class Champion {
         }
     }
 
-    public int attackInitiationCalculation() {
-        System.out.print("Champion initiation calculation: " + getInitiative() + " + ");
+    public int initiationCalculation() {
+        System.out.print("Champion initiation: " + getInitiative() + " + ");
         int champInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
         return getInitiative() + champInitRoll;
     }
 
-    public void accuracyCalculation() {
-        System.out.print("Champion accuracy calculation: " + getAccuracy() + " + ");
+    public int accuracyCalculation() {
+        System.out.print("Champion accuracy: " + getAccuracy() + " + ");
         int AccuracyRoll = Dice.rollDice(100, 1);
-        System.out.print("Final Champion accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
-        finalAccuracy = getAccuracy() + AccuracyRoll;
+        System.out.println("Final Champion accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
+        return getAccuracy() + AccuracyRoll;
     }
 }
