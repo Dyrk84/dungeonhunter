@@ -425,9 +425,9 @@ public class TestFight {
         Champion champion = new Champion(1, 10, 1, 1, 1, 1);
         fight.setChampion(champion);
 
-        champion.attackInitiationCalculation();
+        int championInitiation = champion.attackInitiationCalculation();
 
-        assertThat(champion.getFinalInitiation()).isBetween(11,20);
+        assertThat(championInitiation).isBetween(11,20);
     }
 
     @Test
@@ -435,9 +435,9 @@ public class TestFight {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN, 1, 10, 1, 1, 1, 1);
         fight.setMonster(monster);
 
-        monster.attackInitiationCalculation();
+        int monsterInitiation = monster.attackInitiationCalculation();
 
-        assertThat(monster.getFinalInitiation()).isBetween(11,20);
+        assertThat(monsterInitiation).isBetween(11,20);
     }
 
     @Test
@@ -445,9 +445,9 @@ public class TestFight {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN_KING, 1, 10, 1, 1, 1, 1);
         fight.setMonster(monster);
 
-        monster.attackInitiationCalculation();
+        int monsterInitiation = monster.attackInitiationCalculation();
 
-        assertThat(monster.getFinalInitiation()).isBetween(11,20);
+        assertThat(monsterInitiation).isBetween(11,20);
     }
 
     @Test

@@ -75,13 +75,13 @@ public class Fight {
 
     public void battle() {
         TextSeparator.format("Initiation Calculation:");
-        champion.attackInitiationCalculation();
-        monster.attackInitiationCalculation();
-        if (monster.getFinalInitiation() > champion.getFinalInitiation()) {
+        int championFinalInitiation = champion.attackInitiationCalculation();
+        int monsterFinalInitiation = monster.attackInitiationCalculation();
+        if (monsterFinalInitiation > championFinalInitiation) {
             TextSeparator.format(monster.getType().charType + " attacks faster!");
             monsterAccuracy();
             championAccuracy();
-        } else if (monster.getFinalInitiation() < champion.getFinalInitiation()) {
+        } else if (monsterFinalInitiation < championFinalInitiation) {
             TextSeparator.format("Champion attacks faster!");
             championAccuracy();
             monsterAccuracy();

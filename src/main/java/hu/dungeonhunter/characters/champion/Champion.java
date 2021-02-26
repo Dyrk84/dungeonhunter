@@ -47,9 +47,6 @@ public class Champion {
     private int initiative;
 
     @Getter
-    int finalInitiation;
-
-    @Getter
     private final CharacterTypes type = CharacterTypes.CHAMPION;
 
     public Champion() {
@@ -118,11 +115,11 @@ public class Champion {
         }
     }
 
-    public void attackInitiationCalculation() {
+    public int attackInitiationCalculation() {
         System.out.print("Champion initiation calculation: " + getInitiative() + " + ");
         int champInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Champion initiation: " + (getInitiative() + champInitRoll));
-        finalInitiation = getInitiative() + champInitRoll;
+        return getInitiative() + champInitRoll;
     }
 
     public void accuracyCalculation() {

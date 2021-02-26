@@ -36,9 +36,6 @@ public class Goblin implements MonstersInterface {
     private int numOfDices;
 
     @Getter
-    int finalInitiation;
-
-    @Getter
     private final CharacterTypes type = CharacterTypes.GOBLIN;
 
     public Goblin(int hp) {
@@ -101,11 +98,11 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public void attackInitiationCalculation() {
+    public int attackInitiationCalculation() {
         System.out.print("Goblin initiation: " + getInitiative() + " + ");
         int monsterInitRoll = Dice.rollDice(10, 1);
         System.out.println("Final Goblin initiation: " + (getInitiative() + monsterInitRoll));
-        finalInitiation = getInitiative() + monsterInitRoll;
+        return getInitiative() + monsterInitRoll;
     }
 
     public void accuracyCalculation() {
