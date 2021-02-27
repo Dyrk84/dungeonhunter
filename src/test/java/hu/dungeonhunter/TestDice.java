@@ -1,7 +1,6 @@
 package hu.dungeonhunter;
 
 import hu.dungeonhunter.characters.champion.Champion;
-import hu.dungeonhunter.characters.monsters.Goblin;
 import hu.dungeonhunter.characters.monsters.MonsterFactory;
 import hu.dungeonhunter.characters.monsters.MonstersInterface;
 import hu.dungeonhunter.model.CharacterTypes;
@@ -40,8 +39,8 @@ public class TestDice {
         monster.setHp(0);
         fight.setMonster(monster);
 
-        monster.isDefeat();
-        assertThat(monster.isDefeat()).as("championWinTest").isTrue();
+        monster.enemyVictory();
+        assertThat(monster.enemyVictory()).as("championWinTest").isTrue();
     }
 
     @Test

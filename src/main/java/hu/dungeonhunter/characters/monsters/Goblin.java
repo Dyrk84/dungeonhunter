@@ -15,6 +15,12 @@ public class Goblin implements MonstersInterface {
     @Getter
     private int accuracy;
 
+    @Getter
+    private int accuracyRoll;
+
+    @Getter
+    private int damage;
+
     @Setter
     @Getter
     private int defense;
@@ -56,7 +62,7 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public boolean isDefeat() {
+    public boolean enemyVictory() {
         if (hp <= 0) {
             System.out.println("You killed the monster!");
             return true;
@@ -65,8 +71,9 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public int getMonsterDamage() {
-        return Dice.rollDice(maxDamage, numOfDices);
+    public int Damage() {
+        damage = Dice.rollDice(maxDamage, numOfDices);
+        return damage;
     }
 
     @Override
@@ -77,10 +84,11 @@ public class Goblin implements MonstersInterface {
         return this.getInitiation() + monsterInitRoll;
     }
 
+    @Override
     public int accuracyCalculation() {
-        System.out.print("Goblin accuracy calculation: " + getAccuracy() + " + ");
-        int AccuracyRoll = Dice.rollDice(100, 1);
-        System.out.println("Final Goblin accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
-        return getAccuracy() + AccuracyRoll;
+        System.out.print("Goblin accuracy: " + getAccuracy() + " + ");
+        accuracyRoll = Dice.rollDice(100, 1);
+        System.out.println("Final Goblin accuracy: " + (getAccuracy() + accuracyRoll) + " ");
+        return getAccuracy() + accuracyRoll;
     }
 }

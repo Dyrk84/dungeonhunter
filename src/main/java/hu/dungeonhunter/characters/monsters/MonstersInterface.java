@@ -8,16 +8,19 @@ public interface MonstersInterface {
     int getHp();
     void setHp(int hp);
     CharacterTypes getType();
-    int getMonsterDamage();
-    boolean isDefeat();
+    int Damage();
+    int getDamage();
+    boolean enemyVictory();
     void setInitiation(int initiation);
     int getInitiation();
     int initiationCalculation();
+    void setMaxDamage(int maxDamage);
     int getMaxDamage();
     void setAccuracy(int accuracy);
     int getAccuracy();
+    int accuracyCalculation();
+    int getAccuracyRoll();
     void setDefense(int defense);
     int getDefense();
-    int accuracyCalculation();
     int getNumOfDices();
 }
