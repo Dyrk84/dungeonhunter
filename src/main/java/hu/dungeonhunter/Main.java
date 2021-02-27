@@ -1,5 +1,6 @@
 package hu.dungeonhunter;
 
+import hu.dungeonhunter.tools.Fight;
 import hu.dungeonhunter.tools.Menu;
 
 class Main {
@@ -7,5 +8,7 @@ class Main {
     public static void main(String[] args) {
         Menu menu = new Menu();
         menu.actionMenu();
+        Fight fight = new Fight();
+        fight.enterToTheCave();
     }
 }

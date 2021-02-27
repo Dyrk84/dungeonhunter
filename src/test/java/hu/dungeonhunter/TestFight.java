@@ -73,8 +73,8 @@ public class TestFight {
         champion.setHp(1000);
         fight.setChampion(lowHpChampion);
     }
-    //segítő assertek
 
+    //segítő assertek
     private void ifAssertThatIsChampionStillAlive() {
         softly.assertThat(fight.getChampion().getHp()).as("Champion still alive").isGreaterThan(0);
         softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isTrue();
@@ -166,6 +166,28 @@ public class TestFight {
         fight.monsterCaller();
 
         assertThat(fight.getMonster().getNumOfDices()).as("goblin have 1 numOfDices").isEqualTo(1);
+    }
+
+    @Test
+    public void fightInitiationCalculationChampionTest(){
+        Champion champion = new Champion();
+        champion.setInitiation(10);
+        fight.setChampion(champion);
+
+        fight.initiationCalculation();
+
+        assertThat(fight.getChampionFinalInitiation()).isBetween(11,20);
+    }
+
+    @Test
+    public void fightInitiationCalculationMonsterTest(){
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setInitiation(10);
+        fight.setMonster(monster);
+
+        fight.initiationCalculation();
+
+        assertThat(fight.getMonsterFinalInitiation()).isBetween(11,20);
     }
 
     @Test
@@ -362,7 +384,6 @@ public class TestFight {
         softly.assertThat(fight.nextTurn()).isTrue();
         softly.assertAll();
     }
-
     @Test
     public void monsterDefeatedWithDefeatedGoblinKingTest() {
         defeatedGoblinKing();
@@ -402,8 +423,8 @@ public class TestFight {
 //
 //        ifAssertThatIsChampionStillAlive();
 //        softly.assertAll();
-//    }
 
+//    }
 //    @Test
 //    public void monsterAccuracyGoblinDefeated() {
 //        defeatedGoblin();
@@ -448,6 +469,7 @@ public class TestFight {
 //        fight.championAccuracy();
 //
 //        assertThat(fight.nextTurn()).isFalse();
+
 //    }
 
     @Test
@@ -496,28 +518,6 @@ public class TestFight {
         softly.assertAll();
     }
 
-
-    @Test
-    public void fightInitiationCalculationChampionTest(){
-        Champion champion = new Champion();
-        champion.setInitiation(10);
-        fight.setChampion(champion);
-
-        fight.initiationCalculation();
-
-        assertThat(fight.getChampionFinalInitiation()).isBetween(11,20);
-    }
-
-    @Test
-    public void fightInitiationCalculationMonsterTest(){
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setInitiation(10);
-        fight.setMonster(monster);
-
-        fight.initiationCalculation();
-
-        assertThat(fight.getMonsterFinalInitiation()).isBetween(11,20);
-    }
 
 
 

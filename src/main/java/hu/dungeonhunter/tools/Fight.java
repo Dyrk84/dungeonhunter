@@ -23,7 +23,7 @@ public class Fight {
 
     @Setter
     @Getter
-    private int monsterCounter;
+    private int monsterCounter = 1;
 
     @Setter
     @Getter
@@ -49,7 +49,7 @@ public class Fight {
     @Setter
     int randomCriticalMissEvent;
 
-    public Fight() {
+    public void enterToTheCave() {
         setMonsterCounter(Dice.rollDice(6, 2));
         monsterIncoming();
     }
