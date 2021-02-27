@@ -7,8 +7,7 @@ class Main {
 
     public static void main(String[] args) {
         Menu menu = new Menu();
+        menu.toTheCave();
         menu.actionMenu();
-        Fight fight = new Fight();
-        fight.enterToTheCave();
     }
 }

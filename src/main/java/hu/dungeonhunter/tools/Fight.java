@@ -149,7 +149,7 @@ public class Fight {
         if (champion.getAccuracyRoll() == 1) championCriticalMiss();
         if (champion.getAccuracyRoll() == 100) championDeadlyHit();
         else {
-            if (finalAccuracy < monster.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
+            if (finalAccuracy <= monster.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
                 TextSeparator.format("Champion's hit miss!");
             }
             if (finalAccuracy > (monster.getDefense() + 50) && champion.getHp() > 0 && monster.getHp() > 0) {
