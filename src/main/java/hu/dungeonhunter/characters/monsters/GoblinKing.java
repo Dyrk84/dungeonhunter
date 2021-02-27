@@ -15,6 +15,7 @@ public class GoblinKing implements MonstersInterface {
     @Getter
     private int accuracy;
 
+    @Setter
     @Getter
     private int accuracyRoll;
 

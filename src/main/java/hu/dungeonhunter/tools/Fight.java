@@ -23,7 +23,7 @@ public class Fight {
 
     @Setter
     @Getter
-    private int monsterCounter = 1;
+    private int monsterCounter = 10;
 
     @Setter
     @Getter
@@ -44,9 +44,12 @@ public class Fight {
     @Setter
     int accuracyRoll;
 
+    @Setter
+    @Getter
     int finalAccuracy;
 
     @Setter
+    @Getter
     int randomCriticalMissEvent;
 
     public void enterToTheCave() {
@@ -125,14 +128,6 @@ public class Fight {
         if (monster.getHp() < 1) monsterDefeated();
     }
 
-    public void monsterAccuracyCalculation() {
-        if (monster.getHp() > 0) {
-            finalAccuracy = monster.accuracyCalculation();
-            accuracyRoll = monster.getAccuracyRoll();
-            monsterAccuracy();
-        }
-    }
-
     public void championAccuracyCalculation() {
         if (champion.getHp() > 0) {
             finalAccuracy = champion.accuracyCalculation();
@@ -141,24 +136,15 @@ public class Fight {
         }
     }
 
-    private void monsterAccuracy() {
-        System.out.println("Champion's defense: " + champion.getDefense());
-        if (monster.getAccuracyRoll() == 1) monsterCriticalMiss();
-        if (monster.getAccuracyRoll() == 100) monsterDeadlyHit();
-        else {
-            if (finalAccuracy < champion.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
-                TextSeparator.format(monster.getType().charType + "'s hit miss!");
-            }
-            if (finalAccuracy > (champion.getDefense() + 50) && champion.getHp() > 0 && monster.getHp() > 0) {
-                monsterCriticalHit();
-            }
-            else if (finalAccuracy > champion.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
-                monsterAttack();
-            }
+    public void monsterAccuracyCalculation() {
+        if (monster.getHp() > 0) {
+            finalAccuracy = monster.accuracyCalculation();
+            accuracyRoll = monster.getAccuracyRoll();
+            monsterAccuracy();
         }
     }
 
-    private void championAccuracy() {
+    public void championAccuracy() {
         System.out.println(monster.getType().charType + "'s defense: " + monster.getDefense());
         if (champion.getAccuracyRoll() == 1) championCriticalMiss();
         if (champion.getAccuracyRoll() == 100) championDeadlyHit();
@@ -168,9 +154,24 @@ public class Fight {
             }
             if (finalAccuracy > (monster.getDefense() + 50) && champion.getHp() > 0 && monster.getHp() > 0) {
                 championCriticalHit();
-            }
-            else if (finalAccuracy > monster.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
+            } else if (finalAccuracy > monster.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
                 championAttack();
+            }
+        }
+    }
+
+    public void monsterAccuracy() {
+        System.out.println("Champion's defense: " + champion.getDefense());
+        if (monster.getAccuracyRoll() == 1) monsterCriticalMiss();
+        if (monster.getAccuracyRoll() == 100) monsterDeadlyHit();
+        else {
+            if (finalAccuracy < champion.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
+                TextSeparator.format(monster.getType().charType + "'s hit miss!");
+            }
+            if (finalAccuracy > (champion.getDefense() + 50) && champion.getHp() > 0 && monster.getHp() > 0) {
+                monsterCriticalHit();
+            } else if (finalAccuracy > champion.getDefense() && champion.getHp() > 0 && monster.getHp() > 0) {
+                monsterAttack();
             }
         }
     }
@@ -193,10 +194,12 @@ public class Fight {
                 System.out.println("The selfdamage is " + Colors.ANSI_RED + champion.getDamage() + Colors.ANSI_RESET + "!");
                 TextSeparator.format("Champion have now " + champion.getHp() + " hit points");
                 champion.enemyVictory();
+                break;
             }
             case 2: {
                 System.out.println("The hit was so unfortunate, the champion's weapon is damaged!");
                 champion.setMaxDamage(champion.getMaxDamage() - 1);
+                break;
             }
         }
     }
@@ -209,16 +212,18 @@ public class Fight {
                 System.out.println("The selfdamage is " + Colors.ANSI_RED + monster.getDamage() + Colors.ANSI_RESET + "!");
                 TextSeparator.format(monster.getType().charType + " have now " + monster.getHp() + " hit points");
                 monster.enemyVictory();
+                break;
             }
             case 2: {
                 System.out.println("The hit was so unfortunate, the " + monster.getType().charType + "'s weapon is damaged!");
                 monster.setMaxDamage(monster.getMaxDamage() - 1);
+                break;
             }
         }
     }
 
     public void championDeadlyHit() {
-        System.out.println("The Champion delivers a " + Colors.ANSI_RED + " DEADLY ATTACK "+ Colors.ANSI_RESET
+        System.out.println("The Champion delivers a " + Colors.ANSI_RED + " DEADLY ATTACK " + Colors.ANSI_RESET
                 + "with incredible luck.");
         monster.setHp(monster.getHp() - (champion.Damage() * 10));
         System.out.println("The damage is " + Colors.ANSI_RED + champion.getDamage() * 10 + Colors.ANSI_RESET + "!!!");
@@ -227,7 +232,7 @@ public class Fight {
     }
 
     public void monsterDeadlyHit() {
-        System.out.println("The " + monster.getType().charType + " delivers a "+ Colors.ANSI_RED + " DEADLY ATTACK "
+        System.out.println("The " + monster.getType().charType + " delivers a " + Colors.ANSI_RED + " DEADLY ATTACK "
                 + Colors.ANSI_RESET + " with incredible luck.");
         champion.setHp(champion.getHp() - (monster.Damage() * 10));
         System.out.println("The damage is " + Colors.ANSI_RED + monster.getDamage() * 10 + Colors.ANSI_RESET + "!!!");
@@ -257,7 +262,7 @@ public class Fight {
         }
     }
 
-    public void championCriticalHit(){
+    public void championCriticalHit() {
         if (champion.getHp() > 0) {
             System.out.print("The Champion hit the " + monster.getType().charType + " with a " + Colors.ANSI_RED
                     + "CRITICAL " + Colors.ANSI_RESET + "hit! ");
@@ -269,7 +274,7 @@ public class Fight {
         }
     }
 
-    public void monsterCriticalHit(){
+    public void monsterCriticalHit() {
         if (monster.getHp() > 0) {
             System.out.print("The " + monster.getType().charType + "hit the Champion with a " + Colors.ANSI_RED
                     + "CRITICAL " + Colors.ANSI_RESET + "hit! ");

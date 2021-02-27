@@ -76,8 +76,8 @@ public class TestFight {
 
     //segítő assertek
     private void ifAssertThatIsChampionStillAlive() {
-        softly.assertThat(fight.getChampion().getHp()).as("Champion still alive").isGreaterThan(0);
-        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isTrue();
+        softly.assertThat(fight.getChampion().getHp()).as("Champion should be still alive").isGreaterThan(0);
+        softly.assertThat(fight.nextTurn()).as("There should be next turn.").isTrue();
     }
 
     private void ifAssertThatIsChampionDefeated() {
@@ -86,7 +86,7 @@ public class TestFight {
     }
 
     private void ifAssertThatIsMonsterStillAlive() {
-        softly.assertThat(fight.getMonster().getHp()).as("Goblin or Goblin king still alive after damage").isGreaterThan(0);
+        softly.assertThat(fight.getMonster().getHp()).as("Goblin or Goblin king should be still alive after damage").isGreaterThan(0);
     }
 
     private void ifAssertThatIsMonsterDefeated() {
@@ -169,44 +169,27 @@ public class TestFight {
     }
 
     @Test
-    public void fightInitiationCalculationChampionTest(){
+    public void fightInitiationCalculationChampionTest() {
         Champion champion = new Champion();
         champion.setInitiation(10);
         fight.setChampion(champion);
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        fight.setMonster(monster);
 
         fight.initiationCalculation();
 
-        assertThat(fight.getChampionFinalInitiation()).isBetween(11,20);
+        assertThat(fight.getChampionFinalInitiation()).isBetween(11, 20);
     }
 
     @Test
-    public void fightInitiationCalculationMonsterTest(){
+    public void fightInitiationCalculationMonsterTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         monster.setInitiation(10);
         fight.setMonster(monster);
 
         fight.initiationCalculation();
 
-        assertThat(fight.getMonsterFinalInitiation()).isBetween(11,20);
-    }
-
-    @Test
-    public void initiationCalculationWithSameFinalInitiationTest(){
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setHp(1);
-        monster.setAccuracy(1000);
-        monster.setInitiation(1000);
-        fight.setMonster(monster);
-        champion.setHp(1);
-        fight.setChampion(champion);
-        fight.setLoopCounter(1);
-        fight.setMonsterFinalInitiation(1000);
-        fight.setChampionFinalInitiation(1000);
-
-        fight.battle();
-
-        ifAssertThatIsChampionDefeated();
-        assertThat(fight.getLoopCounter()).isEqualTo(0); //+1 for same finalInitiation and setting to 0 for not equal finalInitiation
+        assertThat(fight.getMonsterFinalInitiation()).isBetween(11, 20);
     }
 
     @Test
@@ -229,129 +212,318 @@ public class TestFight {
     }
 
     @Test
-    public void battleMonsterWithHighInitiationAndHighAccuracyTest() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setAccuracy(1000);
-        fight.setMonster(monster);
-        fight.setMonsterFinalInitiation(1000);
-        lowHpChampion();
-
-        fight.battle();
-
-        ifAssertThatIsChampionDefeated();
-        ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
-        softly.assertThat(fight.nextTurn()).isFalse();
-        softly.assertAll();
-    }
-
-    @Test
-    public void battleMonsterWithLowHpHighInitiationAndChampWithHighDefenseAndAccuracyTest() {
+    public void monsterAccuracyCalculationIfMonsterIsAliveTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
         monster.setHp(1);
+        monster.setAccuracy(100);
         fight.setMonster(monster);
-        fight.setMonsterFinalInitiation(1000);
-        Champion champion = new Champion();
-        champion.setHp(1 + fight.getMonster().getMaxDamage());
-        champion.setAccuracy(1000);
-        champion.setDefense(1000);
+
+        fight.monsterAccuracyCalculation();
+
+        assertThat(fight.getFinalAccuracy()).isBetween(101, 200);
+        assertThat(fight.getMonster().getAccuracyRoll()).isBetween(1, 100);
+    }
+
+    @Test
+    public void monsterAccuracyCalculationIfMonsterIsDefeated() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(0);
+        monster.setAccuracy(100);
+        fight.setMonster(monster);
+
+        fight.monsterAccuracyCalculation();
+
+        assertThat(fight.getFinalAccuracy()).isEqualTo(0);
+        assertThat(fight.getMonster().getAccuracyRoll()).isEqualTo(0);
+    }
+
+    @Test
+    public void championAccuracyCalculationIfChampionIsAliveTest() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        fight.setMonster(monster);
+        champion.setHp(1);
+        champion.setAccuracy(100);
         fight.setChampion(champion);
 
-        fight.battle();
+        fight.championAccuracyCalculation();
 
-        ifAssertThatIsChampionStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
-        ifAssertThatIsMonsterStillAlive(); //this is the new monster
-        softly.assertThat(fight.nextTurn()).isTrue();
+        assertThat(fight.getFinalAccuracy()).isBetween(101, 200);
+        assertThat(fight.getChampion().getAccuracyRoll()).isBetween(1, 100);
+    }
+
+    @Test
+    public void championAccuracyCalculationIfChampionIsDefeated() {
+        champion.setHp(0);
+        champion.setAccuracy(100);
+        fight.setChampion(champion);
+
+        fight.championAccuracyCalculation();
+
+        assertThat(fight.getFinalAccuracy()).isEqualTo(0);
+        assertThat(fight.getChampion().getAccuracyRoll()).isEqualTo(0);
+    }
+
+    @Test
+    public void monsterAccuracyIfAccuracyRollIs1Test() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setAccuracyRoll(1);
+        fight.setMonster(monster);
+        fight.setRandomCriticalMissEvent(5);
+
+        fight.monsterAccuracy();
+
+        softly.assertThat(fight.getRandomCriticalMissEvent()).isLessThan(5);
+
         softly.assertAll();
     }
 
     @Test
-    public void battleMonsterWithHighInitiationAndHighDefenseAndChampWithHighDefenseTest() {
+    public void championAccuracyIfAccuracyRollIs1Test() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setDefense(1000);
         fight.setMonster(monster);
-        fight.setMonsterFinalInitiation(1000);
+        Champion champion = new Champion();
+        champion.setAccuracyRoll(1);
+        fight.setChampion(champion);
+        fight.setRandomCriticalMissEvent(5);
+
+        fight.championAccuracy();
+
+        softly.assertThat(fight.getRandomCriticalMissEvent()).isLessThan(5);
+        softly.assertAll();
+    }
+
+    @Test
+    public void championCriticalMissEvent1Test() {
         Champion champion = new Champion();
         champion.setHp(1);
-        champion.setDefense(1000);
         fight.setChampion(champion);
+        fight.setRandomCriticalMissEvent(1);
+        int[] championHpAfterDamage = {fight.getChampion().getHp() - fight.getChampion().getMaxDamage(),
+                fight.getChampion().getHp() - fight.getChampion().getNumOfDices()};
 
-        fight.battle();
+        fight.championCriticalMissEvent();
 
-        ifAssertThatIsChampionStillAlive();
-        ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
-        softly.assertThat(fight.nextTurn()).isTrue();
+        softly.assertThat(fight.getChampion().getHp()).isBetween(championHpAfterDamage[0], championHpAfterDamage[1]);
+        ifAssertThatIsChampionDefeated();
         softly.assertAll();
     }
 
     @Test
-    public void battleChampionWithHighInitiationAndHighAccuracyTest() {
+    public void monsterCriticalMissEvent1Test() {
+        lowHpGoblin();
+        fight.setRandomCriticalMissEvent(1);
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - fight.getMonster().getMaxDamage(),
+                fight.getMonster().getHp() - fight.getMonster().getNumOfDices()};
+
+        fight.monsterCriticalMissEvent();
+
+        softly.assertThat(fight.getMonster().getHp()).isBetween(monsterHpAfterDamage[0], monsterHpAfterDamage[1]);
+        ifAssertThatIsMonsterDefeated();
+        softly.assertAll();
+    }
+
+    @Test
+    public void championCriticalMissEvent2Test() {
+        Champion champion = new Champion();
+        champion.setMaxDamage(6);
+        fight.setRandomCriticalMissEvent(2);
+
+        fight.championCriticalMissEvent();
+
+        assertThat(fight.getChampion().getMaxDamage()).isEqualTo(5);
+    }
+
+    @Test
+    public void monsterCriticalMissEvent2Test() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setMaxDamage(6);
+        fight.setMonster(monster);
+        fight.setRandomCriticalMissEvent(2);
+
+        fight.monsterCriticalMissEvent();
+
+        assertThat(fight.getMonster().getMaxDamage()).isEqualTo(5);
+    }
+
+    @Test
+    public void championAccuracyIfAccuracyRollIs100Test() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(10);
+        monster.setDefense(1000);
+        fight.setMonster(monster);
+        champion.setAccuracyRoll(100);
+        champion.setHp(10);
+        fight.setChampion(champion);
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - (fight.getChampion().getMaxDamage()) * 10,
+                fight.getMonster().getHp() - (fight.getChampion().getNumOfDices()) * 10};
+
+        fight.championAccuracy();
+
+        softly.assertThat(fight.getMonster().getHp()).isBetween(monsterHpAfterDamage[0], monsterHpAfterDamage[1]);
+        ifAssertThatIsMonsterDefeated();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterAccuracyIfAccuracyRollIs100Test() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setAccuracyRoll(100);
+        fight.setMonster(monster);
+        champion.setHp(10);
+        champion.setDefense(1000);
+        fight.setChampion(champion);
+        int[] championHpAfterDamage = {fight.getChampion().getHp() - (fight.getMonster().getMaxDamage()) * 10,
+                fight.getChampion().getHp() - (fight.getMonster().getNumOfDices()) * 10};
+
+        fight.monsterAccuracy();
+
+        softly.assertThat(fight.getChampion().getHp()).isBetween(championHpAfterDamage[0], championHpAfterDamage[1]);
+        ifAssertThatIsChampionDefeated();
+        softly.assertAll();
+    }
+
+    @Test
+    public void championAccuracyIfHitTest() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(1);
+        monster.setDefense(50);
+        fight.setMonster(monster);
+        fight.setFinalAccuracy(51);
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - fight.getChampion().getMaxDamage(),
+                fight.getMonster().getHp() - fight.getChampion().getNumOfDices()};
+
+        fight.championAccuracy();
+
+        softly.assertThat(fight.getMonster().getHp()).isBetween(monsterHpAfterDamage[0], monsterHpAfterDamage[1]);
+        ifAssertThatIsMonsterDefeated();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterAccuracyIfHitTest() {
         lowHpGoblin();
         Champion champion = new Champion();
-        champion.setHp(1 + fight.getMonster().getMaxDamage());
-        champion.setAccuracy(1000);
+        champion.setHp(1);
+        champion.setDefense(50);
         fight.setChampion(champion);
-        fight.setChampionFinalInitiation(1000);
+        fight.setFinalAccuracy(51);
+        int[] championHpAfterDamage = {fight.getChampion().getHp() - fight.getMonster().getMaxDamage(),
+                fight.getChampion().getHp() - fight.getMonster().getNumOfDices()};
 
-        fight.battle();
+        fight.monsterAccuracy();
 
-        ifAssertThatIsChampionStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
-        ifAssertThatIsChampionStillAlive(); //this is the new goblin
+        softly.assertThat(fight.getChampion().getHp()).isBetween(championHpAfterDamage[0], championHpAfterDamage[1]);
+        ifAssertThatIsChampionDefeated();
         softly.assertAll();
     }
 
     @Test
-    public void battleChampionWithHighInitiationAndMonsterWithHighAccuracyAndDefenseTest() {
-        Champion champion = new Champion();
-        champion.setHp(1);
-        fight.setChampion(champion);
-        fight.setChampionFinalInitiation(1000);
+    public void championAccuracyIfMissHitTest() {
         MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setAccuracy(1000);
-        monster.setDefense(1000);
+        monster.setHp(1);
+        monster.setDefense(50);
         fight.setMonster(monster);
+        fight.setFinalAccuracy(49);
 
-        fight.battle();
+        fight.championAccuracy();
+
+        softly.assertThat(fight.getChampion().getDamage()).isEqualTo(0);
+        ifAssertThatIsMonsterStillAlive();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterAccuracyIfMissHitTest() {
+        lowHpGoblin();
+        champion.setHp(1);
+        champion.setDefense(50);
+        fight.setChampion(champion);
+        fight.setFinalAccuracy(49);
+
+        fight.monsterAccuracy();
+
+        ifAssertThatIsChampionStillAlive();
+        softly.assertAll();
+    }
+
+    @Test
+    public void championAccuracyIfCriticalHitTest() {
+        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        monster.setHp(2);
+        monster.setDefense(50);
+        fight.setMonster(monster);
+        fight.setFinalAccuracy(101);
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - (fight.getChampion().getMaxDamage()) * 2,
+                fight.getMonster().getHp() - (fight.getChampion().getNumOfDices()) * 2};
+
+        fight.championAccuracy();
+
+        softly.assertThat(fight.getMonster().getHp()).isBetween(monsterHpAfterDamage[0], monsterHpAfterDamage[1]);
+        ifAssertThatIsMonsterDefeated();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterAccuracyIfCriticalHitTest() {
+        lowHpGoblin();
+        champion.setHp(2);
+        champion.setDefense(50);
+        fight.setChampion(champion);
+        fight.setFinalAccuracy(101);
+        int[] championHpAfterDamage = {fight.getChampion().getHp() - (fight.getMonster().getMaxDamage()) * 2,
+                fight.getChampion().getHp() - (fight.getMonster().getNumOfDices()) * 2};
+
+        fight.monsterAccuracy();
+
+        softly.assertThat(fight.getChampion().getHp()).isBetween(championHpAfterDamage[0], championHpAfterDamage[1]);
+        ifAssertThatIsChampionDefeated();
+        softly.assertAll();
+    }
+
+    @Test
+    public void championAttackAliveChampionTest() {
+        lowHpChampion();
+        lowHpGoblin();
+
+        fight.championAttack();
+
+        ifAssertThatIsMonsterDefeated();
+        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterAttackAliveChampionTest() {
+        lowHpGoblin();
+        lowHpChampion();
+
+        fight.monsterAttack();
 
         ifAssertThatIsChampionDefeated();
-        ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
-        softly.assertThat(fight.nextTurn()).isFalse();
         softly.assertAll();
     }
 
     @Test
-    public void battleChampionWithHighInitiationAndHighDefenseAndMonsterWithHighDefenseTest() {
-        Champion champion = new Champion();
-        champion.setHp(1);
-        champion.setDefense(1000);
-        fight.setChampion(champion);
-        fight.setChampionFinalInitiation(1000);
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-        monster.setDefense(1000);
-        fight.setMonster(monster);
+    public void championAttackDefeatedChampionTest() {
+        defeatedChampion();
+        lowHpGoblin();
 
-        fight.battle();
+        fight.championAttack();
 
-        ifAssertThatIsChampionStillAlive();
         ifAssertThatIsMonsterStillAlive();
-        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
-        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
-        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
-        softly.assertThat(fight.nextTurn()).isTrue();
+        softly.assertAll();
+    }
+
+
+    @Test
+    public void monsterAttackDefeatedMonsterTest() {
+        defeatedGoblin();
+        lowHpChampion();
+
+        fight.monsterAttack();
+
+        softly.assertThat(fight.getChampion().getHp()).as("Champion still alive").isGreaterThan(0);
+        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
         softly.assertAll();
     }
 
@@ -384,6 +556,7 @@ public class TestFight {
         softly.assertThat(fight.nextTurn()).isTrue();
         softly.assertAll();
     }
+
     @Test
     public void monsterDefeatedWithDefeatedGoblinKingTest() {
         defeatedGoblinKing();
@@ -397,128 +570,4 @@ public class TestFight {
         softly.assertThat(fight.nextTurn()).isFalse();
         softly.assertAll();
     }
-//
-//    @Test
-//    public void monsterAccuracyAliveMonsterWithHighAccuracyTest() {
-//        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-//        monster.setAccuracy(1000);
-//        fight.setMonster(monster);
-//        lowHpChampion();
-//
-//        fight.monsterAccuracy();
-//
-//        ifAssertThatIsChampionDefeated();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void monsterAccuracyAliveMonsterAndChampWithHighDefenseTest() {
-//        lowHpGoblin();
-//        Champion champion = new Champion();
-//        champion.setHp(1);
-//        champion.setDefense(1000);
-//        fight.setChampion(champion);
-//
-//        fight.monsterAccuracy();
-//
-//        ifAssertThatIsChampionStillAlive();
-//        softly.assertAll();
-
-//    }
-//    @Test
-//    public void monsterAccuracyGoblinDefeated() {
-//        defeatedGoblin();
-//
-//        fight.monsterAccuracy();
-//
-//        assertThat(fight.nextTurn()).isFalse();
-//    }
-//
-//    @Test
-//    public void championAccuracyAliveChampionWithHighAccuracyTest() {
-//        Champion champion = new Champion();
-//        champion.setHp(1);
-//        champion.setAccuracy(1000);
-//        fight.setChampion(champion);
-//
-//        lowHpGoblin();
-//
-//        fight.championAccuracy();
-//
-//        ifAssertThatIsMonsterDefeated();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void championAccuracyAliveChampionAndMonsterWithHighDefenseTest() {
-//        lowHpChampion();
-//        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
-//        monster.setDefense(1000);
-//        fight.setMonster(monster);
-//
-//        fight.championAccuracy();
-//
-//        ifAssertThatIsMonsterStillAlive();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void championAccuracyGoblinDefeated() {
-//        defeatedChampion();
-//
-//        fight.championAccuracy();
-//
-//        assertThat(fight.nextTurn()).isFalse();
-
-//    }
-
-    @Test
-    public void championAttackAliveChampionTest() {
-        lowHpChampion();
-        lowHpGoblin();
-
-        fight.championAttack();
-
-        ifAssertThatIsMonsterDefeated();
-        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
-        softly.assertAll();
-    }
-
-    @Test
-    public void championAttackDefeatedChampionTest() {
-        defeatedChampion();
-        lowHpGoblin();
-
-        fight.championAttack();
-
-        ifAssertThatIsMonsterStillAlive();
-        softly.assertAll();
-    }
-
-    @Test
-    public void monsterAttackAliveChampionTest() {
-        lowHpGoblin();
-        lowHpChampion();
-
-        fight.monsterAttack();
-
-        ifAssertThatIsChampionDefeated();
-        softly.assertAll();
-    }
-
-    @Test
-    public void monsterAttackDefeatedMonsterTest() {
-        defeatedGoblin();
-        lowHpChampion();
-
-        fight.monsterAttack();
-
-        softly.assertThat(fight.getChampion().getHp()).as("Champion still alive").isGreaterThan(0);
-        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
-        softly.assertAll();
-    }
-
-
-
-
 }

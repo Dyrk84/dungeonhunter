@@ -20,6 +20,7 @@ public interface MonstersInterface {
     int getAccuracy();
     int accuracyCalculation();
     int getAccuracyRoll();
+    void setAccuracyRoll(int accuracyRoll);
     void setDefense(int defense);
     int getDefense();
     int getNumOfDices();

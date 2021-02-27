@@ -16,6 +16,7 @@ public class Champion {
     @Getter
     private int accuracy;
 
+    @Setter
     @Getter
     private int accuracyRoll;
 
