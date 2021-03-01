@@ -232,6 +232,7 @@ public class Fight {
                 System.out.println("You can't have more than 5 healing potions!");
             }
         } else {
+            monsterCounter--;
             textOfWin();
         }
     }
