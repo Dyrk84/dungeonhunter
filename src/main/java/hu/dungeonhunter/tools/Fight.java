@@ -90,11 +90,9 @@ public class Fight {
     }
 
     public void goblinKingDamage() {
-        TextSeparator.format("The " + CharacterTypes.GOBLIN_KING.charType
+        TextSeparator.format("The " + Colors.ANSI_RED + CharacterTypes.GOBLIN_KING.charType + Colors.ANSI_RESET
             + " steps out from the darkness and throws you with a big rock!");
-        champion.setHp(champion.getHp() - Dice.rollDice(6, 1));
-        System.out.println("You have " + champion.getHp() + " hp");
-        champion.isDefeated();
+        dealNormalDamage(monster, champion, monster.damage());
     }
 
     public void initiationCalc() {
@@ -138,10 +136,10 @@ public class Fight {
                     TextSeparator.format(charactersInBattle.get(i).getType().charType + " attacks faster!");
                 }
                 attack(charactersInBattle.get(i), Dice.rollDice(100, 1));
-                if (monster.isDefeated() && monster.getType() != CharacterTypes.GOBLIN_KING) {
+                if (monster.getHp() <= 0 && monster.getType() != CharacterTypes.GOBLIN_KING) {
                     monsterDefeated();
                     monsterIncoming();
-                } else if (monster.isDefeated() && monster.getType() == CharacterTypes.GOBLIN_KING) {
+                } else if (monster.getHp() < 0 && monster.getType() == CharacterTypes.GOBLIN_KING) {
                     monsterDefeated();
                 }
             }
@@ -200,26 +198,26 @@ public class Fight {
     }
 
     public void dealNormalDamage(Character attacker, Character attacked) {
-        if (attacker.getHp() > 0) {
-            System.out.print("The " + attacker.getType().charType + " hit the " + attacked.getType().charType + "! ");
-            attacked.setHp(attacked.getHp() - attacker.damage());
-            System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() + Colors.ANSI_RESET + ".");
-            TextSeparator.format("The " + attacked.getType().charType + " have now "
-                    + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
-            attacked.isDefeated();
-        }
+        dealNormalDamage(attacker, attacked, attacker.damage());
+    }
+
+    public void dealNormalDamage(Character attacker, Character attacked, int damage) {
+        System.out.print("The " + attacker.getType().charType + " hit the " + attacked.getType().charType + "! ");
+        attacked.setHp(attacked.getHp() - damage);
+        System.out.println("The damage is " + Colors.ANSI_RED + damage + Colors.ANSI_RESET + ".");
+        TextSeparator.format("The " + attacked.getType().charType + " have now "
+            + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
+        attacked.isDefeated();
     }
 
     public void dealCriticalHit(Character attacker, Character attacked) {
-        if (attacker.getHp() > 0) {
-            System.out.print("The " + attacker.getType().charType + " hit the " + attacked.getType().charType + " with a " + Colors.ANSI_RED
-                    + "CRITICAL " + Colors.ANSI_RESET + "hit! ");
-            attacked.setHp(monster.getHp() - attacker.damage() * 2);
-            System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() * 2 + Colors.ANSI_RESET + "!");
-            TextSeparator.format("The " + attacked.getType().charType + " have now "
-                    + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
-            attacked.isDefeated();
-        }
+        System.out.print("The " + attacker.getType().charType + " hit the " + attacked.getType().charType + " with a " + Colors.ANSI_RED
+            + "CRITICAL " + Colors.ANSI_RESET + "hit! ");
+        attacked.setHp(monster.getHp() - attacker.damage() * 2);
+        System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() * 2 + Colors.ANSI_RESET + "!");
+        TextSeparator.format("The " + attacked.getType().charType + " have now "
+            + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
+        attacked.isDefeated();
     }
 
     public void monsterDefeated() {

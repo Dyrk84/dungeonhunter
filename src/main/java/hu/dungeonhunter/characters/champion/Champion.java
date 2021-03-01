@@ -79,6 +79,7 @@ public class Champion implements Character {
         return type;
     }
 
+    @Override
     public int damage() {
         damage = Dice.rollDice(maxDamage, numOfDices);
         return damage;
