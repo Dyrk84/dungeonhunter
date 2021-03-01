@@ -1,6 +1,7 @@
 package hu.dungeonhunter;
 
 import hu.dungeonhunter.characters.champion.Champion;
+import hu.dungeonhunter.tools.Dice;
 import hu.dungeonhunter.tools.Fight;
 import org.junit.Test;
 
@@ -25,8 +26,8 @@ public class TestChampion {
         champion.setAccuracy(10);
         fight.setChampion(champion);
 
-        int championAccuracy = champion.accuracyCalculation();
+        int championAccuracy = champion.accuracyCalculation(Dice.rollDice(1, 1));
 
-        assertThat(championAccuracy).isBetween(11,110);
+        assertThat(championAccuracy).isEqualTo(11);
     }
 }

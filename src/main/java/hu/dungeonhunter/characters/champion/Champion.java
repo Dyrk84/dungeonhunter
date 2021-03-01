@@ -1,5 +1,6 @@
 package hu.dungeonhunter.characters.champion;
 
+import hu.dungeonhunter.characters.Character;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import hu.dungeonhunter.utils.TextSeparator;
@@ -8,17 +9,13 @@ import lombok.Setter;
 
 import static hu.dungeonhunter.utils.Colors.*;
 
-public class Champion {
+public class Champion implements Character {
 
     static final int START_HP = 20;
 
     @Setter
     @Getter
     private int accuracy;
-
-    @Setter
-    @Getter
-    private int accuracyRoll;
 
     @Getter
     private int damage;
@@ -39,8 +36,7 @@ public class Champion {
     private int numOfDices;
 
     @Setter
-    @Getter
-    private boolean defeat;
+    private boolean defeated;
 
     @Setter
     @Getter
@@ -50,7 +46,6 @@ public class Champion {
     @Getter
     private int initiation;
 
-    @Getter
     private static final CharacterTypes type = CharacterTypes.CHAMPION;
 
     public Champion() {
@@ -63,11 +58,13 @@ public class Champion {
         championDebut();
     }
 
-    public void enemyVictory() {
+    @Override
+    public boolean isDefeated() {
         if (hp <= 0) {
             System.out.println("You are soooo dead! Game Over!");
-            defeat = true;
+            defeated = true;
         }
+        return false;
     }
 
     public void championDebut() {
@@ -77,7 +74,12 @@ public class Champion {
         TextSeparator.format("");
     }
 
-    public int Damage() {
+    @Override
+    public CharacterTypes getType() {
+        return type;
+    }
+
+    public int damage() {
         damage = Dice.rollDice(maxDamage, numOfDices);
         return damage;
     }
@@ -106,9 +108,8 @@ public class Champion {
         return getInitiation() + champInitRoll;
     }
 
-    public int accuracyCalculation() {
+    public int accuracyCalculation(int accuracyRoll) {
         System.out.print("Champion accuracy: " + getAccuracy() + " + ");
-        accuracyRoll = Dice.rollDice(100, 1);
         System.out.println("Final Champion accuracy: " + (getAccuracy() + accuracyRoll) + " ");
         return getAccuracy() + accuracyRoll;
     }

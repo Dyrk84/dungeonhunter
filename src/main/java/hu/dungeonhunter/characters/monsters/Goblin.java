@@ -1,11 +1,12 @@
 package hu.dungeonhunter.characters.monsters;
 
+import hu.dungeonhunter.characters.Character;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Goblin implements MonstersInterface {
+public class Goblin implements Character {
 
     @Setter
     @Getter
@@ -14,10 +15,6 @@ public class Goblin implements MonstersInterface {
     @Setter
     @Getter
     private int accuracy;
-
-    @Setter
-    @Getter
-    private int accuracyRoll;
 
     @Getter
     private int damage;
@@ -38,15 +35,9 @@ public class Goblin implements MonstersInterface {
     @Getter
     private int numOfDices;
 
-    @Getter
-    private final CharacterTypes type = CharacterTypes.GOBLIN;
+    private static final CharacterTypes type = CharacterTypes.GOBLIN;
 
     public Goblin() {
-        getMonster();
-    }
-
-    @Override
-    public void getMonster() {
         this.hp = Dice.rollDice(4, 3);
         startValues();
     }
@@ -63,7 +54,7 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public boolean enemyVictory() {
+    public boolean isDefeated() {
         if (hp <= 0) {
             System.out.println("You killed the monster!");
             return true;
@@ -72,7 +63,12 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public int Damage() {
+    public CharacterTypes getType() {
+        return type;
+    }
+
+    @Override
+    public int damage() {
         damage = Dice.rollDice(maxDamage, numOfDices);
         return damage;
     }
@@ -86,9 +82,8 @@ public class Goblin implements MonstersInterface {
     }
 
     @Override
-    public int accuracyCalculation() {
+    public int accuracyCalculation(int accuracyRoll) {
         System.out.print("Goblin accuracy: " + getAccuracy() + " + ");
-        accuracyRoll = Dice.rollDice(100, 1);
         System.out.println("Final Goblin accuracy: " + (getAccuracy() + accuracyRoll) + " ");
         return getAccuracy() + accuracyRoll;
     }
