@@ -148,6 +148,7 @@ public class Fight {
 
     public void attack(Character attacker, int accuracyRoll) {
         System.out.println(attacker.getType().charType + "'s defense: " + attacker.getDefense());
+        // 1 soros if-else: ha az attacker champion, akkor az attacked monster lesz, ha nem, akkor champion lesz az attacked
         Character attacked = attacker.getType() == CharacterTypes.CHAMPION ? monster : champion;
         int rolledAccuracy = attacker.accuracyCalculation(accuracyRoll);
         if (rolledAccuracy == 1) criticalMiss(attacker);
