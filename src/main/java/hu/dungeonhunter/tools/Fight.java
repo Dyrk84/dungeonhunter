@@ -11,8 +11,11 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Fight {
 
@@ -60,7 +63,7 @@ public class Fight {
             System.out.println("The monster hits you a last time before you can run away: ");
             champion.setHp(champion.getHp() - monster.damage());
             System.out.println("Champion have now " + Colors.ANSI_RED + champion.getHp()
-                    + Colors.ANSI_RESET + " hit points");
+                + Colors.ANSI_RESET + " hit points");
             if (!champion.isDefeated()) {
                 monsterCounter--;
                 charactersInBattle.remove(monster);
@@ -101,30 +104,32 @@ public class Fight {
         }
         TextSeparator.format("Initiation Calculation:");
 
-        List<Character> orderedCharacterList = new ArrayList<>();
-        List<Integer> initRolls = new ArrayList<>();
+        Map<Character, Integer> initRolls = new HashMap<>();
         for (int i = 0; i < charactersInBattle.size(); i++) {
-            // hozzáadja az i. karakter initiation roll értékét egy listához
-            initRolls.add(charactersInBattle.get(i).initiationCalculation());
-
-            // megnézi, hogy az initrollok közül az i. a legnagyobb e
-            if (Collections.max(initRolls).equals(initRolls.get(i))) {
-                // ha igen, akkor a rendezett karakterlista 0. helyére szúrja be az i. karaktert
-                orderedCharacterList.add(0, charactersInBattle.get(i));
-            } else {
-                // ha nem, akkor kozzáadja a rendezett karakterlista végére az i. karaktert
-                orderedCharacterList.add(charactersInBattle.get(i));
-            }
+            // hozzáadja az i. karaktert és annak a rollolt értékét egy HashMap-hez (kulcs: karakter, érték: rolled int)
+            initRolls.put(charactersInBattle.get(i), charactersInBattle.get(i).initiationCalculation());
         }
 
-        // HashSet megszünteti a duplikációkat, initrolls listát átadva a HashSet-nek meg tudjuk nézni kell e re-rollolni (egyező initrollok)
-        if (orderedCharacterList.size() != new HashSet<>(initRolls).size()) {
+        // kiszedi a map-ből a rollolt értékeket és Set-be rendezi (Set és HashSet automatikusan eltávolítja a duplikált elemeket)
+        Set<Integer> uniqueRolls = initRolls.values().stream()
+            .filter(integer -> integer > 0)
+            .collect(Collectors.toSet());
+
+        // ha nem egyezik a harcoló felek száma a dobott, egyedi initation értékek számával, akkor újrakezdjük az init dobást.
+        if (charactersInBattle.size() != uniqueRolls.size()) {
             loopCounter++;
             TextSeparator.format("The values are same! New initiation calculation!");
             initiationCalc();
-        } else {
-            setCharactersInBattle(orderedCharacterList);
         }
+
+        // A hashmap kulcsai (karakter) rendezi csökkenő sorrendbe a hashmap értékei (init rolls) alapján és a rendezezz map kulcsaiból listát csinál
+        List<Character> orderedCharacterList = initRolls.entrySet().stream()
+            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+
+        setCharactersInBattle(orderedCharacterList);
+
         loopCounter = 0;
         battle();
     }
@@ -190,11 +195,11 @@ public class Fight {
 
     public void dealDeadlyHit(Character attacker, Character attacked) {
         System.out.println("The " + attacker.getType().charType + " delivers a " + Colors.ANSI_RED + " DEADLY ATTACK " + Colors.ANSI_RESET
-                + "with incredible luck.");
+            + "with incredible luck.");
         attacked.setHp(attacked.getHp() - (attacker.damage() * 10));
         System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() * 10 + Colors.ANSI_RESET + "!!!");
         TextSeparator.format("The " + attacked.getType().charType + " have now "
-                + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
+            + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
         attacked.isDefeated();
     }
 
@@ -240,11 +245,11 @@ public class Fight {
 
     private void textOfWin() {
         System.out.println("The Dungeon is clear! You killed " + characterFactory.getKilledMonsterCounter() +
-                " monster (not counting the many mothers and children), you win!");
+            " monster (not counting the many mothers and children), you win!");
     }
 
     public boolean nextTurn() {
-        if (champion.getHp() <= 0 || monster.getHp() <= 0 && monster.getType() == CharacterTypes.GOBLIN_KING )
+        if (champion.getHp() <= 0 || monster.getHp() <= 0 && monster.getType() == CharacterTypes.GOBLIN_KING)
             return false;
         else
             return true;
