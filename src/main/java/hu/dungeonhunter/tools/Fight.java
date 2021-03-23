@@ -9,12 +9,7 @@ import hu.dungeonhunter.utils.TextSeparator;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Fight {
@@ -104,28 +99,24 @@ public class Fight {
         }
         TextSeparator.format("Initiation Calculation:");
 
-        Map<Character, Integer> initRolls = new HashMap<>();
+        Map<Integer, Character> initRolls = new HashMap<>();
         for (int i = 0; i < charactersInBattle.size(); i++) {
             // hozzáadja az i. karaktert és annak a rollolt értékét egy HashMap-hez (kulcs: karakter, érték: rolled int)
-            initRolls.put(charactersInBattle.get(i), charactersInBattle.get(i).initiationCalculation());
+            initRolls.put(charactersInBattle.get(i).initiationCalculation(), charactersInBattle.get(i));
         }
 
-        // kiszedi a map-ből a rollolt értékeket és Set-be rendezi (Set és HashSet automatikusan eltávolítja a duplikált elemeket)
-        Set<Integer> uniqueRolls = initRolls.values().stream()
-            .filter(integer -> integer > 0)
-            .collect(Collectors.toSet());
-
         // ha nem egyezik a harcoló felek száma a dobott, egyedi initation értékek számával, akkor újrakezdjük az init dobást.
-        if (charactersInBattle.size() != uniqueRolls.size()) {
+        if (charactersInBattle.size() != initRolls.size()) {
             loopCounter++;
             TextSeparator.format("The values are same! New initiation calculation!");
             initiationCalc();
         }
 
         // A hashmap kulcsai (karakter) rendezi csökkenő sorrendbe a hashmap értékei (init rolls) alapján és a rendezezz map kulcsaiból listát csinál
+
         List<Character> orderedCharacterList = initRolls.entrySet().stream()
-            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-            .map(Map.Entry::getKey)
+            .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+            .map(Map.Entry::getValue)
             .collect(Collectors.toList());
 
         setCharactersInBattle(orderedCharacterList);
@@ -152,9 +143,9 @@ public class Fight {
     }
 
     public void attack(Character attacker, int accuracyRoll) {
-        System.out.println(attacker.getType().charType + "'s defense: " + attacker.getDefense());
         // 1 soros if-else: ha az attacker champion, akkor az attacked monster lesz, ha nem, akkor champion lesz az attacked
         Character attacked = attacker.getType() == CharacterTypes.CHAMPION ? monster : champion;
+        System.out.println(attacked.getType().charType + "'s defense: " + attacked.getDefense());
         int rolledAccuracy = attacker.accuracyCalculation(accuracyRoll);
         if (rolledAccuracy == 1) criticalMiss(attacker);
         if (rolledAccuracy == 100) dealDeadlyHit(attacker, attacked);
