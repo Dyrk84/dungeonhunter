@@ -110,8 +110,8 @@ public class Champion implements Character {
     }
 
     public int accuracyCalculation(int accuracyRoll) {
-        System.out.print("Champion accuracy: " + getAccuracy() + " + ");
-        System.out.println("Final Champion accuracy: " + (getAccuracy() + accuracyRoll) + " ");
+        System.out.println("Champion base accuracy: " + getAccuracy() + " + rolled number: " + accuracyRoll);
+        System.out.print("Final Champion accuracy: " + (getAccuracy() + accuracyRoll) + " ");
         return getAccuracy() + accuracyRoll;
     }
 }

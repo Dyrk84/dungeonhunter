@@ -3,6 +3,7 @@ package hu.dungeonhunter.tools;
 import hu.dungeonhunter.characters.champion.Champion;
 import hu.dungeonhunter.characters.CharacterFactory;
 import hu.dungeonhunter.characters.Character;
+import hu.dungeonhunter.characters.monsters.GoblinKing;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.utils.Colors;
 import hu.dungeonhunter.utils.TextSeparator;
@@ -99,43 +100,43 @@ public class Fight {
         }
         TextSeparator.format("Initiation Calculation:");
 
-        Map<Integer, Character> initRolls = new HashMap<>();
+        Map<Integer, Character> initRolls = new HashMap<>(); //D: ez a HashMap azért kell, hogy beletöltsük a karaktereket és a karakterek dobott kezdeményező értékeit.
         for (int i = 0; i < charactersInBattle.size(); i++) {
-            // hozzáadja az i. karaktert és annak a rollolt értékét egy HashMap-hez (kulcs: karakter, érték: rolled int)
-            initRolls.put(charactersInBattle.get(i).initiationCalculation(), charactersInBattle.get(i));
+            // hozzáadja az i. karaktert és annak a rollolt értékét egy HashMap-hez (key: rolled int, value: karakter)
+            initRolls.put(charactersInBattle.get(i).initiationCalculation(), charactersInBattle.get(i)); //D: itt a trükk annyi, hogy nem lehet két azonos key a HashMap-ben, ezért ha azonos lenne a dobás, az egyik key elveszne.
         }
 
         // ha nem egyezik a harcoló felek száma a dobott, egyedi initation értékek számával, akkor újrakezdjük az init dobást.
-        if (charactersInBattle.size() != initRolls.size()) {
+        if (charactersInBattle.size() != initRolls.size()) { //D: ha nem egyezik, akkor ez lefut, de mivel újra kezdi az initiationCalc()-ot, az is le fog futni, és ami ez után jön, az annyiszor le fog futni a program szál végén, ahányszor azonos kezdeményező érték volt.
             loopCounter++;
             TextSeparator.format("The values are same! New initiation calculation!");
             initiationCalc();
+        }else {
+
+            // A hashmap kulcsai (karakter) rendezi csökkenő sorrendbe a hashmap értékei (init rolls) alapján és a rendezezz map kulcsaiból listát csinál
+
+            List<Character> orderedCharacterList = initRolls.entrySet().stream() // D: az endtrySet() visszaadja a kulcs értékek rögzített adathalmazát, ebből csinál streamet
+                    .sorted(Collections.reverseOrder(Map.Entry.comparingByKey())) //D: a sorted -el (ez egy stream függvény) meghívunk egy logikát, ami alapján rendezünk(a collections-t hívjuk meg, a reverseOrdert használva ami a stream -el használható speciális rendező függvény, ami fordított sorrendbe fogja rakni az értékeket és a zárójelben meghatározzuk, hogy mi alapján fogunk rendezni (a map adathalmazai közül összehasonlít a keyek alapján)
+                    .map(Map.Entry::getValue) //D: itt nekünk már csak a karakterek kellenek a dobott értékek alapján sorrendbe rakva(de a dobott értékek már nem kellenek), ennek a sornak ez a célja. A .map-elés (ez is egy stream függvény)az egy eljárás, megfeleltetése értékeket valamilyen logika alapján másmilyen értékeknek. A Map.Entry azt csinálja, hogy vegye a map elemeit, a :: azt jelenti, hogy vegye ki a mögötte jövőt, ami ugye a value lesz, így veszi ki a Map value-kat, amik ugye a karakterek. Röviden: A Map (Map.) adatai (Entry) közül vedd ki a value-kat (::getValue).
+                    .collect(Collectors.toList()); //D: ez a collect változtatja át az eddigi stream adatfolyamot listává, hogy lehessen használni listaként a későbbiekben.
+
+            setCharactersInBattle(orderedCharacterList); //TODO itt a set szócska az elején nem tudom hogy működik, hogyhogy csak hozzáírom a lista nevéhez, pont vagy bármi nélkül? Közben rájöttem, a lista setter miatt.
+
+            loopCounter = 0;
+            battle();
         }
-
-        // A hashmap kulcsai (karakter) rendezi csökkenő sorrendbe a hashmap értékei (init rolls) alapján és a rendezezz map kulcsaiból listát csinál
-
-        List<Character> orderedCharacterList = initRolls.entrySet().stream()
-            .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
-            .map(Map.Entry::getValue)
-            .collect(Collectors.toList());
-
-        setCharactersInBattle(orderedCharacterList);
-
-        loopCounter = 0;
-        battle();
     }
 
     public void battle() {
         for (int i = 0; i < charactersInBattle.size(); i++) {
-            if (charactersInBattle.get(i).getHp() > 0) {
-                if (i == 0) {
+            if (charactersInBattle.get(i).getHp() > 0) {  //D: ez az if azért van, hogy halott karakter ne vehessen részt a csatában.
+                if (i == 0) { //ez azért van itt, hogy kiírja hogy az első karakter a listában (rendezésnél ő neki lett a legnagyobb kezdeményezése) kezdi a támadást
                     TextSeparator.format(charactersInBattle.get(i).getType().charType + " attacks faster!");
                 }
                 attack(charactersInBattle.get(i), Dice.rollDice(100, 1));
                 if (monster.getHp() <= 0 && monster.getType() != CharacterTypes.GOBLIN_KING) {
                     monsterDefeated();
-                    monsterIncoming();
-                } else if (monster.getHp() < 0 && monster.getType() == CharacterTypes.GOBLIN_KING) {
+                } else if (monster.getHp() <= 0 && monster.getType() == CharacterTypes.GOBLIN_KING) {
                     monsterDefeated();
                 }
             }
@@ -145,17 +146,18 @@ public class Fight {
     public void attack(Character attacker, int accuracyRoll) {
         // 1 soros if-else: ha az attacker champion, akkor az attacked monster lesz, ha nem, akkor champion lesz az attacked
         Character attacked = attacker.getType() == CharacterTypes.CHAMPION ? monster : champion;
+
+        int finalAccuracy = attacker.accuracyCalculation(accuracyRoll);
         System.out.println(attacked.getType().charType + "'s defense: " + attacked.getDefense());
-        int rolledAccuracy = attacker.accuracyCalculation(accuracyRoll);
-        if (rolledAccuracy == 1) criticalMiss(attacker);
-        if (rolledAccuracy == 100) dealDeadlyHit(attacker, attacked);
+        if (accuracyRoll == 1) criticalMiss(attacker);
+        if (accuracyRoll == 100) dealDeadlyHit(attacker, attacked);
         else {
-            if (rolledAccuracy <= attacked.getDefense() && attacker.getHp() > 0 && attacked.getHp() > 0) {
+            if (finalAccuracy <= attacked.getDefense() && attacker.getHp() > 0 && attacked.getHp() > 0) {
                 TextSeparator.format(attacker.getType().charType + "'s hit miss!");
             }
-            if (rolledAccuracy > (attacked.getDefense() + 50) && attacker.getHp() > 0 && attacked.getHp() > 0) {
+            if (finalAccuracy > (attacked.getDefense() + 50) && attacker.getHp() > 0 && attacked.getHp() > 0) {
                 dealCriticalHit(attacker, attacked);
-            } else if (rolledAccuracy > attacked.getDefense() && attacker.getHp() > 0 && attacked.getHp() > 0) {
+            } else if (finalAccuracy > attacked.getDefense() && attacker.getHp() > 0 && attacked.getHp() > 0) {
                 dealNormalDamage(attacker, attacked);
             }
         }
@@ -235,11 +237,15 @@ public class Fight {
     }
 
     private void textOfWin() {
-        System.out.println("The Dungeon is clear! You killed " + characterFactory.getKilledMonsterCounter() +
-            " monster (not counting the many mothers and children), you win!");
+        System.out.print("The Dungeon is clear! ");
+        if (characterFactory.getKilledMonsterCounter() > 0) System.out.print("You killed " + characterFactory
+                .getKilledMonsterCounter() + " monster");
+            if (characterFactory.getKilledMonsterCounter() > 1) System.out.print("s, ");
+        System.out.println("you win!");
     }
 
     public boolean nextTurn() {
+        if (monster.getHp() <= 0 && monster.getType() != CharacterTypes.GOBLIN_KING) monsterIncoming();
         if (champion.getHp() <= 0 || monster.getHp() <= 0 && monster.getType() == CharacterTypes.GOBLIN_KING)
             return false;
         else

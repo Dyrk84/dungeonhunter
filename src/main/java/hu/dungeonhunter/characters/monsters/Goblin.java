@@ -83,8 +83,8 @@ public class Goblin implements Character {
 
     @Override
     public int accuracyCalculation(int accuracyRoll) {
-        System.out.print("Goblin accuracy: " + getAccuracy() + " + ");
-        System.out.println("Final Goblin accuracy: " + (getAccuracy() + accuracyRoll) + " ");
+        System.out.println("Goblin base accuracy: " + getAccuracy() + " + rolled number: " + accuracyRoll);
+        System.out.print("Final Goblin accuracy: " + (getAccuracy() + accuracyRoll) + " ");
         return getAccuracy() + accuracyRoll;
     }
 }

@@ -83,8 +83,8 @@ public class GoblinKing implements Character {
 
     @Override
     public int accuracyCalculation(int accuracyRoll) {
-        System.out.print("Goblin king accuracy: " + getAccuracy() + " + ");
-        System.out.println("Final Goblin king accuracy: " + (getAccuracy() + accuracyRoll) + " ");
+        System.out.println("Goblin king base accuracy: " + getAccuracy() + " + rolled number: " + accuracyRoll);
+        System.out.print("Final Goblin king accuracy: " + (getAccuracy() + accuracyRoll) + " ");
         return getAccuracy() + accuracyRoll;
     }
 }
