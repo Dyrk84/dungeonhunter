@@ -7,7 +7,7 @@ import hu.dungeonhunter.model.CharacterTypes;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CharacterFactory {
+public class MonsterFactory {
 
     @Setter
     @Getter
@@ -16,7 +16,7 @@ public class CharacterFactory {
     public Character getCharacter(CharacterTypes type) {
         Character character;
         if (type == CharacterTypes.CHAMPION) {
-            character = new Champion();
+            throw new RuntimeException("champion is not a monster type!");
         } else if (type == CharacterTypes.GOBLIN_KING) {
             character = new GoblinKing();
         } else {

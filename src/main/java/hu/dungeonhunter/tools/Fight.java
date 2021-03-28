@@ -1,9 +1,8 @@
 package hu.dungeonhunter.tools;
 
 import hu.dungeonhunter.characters.champion.Champion;
-import hu.dungeonhunter.characters.CharacterFactory;
+import hu.dungeonhunter.characters.MonsterFactory;
 import hu.dungeonhunter.characters.Character;
-import hu.dungeonhunter.characters.monsters.GoblinKing;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.utils.Colors;
 import hu.dungeonhunter.utils.TextSeparator;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 public class Fight {
 
     @Getter
-    private final CharacterFactory characterFactory = new CharacterFactory();
+    private final MonsterFactory monsterFactory = new MonsterFactory();
 
     @Setter
     @Getter
@@ -59,7 +58,7 @@ public class Fight {
             System.out.println("The monster hits you a last time before you can run away: ");
             champion.setHp(champion.getHp() - monster.damage());
             System.out.println("Champion have now " + Colors.ANSI_RED + champion.getHp()
-                + Colors.ANSI_RESET + " hit points");
+                    + Colors.ANSI_RESET + " hit points");
             if (!champion.isDefeated()) {
                 monsterCounter--;
                 charactersInBattle.remove(monster);
@@ -79,18 +78,18 @@ public class Fight {
 
     public Character monsterCaller() {
         if (randomEnemy == 1) {
-            monster = characterFactory.getCharacter(CharacterTypes.GOBLIN_KING);
+            monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
             TextSeparator.format("A goblin steps out from the darkness!");
-            monster = characterFactory.getCharacter(CharacterTypes.GOBLIN);
+            monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
         }
         return monster;
     }
 
     public void goblinKingDamage() {
         TextSeparator.format("The " + Colors.ANSI_RED + CharacterTypes.GOBLIN_KING.charType + Colors.ANSI_RESET
-            + " steps out from the darkness and throws you with a big rock!");
+                + " steps out from the darkness and throws you with a big rock!");
         dealNormalDamage(monster, champion, monster.damage());
     }
 
@@ -111,7 +110,7 @@ public class Fight {
             loopCounter++;
             TextSeparator.format("The values are same! New initiation calculation!");
             initiationCalc();
-        }else {
+        } else {
 
             // A hashmap kulcsai (karakter) rendezi csökkenő sorrendbe a hashmap értékei (init rolls) alapján és a rendezezz map kulcsaiból listát csinál
 
@@ -120,7 +119,7 @@ public class Fight {
                     .map(Map.Entry::getValue) //D: itt nekünk már csak a karakterek kellenek a dobott értékek alapján sorrendbe rakva(de a dobott értékek már nem kellenek), ennek a sornak ez a célja. A .map-elés (ez is egy stream függvény)az egy eljárás, megfeleltetése értékeket valamilyen logika alapján másmilyen értékeknek. A Map.Entry azt csinálja, hogy vegye a map elemeit, a :: azt jelenti, hogy vegye ki a mögötte jövőt, ami ugye a value lesz, így veszi ki a Map value-kat, amik ugye a karakterek. Röviden: A Map (Map.) adatai (Entry) közül vedd ki a value-kat (::getValue).
                     .collect(Collectors.toList()); //D: ez a collect változtatja át az eddigi stream adatfolyamot listává, hogy lehessen használni listaként a későbbiekben.
 
-            setCharactersInBattle(orderedCharacterList); //TODO itt a set szócska az elején nem tudom hogy működik, hogyhogy csak hozzáírom a lista nevéhez, pont vagy bármi nélkül? Közben rájöttem, a lista setter miatt.
+            setCharactersInBattle(orderedCharacterList);
 
             loopCounter = 0;
             battle();
@@ -188,11 +187,11 @@ public class Fight {
 
     public void dealDeadlyHit(Character attacker, Character attacked) {
         System.out.println("The " + attacker.getType().charType + " delivers a " + Colors.ANSI_RED + " DEADLY ATTACK " + Colors.ANSI_RESET
-            + "with incredible luck.");
+                + "with incredible luck.");
         attacked.setHp(attacked.getHp() - (attacker.damage() * 10));
         System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() * 10 + Colors.ANSI_RESET + "!!!");
         TextSeparator.format("The " + attacked.getType().charType + " have now "
-            + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
+                + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
         attacked.isDefeated();
     }
 
@@ -205,23 +204,23 @@ public class Fight {
         attacked.setHp(attacked.getHp() - damage);
         System.out.println("The damage is " + Colors.ANSI_RED + damage + Colors.ANSI_RESET + ".");
         TextSeparator.format("The " + attacked.getType().charType + " have now "
-            + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
+                + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
         attacked.isDefeated();
     }
 
     public void dealCriticalHit(Character attacker, Character attacked) {
         System.out.print("The " + attacker.getType().charType + " hit the " + attacked.getType().charType + " with a " + Colors.ANSI_RED
-            + "CRITICAL " + Colors.ANSI_RESET + "hit! ");
+                + "CRITICAL " + Colors.ANSI_RESET + "hit! ");
         attacked.setHp(monster.getHp() - attacker.damage() * 2);
         System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() * 2 + Colors.ANSI_RESET + "!");
         TextSeparator.format("The " + attacked.getType().charType + " have now "
-            + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
+                + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
         attacked.isDefeated();
     }
 
     public void monsterDefeated() {
         if (!monster.getType().equals(CharacterTypes.GOBLIN_KING)) {
-            characterFactory.setKilledMonsterCounter(characterFactory.getKilledMonsterCounter() + 1);
+            monsterFactory.setKilledMonsterCounter(monsterFactory.getKilledMonsterCounter() + 1);
             monsterCounter--;
             charactersInBattle.remove(monster);
             System.out.println("You found a healing potion!");
@@ -238,14 +237,16 @@ public class Fight {
 
     private void textOfWin() {
         System.out.print("The Dungeon is clear! ");
-        if (characterFactory.getKilledMonsterCounter() > 0) System.out.print("You killed " + characterFactory
+        if (monsterFactory.getKilledMonsterCounter() > 0) System.out.print("You killed " + monsterFactory
                 .getKilledMonsterCounter() + " monster");
-            if (characterFactory.getKilledMonsterCounter() > 1) System.out.print("s, ");
+        if (monsterFactory.getKilledMonsterCounter() > 1) System.out.print("s, ");
         System.out.println("you win!");
     }
 
     public boolean nextTurn() {
-        if (monster.getHp() <= 0 && monster.getType() != CharacterTypes.GOBLIN_KING) monsterIncoming();
+        if (monster.getHp() <= 0 && monster.getType() != CharacterTypes.GOBLIN_KING){
+            monsterIncoming();
+        }
         if (champion.getHp() <= 0 || monster.getHp() <= 0 && monster.getType() == CharacterTypes.GOBLIN_KING)
             return false;
         else

@@ -1,7 +1,7 @@
 package hu.dungeonhunter;
 
 import hu.dungeonhunter.characters.champion.Champion;
-import hu.dungeonhunter.characters.CharacterFactory;
+import hu.dungeonhunter.characters.MonsterFactory;
 import hu.dungeonhunter.characters.Character;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestDice {
 
-    private CharacterFactory characterFactory = new CharacterFactory();
+    private MonsterFactory monsterFactory = new MonsterFactory();
     private Fight fight = new Fight();
 
     @Test
@@ -35,7 +35,7 @@ public class TestDice {
 
     @Test
     public void championWinTest() {
-        Character monster = characterFactory.getCharacter(CharacterTypes.GOBLIN);
+        Character monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
         monster.setHp(0);
         fight.setMonster(monster);
 

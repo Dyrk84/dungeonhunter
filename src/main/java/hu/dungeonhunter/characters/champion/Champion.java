@@ -64,7 +64,7 @@ public class Champion implements Character {
             System.out.println("You are soooo dead! Game Over!");
             defeated = true;
         }
-        return false;
+        return defeated;
     }
 
     public void championDebut() {

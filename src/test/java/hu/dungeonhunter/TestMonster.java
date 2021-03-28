@@ -1,6 +1,6 @@
 package hu.dungeonhunter;
 
-import hu.dungeonhunter.characters.CharacterFactory;
+import hu.dungeonhunter.characters.MonsterFactory;
 import hu.dungeonhunter.characters.Character;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Fight;
@@ -10,12 +10,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMonster {
 
-    private CharacterFactory characterFactory = new CharacterFactory();
+    private MonsterFactory monsterFactory = new MonsterFactory();
     private Fight fight = new Fight();
 
     @Test
     public void attackInitiationCalculationGoblinTest(){
-        Character monster = characterFactory.getCharacter(CharacterTypes.GOBLIN);
+        Character monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
         monster.setInitiation(10);
         fight.setMonster(monster);
 
@@ -26,7 +26,7 @@ public class TestMonster {
 
     @Test
     public void attackInitiationCalculationGoblinKingTest(){
-        Character monster = characterFactory.getCharacter(CharacterTypes.GOBLIN);
+        Character monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
         monster.setInitiation(10);
         fight.setMonster(monster);
 
