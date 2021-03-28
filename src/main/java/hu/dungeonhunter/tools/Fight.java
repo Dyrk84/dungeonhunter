@@ -224,8 +224,8 @@ public class Fight {
     public void monsterDefeated() {
         if (!monster.getType().equals(CharacterTypes.GOBLIN_KING)) {
             monsterFactory.setKilledMonsterCounter(monsterFactory.getKilledMonsterCounter() + 1);
-            monsterCounter--;
             charactersInBattle.remove(monster);
+            monsterCounter--;
             System.out.println("You found a healing potion!");
             if (champion.getHealingPotionCounter() < 5) {
                 champion.setHealingPotionCounter(champion.getHealingPotionCounter() + 1);
@@ -233,7 +233,7 @@ public class Fight {
                 System.out.println("You can't have more than 5 healing potions!");
             }
         } else {
-            monsterCounter--;
+            charactersInBattle.remove(monster);
             textOfWin();
         }
     }

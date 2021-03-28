@@ -3,6 +3,7 @@ package hu.dungeonhunter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import hu.dungeonhunter.characters.monsters.Goblin;
+import hu.dungeonhunter.characters.monsters.GoblinKing;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import hu.dungeonhunter.characters.champion.Champion;
@@ -26,6 +27,7 @@ public class TestFight {
     //segítő változók
     int startingMonsterCounter = fight.getMonsterCounter();
     int startingKilledMonsterCounter = monsterFactory.getKilledMonsterCounter();
+    int startingHealingPotionCounter = fight.getChampion().getHealingPotionCounter();
 
     //segítő meghívások
     private void defeatedGoblin() {
@@ -235,45 +237,6 @@ public class TestFight {
 //        assertThat(fight.getMonster().getAccuracyRoll()).isBetween(1, 100);
 //    }
 
-    @Test
-    public void monsterAccuracyCalculationIfMonsterIsDefeated() {
-        Goblin monster = new Goblin();
-        monster.setHp(0);
-        fight.setCharactersInBattle(Arrays.asList(monster, champion)); //az Arrays.asList azt jelenti, hogy létrehoz egy tömb osztályt listaként.
-        fight.setMonster(monster);
-        int championStartHp = fight.getChampion().getHp();
-
-        fight.attack(monster, 50);
-
-        assertThat(fight.getChampion().getHp()).isEqualTo(championStartHp);
-    }
-
-    //    @Test
-//    public void championAccuracyCalculationIfChampionIsAliveTest() {
-//        Character monster = characterFactory.getCharacter(CharacterTypes.GOBLIN);
-//        fight.setMonster(monster);
-//        champion.setHp(1);
-//        champion.setAccuracy(100);
-//        fight.setChampion(champion);
-//
-//        fight.championAccuracyCalculation();
-//
-//        assertThat(fight.getFinalAccuracy()).isBetween(101, 200);
-//        assertThat(fight.getChampion().getAccuracyRoll()).isBetween(1, 100);
-//    }
-//
-//    @Test
-//    public void championAccuracyCalculationIfChampionIsDefeated() {
-//        champion.setHp(0);
-//        champion.setAccuracy(100);
-//        fight.setChampion(champion);
-//
-//        fight.championAccuracyCalculation();
-//
-//        assertThat(fight.getFinalAccuracy()).isEqualTo(0);
-//        assertThat(fight.getChampion().getAccuracyRoll()).isEqualTo(0);
-//    }
-//
     @Test
     public void monsterAccuracyIfAccuracyRollIs1Test() {
         Goblin monster = new Goblin();
@@ -486,95 +449,50 @@ public class TestFight {
         ifAssertThatIsChampionDefeated();
         softly.assertAll();
     }
-//
-//    @Test
-//    public void championAttackAliveChampionTest() {
-//        lowHpChampion();
-//        lowHpGoblin();
-//
-//        fight.dealDamage();
-//
-//        ifAssertThatIsMonsterDefeated();
-//        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void monsterAttackAliveChampionTest() {
-//        lowHpGoblin();
-//        lowHpChampion();
-//
-//        fight.monsterAttack();
-//
-//        ifAssertThatIsChampionDefeated();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void championAttackDefeatedChampionTest() {
-//        defeatedChampion();
-//        lowHpGoblin();
-//
-//        fight.dealDamage();
-//
-//        ifAssertThatIsMonsterStillAlive();
-//        softly.assertAll();
-//    }
-//
-//
-//    @Test
-//    public void monsterAttackDefeatedMonsterTest() {
-//        defeatedGoblin();
-//        lowHpChampion();
-//
-//        fight.monsterAttack();
-//
-//        softly.assertThat(fight.getChampion().getHp()).as("Champion still alive").isGreaterThan(0);
-//        softly.assertThat(fight.nextTurn()).as("There should be no next turn.").isFalse();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void monsterDefeatedWithDefeatedGoblinTest() {
-//        defeatedGoblin();
-//
-//        fight.monsterDefeated();
-//
-//        softly.assertThat(fight.getCharacterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
-//        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
-//        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
-//        ifAssertThatIsChampionStillAlive(); //this is the new goblin
-//        softly.assertThat(fight.nextTurn()).isTrue();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void monsterDefeatedWithDefeatedGoblinAndHealingPotionOnMaxTest() {
-//        defeatedGoblin();
-//        champion.setHealingPotionCounter(5);
-//        int toTestHealingPotionCounter = champion.getHealingPotionCounter();
-//
-//        fight.monsterDefeated();
-//
-//        softly.assertThat(fight.getCharacterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
-//        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
-//        softly.assertThat(champion.getHealingPotionCounter()).isEqualTo(toTestHealingPotionCounter);
-//        ifAssertThatIsChampionStillAlive(); //this is the new goblin
-//        softly.assertThat(fight.nextTurn()).isTrue();
-//        softly.assertAll();
-//    }
-//
-//    @Test
-//    public void monsterDefeatedWithDefeatedGoblinKingTest() {
-//        defeatedGoblinKing();
-//
-//        fight.monsterDefeated();
-//
-//        softly.assertThat(fight.getCharacterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
-//        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
-//        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
-//        ifAssertThatIsMonsterDefeated(); //dont call new monster
-//        softly.assertThat(fight.nextTurn()).isFalse();
-//        softly.assertAll();
-//    }
+
+    @Test
+    public void monsterDefeatedWithDefeatedGoblinTest() {
+        Goblin monster = new Goblin();
+        monster.setHp(0);
+        fight.setMonster(monster);
+
+        fight.monsterDefeated();
+
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter + 1);
+        softly.assertThat(fight.nextTurn()).isTrue();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterDefeatedWithDefeatedGoblinAndHealingPotionOnMaxTest() {
+        defeatedGoblin();
+        champion.setHealingPotionCounter(5);
+        fight.setChampion(champion);
+
+        fight.monsterDefeated();
+
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter + 1);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter - 1);
+        softly.assertThat(champion.getHealingPotionCounter()).isEqualTo(5);
+        softly.assertThat(fight.nextTurn()).isTrue();
+        softly.assertAll();
+    }
+
+    @Test
+    public void monsterDefeatedWithDefeatedGoblinKingTest() {
+        GoblinKing monster = new GoblinKing();
+        monster.setHp(0);
+        fight.setMonster(monster);
+
+        fight.monsterDefeated();
+
+        softly.assertThat(fight.getMonsterFactory().getKilledMonsterCounter()).isEqualTo(startingKilledMonsterCounter);
+        softly.assertThat(fight.getMonsterCounter()).isEqualTo(startingMonsterCounter);
+        softly.assertThat(fight.getChampion().getHealingPotionCounter()).isEqualTo(startingHealingPotionCounter);
+        ifAssertThatIsMonsterDefeated();
+        softly.assertThat(fight.nextTurn()).isFalse();
+        softly.assertAll();
+    }
 }
