@@ -45,6 +45,9 @@ public class Fight {
     @Getter
     int randomCriticalMissEvent;
 
+    @Getter
+    Map<Integer, Character> initRolls;
+
     public void enterToTheCave() {
         charactersInBattle.add(champion);
         setMonsterCounter(Dice.rollDice(6, 2));
@@ -93,7 +96,7 @@ public class Fight {
         dealNormalDamage(monster, champion, monster.damage());
     }
 
-    public void initiationCalc() {
+    public void initiationCalc() {  //TODO erre hogy lehet teszteket írni?
         if (loopCounter == 100) {
             throw new RuntimeException("Too much same final initiation");
         }
@@ -211,7 +214,7 @@ public class Fight {
     public void dealCriticalHit(Character attacker, Character attacked) {
         System.out.print("The " + attacker.getType().charType + " hit the " + attacked.getType().charType + " with a " + Colors.ANSI_RED
                 + "CRITICAL " + Colors.ANSI_RESET + "hit! ");
-        attacked.setHp(monster.getHp() - attacker.damage() * 2);
+        attacked.setHp(attacked.getHp() - attacker.damage() * 2);
         System.out.println("The damage is " + Colors.ANSI_RED + attacker.getDamage() * 2 + Colors.ANSI_RESET + "!");
         TextSeparator.format("The " + attacked.getType().charType + " have now "
                 + Colors.ANSI_RED + attacked.getHp() + Colors.ANSI_RESET + " hit points");
