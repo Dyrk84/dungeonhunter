@@ -1,9 +1,11 @@
 package hu.dungeonhunter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
 
 import hu.dungeonhunter.characters.monsters.Goblin;
 import hu.dungeonhunter.characters.monsters.GoblinKing;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import hu.dungeonhunter.characters.champion.Champion;
@@ -175,67 +177,47 @@ public class TestFight {
 
         assertThat(fight.getMonster().getNumOfDices()).as("goblin have 1 numOfDices").isEqualTo(1);
     }
-//
-//    @Test
-//    public void fightInitiationCalculationChampionTest() {
-//        Goblin monster = new Goblin();
-//        monster.setInitiation(20);
-//        fight.setMonster(monster);
-//        champion.setInitiation(100);
-//        fight.setChampion(champion);
-//        fight.setCharactersInBattle(Arrays.asList(monster, champion)); //az Arrays.asList azt jelenti, hogy létrehoz egy tömb osztályt listaként.
-//
-//        fight.initiationCalc();
-//
-//        assertThat(fight.getInitRolls().get(0)).isBetween(101,110); //TODO hogy tudnék hivatkozni a value-ra?
-//        assertThat(fight.getCharactersInBattle().get(0)).isEqualTo("champion"); //TODO Actual   :hu.dungeonhunter.characters.champion.Champion@6121c9d6
-//    }
-//
-//    @Test
-//    public void fightInitiationCalculationMonsterTest() {
-//        Goblin monster = new Goblin();
-//        monster.setInitiation(20);
-//        fight.setMonster(monster);
-//        champion.setInitiation(100);
-//        fight.setChampion(champion);
-//        fight.setCharactersInBattle(Arrays.asList(monster, champion));
-//
-//        fight.initiationCalc();
-//
-//        assertThat(fight.getMonsterFinalInitiation()).isBetween(11, 20);
-//    }
-////
-////    @Test
-////    public void initiationCalculationWithSameFinalInitiationWithInfinityLoopExceptionTest() throws RuntimeException {
-////        Character monster = characterFactory.getCharacter(CharacterTypes.GOBLIN);
-////        monster.setHp(1);
-////        monster.setAccuracy(1000);
-////        monster.setInitiation(1000);
-////        fight.setMonster(monster);
-////        champion.setHp(1);
-////        fight.setChampion(champion);
-////        fight.setLoopCounter(99);
-////        fight.setMonsterFinalInitiation(1000);
-////        fight.setChampionFinalInitiation(1000);
-////
-////        Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> fight.battle());
-////
-////        ifAssertThatIsChampionDefeated();
-////        assertThat(fight.getLoopCounter()).isEqualTo(100);
-////    }
-//
-//    @Test
-//    public void monsterAccuracyCalculationIfMonsterIsAliveTest() {
-//        Character monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
-//        monster.setHp(1);
-//        monster.setAccuracy(100);
-//        fight.setMonster(monster);
-//
-//        fight.monsterAccuracyCalculation();
-//
-//        assertThat(fight.getFinalAccuracy()).isBetween(101, 200);
-//        assertThat(fight.getMonster().getAccuracyRoll()).isBetween(1, 100);
-//    }
+
+    @Test
+    public void fightInitiationCalculationChampionTest() {
+        Goblin monster = new Goblin();
+        monster.setHp(1);
+        monster.setDefense(1);
+        monster.setInitiation(20);
+        fight.setMonster(monster);
+        champion.setInitiation(100);
+        champion.setHp(1);
+        champion.setDefense(1);
+        fight.setChampion(champion);
+        fight.setCharactersInBattle(Arrays.asList(monster, champion)); //az Arrays.asList azt jelenti, hogy létrehoz egy tömb osztályt listaként.
+
+        fight.initiationCalc();
+
+        assertThat(fight.getCharactersInBattle().get(0)).isEqualTo(champion);
+    }
+
+    @Test
+    public void fightInitiationCalculationMonsterTest() {
+        Goblin monster = new Goblin();
+        monster.setHp(1);
+        monster.setDefense(1);
+        monster.setInitiation(100);
+        fight.setMonster(monster);
+        champion.setHp(1);
+        champion.setDefense(1);
+        champion.setInitiation(10);
+        fight.setChampion(champion);
+        fight.setCharactersInBattle(Arrays.asList(monster, champion));
+
+        fight.initiationCalc();
+
+        assertThat(fight.getCharactersInBattle().get(0)).isEqualTo(monster);
+    }
+
+    @Test
+    public void getCharacterChampionTest() {
+        Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> monsterFactory.getCharacter(CharacterTypes.CHAMPION));
+    }
 
     @Test
     public void monsterAccuracyIfAccuracyRollIs1Test() {

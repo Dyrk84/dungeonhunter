@@ -45,9 +45,6 @@ public class Fight {
     @Getter
     int randomCriticalMissEvent;
 
-    @Getter
-    Map<Integer, Character> initRolls;
-
     public void enterToTheCave() {
         charactersInBattle.add(champion);
         setMonsterCounter(Dice.rollDice(6, 2));
@@ -96,7 +93,7 @@ public class Fight {
         dealNormalDamage(monster, champion, monster.damage());
     }
 
-    public void initiationCalc() {  //TODO erre hogy lehet teszteket írni?
+    public void initiationCalc() {
         if (loopCounter == 100) {
             throw new RuntimeException("Too much same final initiation");
         }
