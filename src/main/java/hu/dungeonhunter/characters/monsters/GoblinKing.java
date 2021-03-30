@@ -1,11 +1,12 @@
 package hu.dungeonhunter.characters.monsters;
 
+import hu.dungeonhunter.characters.Character;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import lombok.Getter;
 import lombok.Setter;
 
-public class GoblinKing implements MonstersInterface {
+public class GoblinKing implements Character {
 
     @Setter
     @Getter
@@ -14,6 +15,9 @@ public class GoblinKing implements MonstersInterface {
     @Setter
     @Getter
     private int accuracy;
+
+    @Getter
+    private int damage;
 
     @Setter
     @Getter
@@ -31,15 +35,9 @@ public class GoblinKing implements MonstersInterface {
     @Getter
     private int numOfDices;
 
-    @Getter
-    private final CharacterTypes type = CharacterTypes.GOBLIN_KING;
+    private static final CharacterTypes type = CharacterTypes.GOBLIN_KING;
 
     public GoblinKing() {
-        getMonster();
-    }
-
-    @Override
-    public void getMonster() {
         this.hp = Dice.rollDice(6, 3) + 6;
         startValues();
     }
@@ -56,7 +54,7 @@ public class GoblinKing implements MonstersInterface {
     }
 
     @Override
-    public boolean isDefeat() {
+    public boolean isDefeated() {
         if (hp <= 0) {
             System.out.println("The goblin king is dead!");
             return true;
@@ -65,8 +63,14 @@ public class GoblinKing implements MonstersInterface {
     }
 
     @Override
-    public int getMonsterDamage() {
-        return Dice.rollDice(maxDamage, numOfDices);
+    public CharacterTypes getType() {
+        return type;
+    }
+
+    @Override
+    public int damage() {
+        damage = Dice.rollDice(maxDamage, numOfDices);
+        return damage;
     }
 
     @Override
@@ -77,10 +81,10 @@ public class GoblinKing implements MonstersInterface {
         return getInitiation() + monsterInitRoll;
     }
 
-    public int accuracyCalculation() {
-        System.out.print("Goblin king accuracy calculation: " + getAccuracy() + " + ");
-        int AccuracyRoll = Dice.rollDice(100, 1);
-        System.out.println("Final Goblin king accuracy: " + (getAccuracy() + AccuracyRoll) + " ");
-        return getAccuracy() + AccuracyRoll;
+    @Override
+    public int accuracyCalculation(int accuracyRoll) {
+        System.out.println("Goblin king base accuracy: " + getAccuracy() + " + rolled number: " + accuracyRoll);
+        System.out.print("Final Goblin king accuracy: " + (getAccuracy() + accuracyRoll) + " ");
+        return getAccuracy() + accuracyRoll;
     }
 }

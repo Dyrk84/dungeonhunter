@@ -6,15 +6,19 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
+
     Fight fight = new Fight();
 
-    public void actionMenu() {
+    public void toTheCave(){
+        fight.enterToTheCave();
+    }
 
+    public void actionMenu() {
         while (fight.nextTurn()) {
             int chosenNumber = chosenNumber();
             switch (chosenNumber) {
                 case 1:
-                    fight.initiationCalculation();
+                    fight.initiationCalc();
                     break;
                 case 2:
                     fight.runningAway();

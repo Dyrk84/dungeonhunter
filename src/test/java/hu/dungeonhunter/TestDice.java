@@ -1,9 +1,8 @@
 package hu.dungeonhunter;
 
 import hu.dungeonhunter.characters.champion.Champion;
-import hu.dungeonhunter.characters.monsters.Goblin;
-import hu.dungeonhunter.characters.monsters.MonsterFactory;
-import hu.dungeonhunter.characters.monsters.MonstersInterface;
+import hu.dungeonhunter.characters.MonsterFactory;
+import hu.dungeonhunter.characters.Character;
 import hu.dungeonhunter.model.CharacterTypes;
 import hu.dungeonhunter.tools.Dice;
 import hu.dungeonhunter.tools.Fight;
@@ -36,20 +35,20 @@ public class TestDice {
 
     @Test
     public void championWinTest() {
-        MonstersInterface monster = monsterFactory.getMonster(CharacterTypes.GOBLIN);
+        Character monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
         monster.setHp(0);
         fight.setMonster(monster);
 
-        monster.isDefeat();
-        assertThat(monster.isDefeat()).as("championWinTest").isTrue();
+        monster.isDefeated();
+        assertThat(monster.isDefeated()).as("championWinTest").isTrue();
     }
 
     @Test
     public void monsterWinTest() {
         Champion champion = new Champion();
         champion.setHp(0);
-        champion.enemyVictory();
-        assertThat(champion.isDefeat()).as("monsterWinTest").isTrue();
+        champion.isDefeated();
+        assertThat(champion.isDefeated()).as("monsterWinTest").isTrue();
     }
 
     @Test
