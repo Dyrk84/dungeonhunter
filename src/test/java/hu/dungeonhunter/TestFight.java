@@ -224,11 +224,10 @@ public class TestFight {
         Goblin monster = new Goblin();
         fight.setMonster(monster);
         fight.setRandomCriticalMissEvent(5);
+
         fight.attack(monster, 1);
 
         softly.assertThat(fight.getRandomCriticalMissEvent()).isLessThan(5);
-
-        softly.assertAll();
     }
 
     @Test
@@ -241,7 +240,6 @@ public class TestFight {
         fight.attack(champion, 1);
 
         softly.assertThat(fight.getRandomCriticalMissEvent()).isLessThan(5);
-        softly.assertAll();
     }
 
     @Test
@@ -267,7 +265,8 @@ public class TestFight {
         monster.setHp(1);
         fight.setMonster(monster);
         fight.setRandomCriticalMissEvent(1);
-        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - fight.getMonster().getMaxDamage(),
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() -
+                fight.getMonster().getMaxDamage() * fight.getMonster().getNumOfDices(),
                 fight.getMonster().getHp() - fight.getMonster().getNumOfDices()};
 
         fight.criticalMissEvent(monster);
@@ -308,7 +307,7 @@ public class TestFight {
         fight.setMonster(monster);
         champion.setHp(10);
         fight.setChampion(champion);
-        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - (fight.getChampion().getMaxDamage()) * 10,
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - (fight.getChampion().getMaxDamage() * fight.getChampion().getNumOfDices()) * 10,
                 fight.getMonster().getHp() - (fight.getChampion().getNumOfDices()) * 10};
 
         fight.attack(champion,100);
@@ -325,7 +324,7 @@ public class TestFight {
         champion.setHp(10);
         champion.setDefense(1000);
         fight.setChampion(champion);
-        int[] championHpAfterDamage = {fight.getChampion().getHp() - (fight.getMonster().getMaxDamage()) * 10,
+        int[] championHpAfterDamage = {fight.getChampion().getHp() - (fight.getMonster().getMaxDamage() * fight.getMonster().getNumOfDices()) * 10,
                 fight.getChampion().getHp() - (fight.getMonster().getNumOfDices()) * 10};
 
         fight.attack(monster,100);
@@ -341,7 +340,7 @@ public class TestFight {
         monster.setHp(1);
         monster.setDefense(50);
         fight.setMonster(monster);
-        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - fight.getChampion().getMaxDamage(),
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - fight.getChampion().getMaxDamage() * fight.getChampion().getNumOfDices(),
                 fight.getMonster().getHp() - fight.getChampion().getNumOfDices()};
 
         fight.attack(champion,31);
@@ -359,7 +358,8 @@ public class TestFight {
         champion.setHp(1);
         champion.setDefense(50);
         fight.setChampion(champion);
-        int[] championHpAfterDamage = {fight.getChampion().getHp() - fight.getMonster().getMaxDamage(),
+        int[] championHpAfterDamage = {fight.getChampion().getHp() -
+                fight.getMonster().getMaxDamage() * fight.getMonster().getNumOfDices(),
                 fight.getChampion().getHp() - fight.getMonster().getNumOfDices()};
 
         fight.attack(monster,41);
@@ -405,7 +405,8 @@ public class TestFight {
         monster.setHp(2);
         monster.setDefense(50);
         fight.setMonster(monster);
-        int[] monsterHpAfterDamage = {fight.getMonster().getHp() - (fight.getChampion().getMaxDamage()) * 2,
+        int[] monsterHpAfterDamage = {fight.getMonster().getHp() -
+                (fight.getChampion().getMaxDamage() * fight.getChampion().getNumOfDices()) * 2,
                 fight.getMonster().getHp() - (fight.getChampion().getNumOfDices()) * 2};
 
         fight.attack(champion,81);
@@ -422,7 +423,8 @@ public class TestFight {
         champion.setHp(2);
         champion.setDefense(50);
         fight.setChampion(champion);
-        int[] championHpAfterDamage = {fight.getChampion().getHp() - (fight.getMonster().getMaxDamage()) * 2,
+        int[] championHpAfterDamage = {fight.getChampion().getHp() -
+                (fight.getMonster().getMaxDamage() * fight.getMonster().getNumOfDices()) * 2,
                 fight.getChampion().getHp() - (fight.getMonster().getNumOfDices()) * 2};
 
         fight.attack(monster, 91);

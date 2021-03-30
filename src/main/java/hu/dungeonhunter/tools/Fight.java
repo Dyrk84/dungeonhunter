@@ -81,7 +81,8 @@ public class Fight {
             monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN_KING);
             goblinKingDamage();
         } else {
-            TextSeparator.format("A goblin steps out from the darkness!");
+            TextSeparator.format("A " + Colors.ANSI_GREEN + CharacterTypes.GOBLIN.charType + Colors.ANSI_RESET
+                    + " steps out from the darkness!");
             monster = monsterFactory.getCharacter(CharacterTypes.GOBLIN);
         }
         return monster;

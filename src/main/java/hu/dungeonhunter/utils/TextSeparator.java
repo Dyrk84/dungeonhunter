@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TextSeparator {
 
-    private static final String ANSI_REGEX = "\\x1b\\[[0-9;]+m";
+    private static final String ANSI_REGEX = "\\x1b\\[[0-9;]+m";  //TODO nem értem ezt, hogy működik ez a kód, mi alapján írjuk? Megnézni: https://www.youtube.com/watch?v=zamFTizZAuw&list=PL1WwhU4dv6tG8C8aGca5IxZliVTjvtweh&index=61
 
     public static void format(String text) {
         if (text.length() != 0)
@@ -44,19 +44,18 @@ public class TextSeparator {
         colorList.add(Colors.ANSI_GREEN);
         colorList.add(Colors.ANSI_YELLOW);
         colorList.add(Colors.ANSI_RESET);
+
+//        int emptyText = colorText.length();
 //
-////        Iterator<String> colorsIterator = colorList.iterator();
-////        //TODO meg lehet azt csinálni valahogy, hogy a változtatandó string helyére több stringet is be lehessen írni?
-////        String emptyText = colorText.replace(colorsIterator.next(),"");
-//        String emptyText1S = colorText.replace(colorList.get(0), "");
-//        int emptyText1 = emptyText1S.length();
-//        String emptyText2S = colorText.replace(Colors.ANSI_RESET, "");
-//        int emptyText2 = emptyText2S.length();
-//        String emptyText3S = colorText.replace(Colors.ANSI_RED, "");
-//        int emptyText3 = emptyText3S.length();
+//        for (int i = 0; i < colorList.size(); i++) {
+//            emptyText = emptyText - colorList.get(i).length();
+//        }
+//
+//        return emptyText;
 
         //TODO https://www.baeldung.com/java-enum-iteration Enumként végigiterálni rajta!
 
+        //regexes megoldás
         return colorText.replaceAll(ANSI_REGEX, "").length(); //ansi kódos megoldás
 
         //listán iterálással végigmenni rajta
